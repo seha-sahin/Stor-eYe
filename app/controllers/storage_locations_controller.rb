@@ -1,0 +1,2 @@
+class StorageLocationsController < ApplicationController
+end
