@@ -5,6 +5,6 @@ class User < ApplicationRecord
   POSITIONS = %w[manager owner]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  # validates :phone_number, numericality: true
+  validates :phone_number, numericality: true
   validates :position, inclusion: { in: POSITIONS }
 end
