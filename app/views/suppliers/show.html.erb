@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h1 class="mb-4"><%= @supplier.name %></h1>
+
+  <div class="row mb-3">
+    <div class="col-sm-4">Phone Number:</div>
+    <div class="col-sm-8"><%= @supplier.phone_number %></div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-sm-4">Email:</div>
+    <div class="col-sm-8"><%= @supplier.email %></div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-sm-4">Contact Name:</div>
+    <div class="col-sm-8"><%= @supplier.contact_full_name %></div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-sm-4">Contact Phone Number:</div>
+    <div class="col-sm-8"><%= @supplier.contact_phone_number %></div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-sm-4">Contact Email:</div>
+    <div class="col-sm-8"><%= @supplier.contact_email %></div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-sm-4">Comment:</div>
+    <div class="col-sm-8"><%= @supplier.comment %></div>
+  </div>
+
+  <%= link_to "Edit", edit_supplier_path(@supplier), class: "btn btn-primary mr-2" %>
+  <%= link_to "Back to List", suppliers_path, class: "btn btn-secondary" %>
+</div>
