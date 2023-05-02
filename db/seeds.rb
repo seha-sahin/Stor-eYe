@@ -3,11 +3,11 @@ require "faker"
 # SEED RESTAURANTS
 3.times do
   restaurant = Restaurant.create!(
-    name: Faker::Restaurant.name:,
+    name: Faker::Restaurant.name,
     address: Faker::Address.full_address,
     phone_number: Faker::PhoneNumber.cell_phone
   )
-puts "Restaurant #{restaurant.id} has been created."
+  puts "Restaurant #{restaurant.id} has been created."
 end
 
 # SEED SUPPLIERS
@@ -27,16 +27,14 @@ SUPPLIER_COMMENTS = [
     contact_full_name: Faker::Name.name,
     contact_phone_number: Faker::Bank.account_number(digits: 10),
     contact_email: Faker::Internet.email,
-    comment: SUPPLIER_COMMENTS.sample,
-    restaurant: Restaurant.all.sample
-
+    comment: SUPPLIER_COMMENTS.sample
   )
   puts "Supplier #{supplier.id} has been created."
 end
 
 # SEED STORAGE LOCATIONS A.K.A FRIDGES
+n = 0
 20.times do
-  n = 0
   storage_location = StorageLocation.create!(
     name: "Fridge #{n}",
     address: Faker::Address.full_address,
@@ -70,17 +68,17 @@ WINE_COUNTRIES = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina
     maker: WINE_BRANDS.sample,
     country: WINE_COUNTRIES.sample,
     vintage: rand(2000..2023),
-    colour: ["red", "white", "rose"],
-    region: ,
-    appellation:,
-    volume:,
-    cuvee:,
-    grape_variety:,
-    supplier:,
-    unit_price:,
-    avg_price:,
-    quantity: 0,
-    restaurant:,
+    colour: ["Red", "White", "Rose", "Sparkling", "Sweet"].sample,
+    region: ["Bordeaux", "Burgundy", "Piemonte", "Omina Romana", "Sicilia", "Bekaa Valley", "Mendoza"].sample,
+    appellation: ["Margaux", "Pessac-Leognan", "Gevrey-Chambertin", "Pommard", "Saint-Joseph", "Champagne"].sample,
+    volume: ["Bottle", "Magnum", "Half-Bottle"].sample,
+    cuvee: ["Love coding", "Cuvee Ruby", "Rails Romance", "Javascript", "Clos Le-Wagon", "Grand Cru Bootstrap"].sample,
+    grape_variety: ["Chardonnay", "Pinot Noir", "Syrah", "Sauvignon", "Chenin Blanc", "Merlot", "Vermentino"].sample,
+    supplier: Supplier.all.sample,
+    unit_price: rand(10..250),
+    avg_price: rand(10..350),
+    quantity: rand(1..6),
+    restaurant: Restaurant.all.sample
   )
   puts "Wine #{wine.id} has been created"
 end
