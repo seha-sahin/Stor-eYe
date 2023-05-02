@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>Edit Purchase Request</h1>
+
+  <%= form_with(model: @purchasing_request, local: true) do |form| %>
+    <% if @purchasing_request.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchase request from being updated:</h4>
+        <ul>
+          <% @purchasing_request.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :user_id %>
+      <%= form.collection_select(:user_id, User.all, :id, :email, {}, { class: 'form-control' }) %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :supplier_id %>
+      <%= form.collection_select(:supplier_id, Supplier.all, :id, :name, {}, { class: 'form-control' }) %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :pr_quantity %>
+      <%= form.number_field :pr_quantity, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :delivery_date %>
+      <%= form.date_field :delivery_date, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :delivery_time_slot %>
+      <%= form.select :delivery_time_slot, [['Morning'], ['Afternoon'], ['Evening']], {}, { class: 'form-control' } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.submit class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', purchasing_requests_path, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div>

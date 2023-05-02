@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Purchase Requests</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Supplier</th>
+        <th>Quantity</th>
+        <th>Delivery Date</th>
+        <th>Delivery Time Slot</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @purchasing_requests.each do |pr| %>
+        <tr>
+          <td><%= pr.user.email %></td>
+          <td><%= pr.supplier.name %></td>
+          <td><%= pr.pr_quantity %></td>
+          <td><%= pr.delivery_date %></td>
+          <td><%= pr.delivery_time_slot %></td>
+          <td>
+            <%= link_to 'Show', pr, class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Edit', edit_purchasing_request_path(pr), class: 'btn btn-primary btn-sm' %>
+            <%= link_to "Delete", purchasing_request_path(pr), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this course?" }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'New Purchase Request', new_purchasing_request_path, class: 'btn btn-primary mt-4' %>
+</div>
