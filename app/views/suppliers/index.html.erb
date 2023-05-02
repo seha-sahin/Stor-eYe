@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Suppliers</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Contact Full Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @suppliers.each do |supplier| %>
+        <tr>
+          <td><%= supplier.name %></td>
+          <td><%= supplier.phone_number %></td>
+          <td><%= supplier.email %></td>
+          <td><%= supplier.contact_full_name %></td>
+          <td>
+            <%= link_to "Edit", edit_supplier_path(supplier), class: "btn btn-primary" %>
+            <%= link_to "Delete", supplier_path(supplier), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "New Supplier", new_supplier_path, class: "btn btn-success" %>
+</div>

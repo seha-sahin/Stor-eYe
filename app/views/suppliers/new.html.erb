@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="my-5">New Supplier</h1>
+
+      <%= form_for @supplier do |f| %>
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :phone_number %>
+          <%= f.text_field :phone_number, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :contact_full_name %>
+          <%= f.text_field :contact_full_name, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :contact_phone_number %>
+          <%= f.text_field :contact_phone_number, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :contact_email %>
+          <%= f.email_field :contact_email, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :comment %>
+          <%= f.text_area :comment, class: 'form-control' %>
+        </div>
+
+        <%= f.submit 'Create', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
