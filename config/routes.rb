@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   root to: "pages#home"
   resources :suppliers
   resources :purchasing_requests
+  resources :restaurants
+  resources :storage_locations do
+    resources :items, only: [:new, :create, :edit, :update, :destroy]
+  end
 end
