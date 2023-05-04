@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>Current Stock</h2>
+  <h3>Totals</h3>
+  <ul>
+    <li><p>Wine Type: <%= @wines.count %></p></li>
+    <li><p>Wine Stock: <%= "work in progress" %></p></li>
+
+    <li><p>Supplier: <%= Supplier.all.count %></p></li>
+  </ul>
+   <table class="table">
+    <thead>
+      <tr>
+        <th>Maker</th>
+        <th>Vintage</th>
+        <th>Country</th>
+        <th>Region</th>
+        <th>Appellation</th>
+        <th>Cuvee</th>
+        <th>Grape</th>
+        <th>Stock</th>
+        <th>Unit Price</th>
+        <th>Avg Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @wines.each do |wine| %>
+        <tr>
+          <td><%= wine.maker %></td>
+          <td><%= wine.vintage %></td>
+          <td><%= wine.country %></td>
+          <td><%= wine.region %></td>
+          <td><%= wine.appellation %></td>
+          <td><%= wine.cuvee %></td>
+          <td><%= wine.grape_variety %></td>
+          <td><%= wine.quantity %></td>
+          <td><%= wine.unit_price %></td>
+          <td><%= wine.avg_price %></td>
+          <td>
+            <%= link_to 'Details', wine, class: 'btn btn-primary btn-block my-2' %>
+            <div class="form-group">
+              <%= form_for wine do |f| %>
+                 <%= f.number_field :quantity, class: 'form-control' %>
+                 <%# Implement the below action properly with JS so that
+                 the wine id & quantity key-value pair is added to the purchasing request %>
+                 <%= f.submit 'Add to purchasing request', class: 'btn btn-info btn-sm' %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
