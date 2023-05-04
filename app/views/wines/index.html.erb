@@ -1,11 +1,11 @@
 <div class="container">
   <h2>Current Stock</h2>
   <h3>Totals</h3>
-  <ul>
-    <li><p>Wine Type: <%= @wines.count %></p></li>
-    <li><p>Wine Stock: <%= "work in progress" %></p></li>
-
-    <li><p>Supplier: <%= Supplier.all.count %></p></li>
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge badge-primary badge-pill"><%= @wines.count %></span></li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge badge-primary badge-pill"><%= Wine.total_quantity %></span></li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge badge-primary badge-pill">$<%= number_with_precision(Wine.total_value, :precision => 0, :delimiter => ',') %></span></li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-primary badge-pill"><%= Supplier.all.count %></span></li>
   </ul>
    <table class="table">
     <thead>
