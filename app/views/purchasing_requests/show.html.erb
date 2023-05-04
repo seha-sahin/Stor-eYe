@@ -1,0 +1,32 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="text-center">Purchase Request Details</h1>
+      <hr>
+      <dl class="row">
+        <dt class="col-sm-3">ID:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.id %></dd>
+
+        <dt class="col-sm-3">Supplier:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.supplier.name %></dd>
+
+        <dt class="col-sm-3">Quantity:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.pr_quantity %></dd>
+
+        <dt class="col-sm-3">Delivery Date:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.delivery_date %></dd>
+
+        <dt class="col-sm-3">Delivery Time Slot:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.delivery_time_slot %></dd>
+
+        <dt class="col-sm-3">Created At:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.created_at.strftime('%d/%m/%Y %I:%M %p') %></dd>
+
+        <dt class="col-sm-3">Updated At:</dt>
+        <dd class="col-sm-9"><%= @purchasing_request.updated_at.strftime('%d/%m/%Y %I:%M %p') %></dd>
+      </dl>
+      <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: 'btn btn-primary mr-2' %>
+      <%= link_to 'Back', purchasing_requests_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+</div>
