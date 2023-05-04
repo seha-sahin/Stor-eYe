@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :storage_locations do
     resources :items, only: [:new, :create, :edit, :update, :destroy]
   end
+  resources :wines
 end
