@@ -1,0 +1,38 @@
+<div class="container">
+  <h1 class="text-center mb-5">Purchasing Request Item Details</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="mb-4">Wine Details</h2>
+      <dl class="row">
+        <dt class="col-sm-3">Maker</dt>
+        <dd class="col-sm-9"><%= @purchasing_request_item.wine.maker %></dd>
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9"><%= @purchasing_request_item.wine.name %></dd>
+        <dt class="col-sm-3">Country</dt>
+        <dd class="col-sm-9"><%= @purchasing_request_item.wine.country %></dd>
+        <dt class="col-sm-3">Region</dt>
+        <dd class="col-sm-9"><%= @purchasing_request_item.wine.region %></dd>
+        <dt class="col-sm-3">Wine type</dt>
+        <dd class="col-sm-9"><%= @purchasing_request_item.wine.wine_type %></dd>
+        <dt class="col-sm-3">Vintage</dt>
+        <dd class="col-sm-9"><%= @purchasing_request_item.wine.vintage %></dd>
+        <dt class="col-sm-3">Price</dt>
+        <dd class="col-sm-9"><%= number_to_currency(@purchasing_request_item.wine.price) %></dd>
+      </dl>
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-4">Purchasing Request Item Details</h2>
+      <dl class="row">
+        <dt class="col-sm-4">Quantity Requested</dt>
+        <dd class="col-sm-8"><%= @purchasing_request_item.quantity %></dd>
+        <dt class="col-sm-4">Delivery Date</dt>
+        <dd class="col-sm-8"><%= @purchasing_request_item.purchasing_request.delivery_date %></dd>
+        <dt class="col-sm-4">Delivery Time Slot</dt>
+        <dd class="col-sm-8"><%= @purchasing_request_item.purchasing_request.delivery_time_slot %></dd>
+      </dl>
+    </div>
+  </div>
+  <div class="text-center mt-5">
+    <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary" %>
+  </div>
+</div>
