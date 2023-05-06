@@ -6,6 +6,7 @@
       <tr>
         <th>User</th>
         <th>Supplier</th>
+        <th>Wine</th>
         <th>Quantity</th>
         <th>Delivery Date</th>
         <th>Delivery Time Slot</th>
@@ -17,7 +18,14 @@
         <tr>
           <td><%= pr.user.email %></td>
           <td><%= pr.supplier.name %></td>
-          <td><%= pr.pr_quantity %></td>
+          <td>
+            <% pr.pr_quantity.each do |wine_id, quantity| %>
+              <% if quantity.present? %>
+                <%= Wine.find(wine_id).maker %> (<%= Wine.find(wine_id).name %>)
+              <% end %>
+            <% end %>
+          </td>
+          <td><%= pr.pr_quantity.values.reject(&:blank?).sum %></td>
           <td><%= pr.delivery_date %></td>
           <td><%= pr.delivery_time_slot %></td>
           <td>
