@@ -11,6 +11,9 @@ class Wine < ApplicationRecord
   acts_as_taggable_on :appellations
   acts_as_taggable_on :cuvees
 
+  VOLUMES = %w[Bottle Magnum Half-bottle]
+  COLOURS = %w[Sparkling White Red Rose Sweet Oxydate Orange]
+
   def self.total_quantity
     total_quantity = 0
     Wine.all.each do |wine|

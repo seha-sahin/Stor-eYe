@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="my-5">Create New Wine</h1>
+      <script src="./scripts.js"></script>
+
+      <%= form_for @wine do |f| %>
+      <div class="container">
+        <div class="row bg-light py-2">
+          <div class="form-group col-md-5">
+              <%= f.label :country %>
+              <%= f.text_field :country, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-7">
+            <%= f.label :maker %>
+            <%= f.text_field :maker, class: 'form-control', required: true %>
+          </div>
+        </div>
+
+        <div class="row bg-light">
+          <div class="form-group col-md-4">
+            <%= f.label :region %>
+            <%= f.text_field :region, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-4">
+            <%= f.label :appellation %>
+            <%= f.text_field :appellation, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-4">
+            <%= f.label :cuvee %>
+            <%= f.text_field :cuvee, class: 'form-control', required: true %>
+          </div>
+        </div>
+
+        <div class="row bg-light">
+          <div class="form-group col-md-4">
+            <%= f.label :vintage %>
+            <%= f.text_field :vintage, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-4">
+            <%= f.label :colour %>
+            <%= f.select :colour, Wine::COLOURS, {}, { class: "form-select"} %>
+          </div>
+
+          <div class="form-group col-md-4">
+            <%= f.label :volume %>
+            <%= f.select :volume, Wine::VOLUMES, {}, { class: "form-select" } %>
+          </div>
+        </div>
+
+        <div class="row bg-light">
+          <div class="form-group col-md-11">
+            <%= f.label :grape_variety %>
+            <%= f.text_field :grape_variety, class: 'form-control', required: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row bg-light mt-3">
+          <div class="form-group col-md-6 py-2">
+            <%= f.label :tasting_notes %>
+            <%= f.text_field :tasting_notes, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-6 py-2">
+            <%= f.label :description %>
+            <%= f.text_area :description, class: 'form-control', required: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row bg-light mt-3">
+          <div class="form-group col-md-7 pt-3">
+            <%= f.label :supplier %>
+            <%= f.collection_select :supplier_id, Supplier.all, :id, :name, class: "form-select" %>
+          </div>
+          <div class="form-group col-md-5 pt-3">
+            <%= f.label :restaurant %>
+            <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name, class: "form-select" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row bg-light mt-3 pt-3">
+          <div class="form-group col-md-3">
+            <%= f.label :unit_price %>
+            <%= f.text_field :unit_price, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-3">
+            <%= f.label :selling_price %>
+            <%= f.text_field :selling_price, class: 'form-control', required: true %>
+          </div>
+
+          <div class="form-group col-md-3">
+            <%= link_to "Calculate Ratio", class: "btn-home" %>
+          </div>
+
+          <div class="form-group col-md-3">
+            <%= f.label :cost_ratio %>
+            <%= "%" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mb-3">
+        <div class="row bg-light mt-3 pt-3">
+          <div class="form-group col-md-9">
+            <%= f.label :wine_photo %>
+            <%= f.file_field :wine_photo, class: "form-control" %>
+          </div>
+          <div class="form-group col-md-3">
+            <%= f.label :quantity %>
+            <%= f.text_field :quantity, class: 'form-control', required: true %>
+          </div>
+        </div>
+      </div>
+      <%= f.submit 'Create New Wine', class: 'btn-home col-12 mb-3' %></div>
+      <% end %>
+    </div>
+</div>

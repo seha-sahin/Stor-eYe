@@ -60,7 +60,7 @@
           <div class="card">
             <div class="card-body txt-s">
               <p class="card-text">📍 <u>Storage:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
-              <p class="card-text"><u>Current stock:</u> <strong><%= @wine.quantity %> <%= @wine.volume %>(s)</strong> </p>
+              <p class="card-text"><u>Current stock:</u> <strong><%= @wine.quantity %></strong> (<%= @wine.volume %>) </p>
               <p class="card-text border-top pt-3"><u>Upcoming order:</u> <strong>Upcoming PO quantity here</strong> </p>
               <p class="card-text"><u>Market price:</u>  <strong>API from wine searcher here</strong> </p>
             </div>
@@ -84,7 +84,7 @@
       </div>
 
 
-      <div class="text-center mt-3">
+      <div class="text-center mt-3 mb-3">
         <%= link_to "See current stock situation details", wines_path, class: "btn-home" %>
         <%= link_to "Create new wine card", new_wine_path, class: "btn-home" %>
         <%= link_to "New PR", new_purchasing_request_path, class: "btn-home" %>
