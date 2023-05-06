@@ -1,15 +1,15 @@
 <body class="bg-light">
   <div class="container mt-3">
     <div class="row">
-        <div class="col-md-3 pt-2 mb-1">
-          <div class="card category-card">
+        <div class="col-12  col-sm-6 col-md-3 pt-2 mb-1">
+          <div class="card">
             <div class="card-img">
               <p> PHOTO HERE </p>
             </div>
           </div>
         </div>
-      <div class="col-md-9 pt-2 mb-1">
-        <div class="card category-card">
+      <div class="col-sm-6 col-md-9 pt-2 mb-1">
+        <div class="card">
           <div class="card-body">
               <h5 class="card-title"><%= @wine.maker %>, <%= @wine.appellation %></h5>
               <p class="card-text">"<%= @wine.cuvee %>", <strong><%= @wine.vintage %></strong></p>
@@ -19,20 +19,71 @@
               <p class="card-text"><%= @wine.colour %> (Wine Type)</p>
             </div>
           </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-8 pt-1 mb-1">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-text txt-s"> Supplier: <strong><%= @wine.supplier.name %></strong></p>
+                  <p class="card-text txt-s"> Volume: <strong><%= @wine.volume %></strong></p>
+                  <p class="card-text txt-s"> Unit Price: <strong>$<%= @wine.unit_price %></strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 pt-1 mb-1">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-text border-bottom txt-s"><strong>Selling Price</strong></p>
+                  <p class="card-text txt-s">By the bottle: <strong>$<%= @wine.selling_price %></strong></p>
+                  <p class="card-text txt-s">By the glass: <strong>$<%= @wine.selling_price %></strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-4 pt-2 mb-1">
-        <div class="card category-card">
-            <p class="card-text"> Supplier: <strong><%= @wine.supplier.name %></strong></p>
-            <p class="card-text"> Volume: <strong><%= @wine.volume %></strong></p>
-            <p class="card-text"> Unit Price: $<%= @wine.unit_price %>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-11 pt-2 mb-1">
+          <div class="card">
+            <div class="card-body txt-s">
+              <p>TAGS:  </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-1 pt-2 mb-1">
+          <div class="btn-home text-center">
+            <p>ADD TAG</p>
+          </div>
         </div>
       </div>
-      <div class="col-md-5 pt-2 mb-1">
-        <div class="card category-card">
-            <p class="card-text text-center"><strong><%= @wine.volume %></strong></p>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 pt-2 mb-1">
+          <div class="card">
+            <div class="card-body txt-s">
+              <p class="card-text">📍 <u>Storage:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
+              <p class="card-text"><u>Current stock:</u> <strong><%= @wine.quantity %> <%= @wine.volume %>(s)</strong> </p>
+              <p class="card-text border-top pt-3"><u>Upcoming order:</u> <strong>Upcoming PO quantity here</strong> </p>
+              <p class="card-text"><u>Market price:</u>  <strong>API from wine searcher here</strong> </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-5 pt-2 mb-1">
+          <div class="card">
+            <div class="card-body txt-s">
+              <p><u>Technical infos:  </u></p>
+              <p><></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 pt-2 mb-1">
+          <div class="card">
+            <div class="card-body txt-s">
+              <p>MAP HERE</p>
+            </div>
+          </div>
         </div>
       </div>
+
+
       <div class="text-center mt-3">
         <%= link_to "See current stock situation details", wines_path, class: "btn-home" %>
         <%= link_to "Create new wine card", new_wine_path, class: "btn-home" %>
