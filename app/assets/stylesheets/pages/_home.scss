@@ -3,10 +3,11 @@
   background-color: $light-gray;
 }
 .bg-img {
+  width: 100%;
+  height: auto;
   background-image: url("stor-eye_bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: max-content;
 }
 
 .btn-home {
@@ -15,7 +16,6 @@
   border-radius: .3rem;
   box-sizing: border-box;
   color: white;
-  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
   font-size: .875rem;
   font-weight: 600;
   line-height: 1.25rem;
@@ -36,4 +36,8 @@
     color: white;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
   }
+}
+
+.txt-s {
+  font-size: small;
 }
