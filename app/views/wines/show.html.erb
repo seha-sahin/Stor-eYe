@@ -1,0 +1,43 @@
+<body class="bg-light">
+  <div class="container mt-3">
+    <div class="row">
+        <div class="col-md-3 pt-2 mb-1">
+          <div class="card category-card">
+            <div class="card-img">
+              <p> PHOTO HERE </p>
+            </div>
+          </div>
+        </div>
+      <div class="col-md-9 pt-2 mb-1">
+        <div class="card category-card">
+          <div class="card-body">
+              <h5 class="card-title"><%= @wine.maker %>, <%= @wine.appellation %></h5>
+              <p class="card-text">"<%= @wine.cuvee %>", <strong><%= @wine.vintage %></strong></p>
+            </div>
+            <div class="card-body border-top"">
+              <p class="card-text"><%= @wine.grape_variety %></p>
+              <p class="card-text"><%= @wine.colour %> (Wine Type)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 pt-2 mb-1">
+        <div class="card category-card">
+            <p class="card-text"> Supplier: <strong><%= @wine.supplier.name %></strong></p>
+            <p class="card-text"> Volume: <strong><%= @wine.volume %></strong></p>
+            <p class="card-text"> Unit Price: $<%= @wine.unit_price %>
+        </div>
+      </div>
+      <div class="col-md-5 pt-2 mb-1">
+        <div class="card category-card">
+            <p class="card-text text-center"><strong><%= @wine.volume %></strong></p>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <%= link_to "See current stock situation details", wines_path, class: "btn-home" %>
+        <%= link_to "Create new wine card", new_wine_path, class: "btn-home" %>
+        <%= link_to "New PR", new_purchasing_request_path, class: "btn-home" %>
+      </div>
+    </div>
+  </div>
+</body>
