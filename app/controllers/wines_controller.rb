@@ -13,6 +13,19 @@ class WinesController < ApplicationController
   def show
   end
 
+  def new
+    @wine = Wine.new
+  end
+
+  def create
+    @wine = Wine.new(wine_params)
+    if @wine.save
+      redirect_to wines_path, notice: "Wine was successfully created."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def filter_params(params, queries = [])
@@ -24,5 +37,11 @@ class WinesController < ApplicationController
 
   def set_wine
     @wine = Wine.find(params[:id])
+  end
+
+  def wine_params
+    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee,
+      :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price,
+      :quantity, :cost, :restaurant_id, :session_start => [], :session_end => [])
   end
 end
