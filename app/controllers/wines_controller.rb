@@ -2,7 +2,11 @@ class WinesController < ApplicationController
   before_action :set_wine, only: %i[show edit update destroy]
 
   def index
-    @wines = Wine.all
+    supplier = Supplier.find(params[:supplier_id])
+    @wines = supplier.wines
+    respond_to do |format|
+      format.js
+    end
   end
 
   def show
