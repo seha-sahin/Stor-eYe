@@ -13,17 +13,17 @@ class Wine < ApplicationRecord
   acts_as_taggable_on :tastingnotes
   acts_as_taggable_on :grape_varieties
 
-  def self.total_quantity
+  def self.total_quantity(wines)
     total_quantity = 0
-    Wine.all.each do |wine|
+    wines.each do |wine|
       total_quantity += wine.quantity
     end
     total_quantity
   end
 
-  def self.total_value
+  def self.total_value(wines)
     total_value = 0
-    Wine.all.each do |wine|
+    wines.each do |wine|
       total_value += wine.unit_price
     end
     total_value
