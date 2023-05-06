@@ -83,3 +83,6 @@ end
 gem "faker"
 
 gem "pg_search"
+
+# Add tags to any model for filtering
+gem 'acts-as-taggable-on', '~> 9.0', '>= 9.0.1'

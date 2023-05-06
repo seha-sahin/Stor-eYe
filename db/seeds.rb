@@ -1,5 +1,18 @@
 require "faker"
 
+# CLEAN UP DATABASE
+puts "Deleting all wines"
+Wine.destroy_all
+
+puts "Deleting all storages"
+StorageLocation.destroy_all
+
+puts "Deleting all restaurants"
+Restaurant.destroy_all
+
+puts "Deleting all suppliers"
+Supplier.destroy_all
+
 # SEED RESTAURANTS
 3.times do
   restaurant = Restaurant.create!(
@@ -39,7 +52,7 @@ n = 0
     name: "Fridge #{n}",
     address: Faker::Address.full_address,
     capacity: 100,
-    temperature: ["A", "B"].sample,
+    temperature: ["cold", "room"].sample,
     restaurant: Restaurant.all.sample
   )
   n += 1
@@ -79,6 +92,14 @@ WINE_COUNTRIES = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina
     avg_price: rand(10..350),
     quantity: rand(1..6),
     restaurant: Restaurant.all.sample
+  )
+  wine.update(
+    maker_list: wine.maker,
+    country_list: wine.country,
+    vintage_list: wine.vintage,
+    region_list: wine.region,
+    appellation_list: wine.appellation,
+    cuvee_list: wine.cuvee
   )
   puts "Wine #{wine.id} has been created"
 end
