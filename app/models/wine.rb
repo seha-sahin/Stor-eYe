@@ -26,4 +26,20 @@ class Wine < ApplicationRecord
     end
     total_value
   end
+
+  $makers = [
+    "Familia Torres",
+    "Bodega Catena",
+    "Vega Sicilia",
+    "Henschke",
+    "Concha y Toro",
+    "Penfolds",
+    "Domaine de la Romanée Conti",
+    "CVNE",
+    "Antinori",
+    "Chateau Musar"
+  ]
+
+  $countries = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina", "Chile"]
+  $regions = ["Bordeaux", "Burgundy", "Piemonte", "Omina Romana", "Sicilia", "Bekaa Valley", "Mendoza"]
 end
