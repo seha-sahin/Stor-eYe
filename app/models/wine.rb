@@ -10,6 +10,8 @@ class Wine < ApplicationRecord
   acts_as_taggable_on :regions
   acts_as_taggable_on :appellations
   acts_as_taggable_on :cuvees
+  acts_as_taggable_on :tastingnotes
+  acts_as_taggable_on :grape_varieties
 
   def self.total_quantity
     total_quantity = 0
