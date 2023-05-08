@@ -1,55 +1,24 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h1 class="text-center">Purchase Request Details</h1>
-      <hr>
-      <dl class="row">
-        <dt class="col-sm-3">ID:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.id %></dd>
+<h1><%= @purchasing_request.supplier.name %> Purchase Request</h1>
+<p><strong>Delivery Date:</strong> <%= @purchasing_request.delivery_date %></p>
+<p><strong>Delivery Time Slot:</strong> <%= @purchasing_request.delivery_time_slot %></p>
+<p><strong>Created By:</strong> <%= @purchasing_request.user.first_name %></p>
 
-        <dt class="col-sm-3">Supplier:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.supplier.name %></dd>
+<table>
+  <thead>
+    <tr>
+      <th>Wine</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @purchasing_request.purchasing_request_items.each do |item| %>
+      <tr>
+        <td><%= item.wine.maker %></td>
+        <td><%= item.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-        <dt class="col-sm-3">Quantity:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.total_quantity %></dd>
-
-        <dt class="col-sm-3">Delivery Date:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.delivery_date %></dd>
-
-        <dt class="col-sm-3">Delivery Time Slot:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.delivery_time_slot %></dd>
-
-        <dt class="col-sm-3">Created At:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.created_at.strftime('%d/%m/%Y %I:%M %p') %></dd>
-
-        <dt class="col-sm-3">Updated At:</dt>
-        <dd class="col-sm-9"><%= @purchasing_request.updated_at.strftime('%d/%m/%Y %I:%M %p') %></dd>
-      </dl>
-      <h3>Wines</h3>
-      <% if @purchasing_request.wines.present? %>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @purchasing_request.wines.each do |wine| %>
-              <tr>
-                <td><%= wine.name %></td>
-                <td><%= wine.purchasing_request_items.find_by(purchasing_request_id: @purchasing_request.id).quantity %></td>
-                <td><%= wine.price %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        <p>No wines found for this purchasing request.</p>
-      <% end %>
-      <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: 'btn btn-primary mr-2' %>
-      <%= link_to 'Back', purchasing_requests_path, class: 'btn btn-secondary' %>
-    </div>
-  </div>
-</div>
+<%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request) %>
+<%= link_to 'Back', purchasing_requests_path %>
