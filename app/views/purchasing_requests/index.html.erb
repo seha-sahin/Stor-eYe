@@ -18,12 +18,22 @@
           <td><%= pr.supplier.name %></td>
           <td><%= pr.delivery_date %></td>
           <td><%= pr.delivery_time_slot %></td>
-          <td>
-            <% pr.purchasing_request_items.each do |item| %>
-              <%= item.wine.maker %> (<%= item.wine.name %>):
+         <td>
+          <% pr.purchasing_request_items.each do |item| %>
+            <% if item.quantity && item.quantity > 0 %>
+              <%= item.wine.maker %>
+              <br>
+              <%= item.wine.country %>
+              <br>
+              <%= item.wine.vintage %>
+              <br>
+              <%= item.wine.region %>
+              <br>
               <%= item.quantity %><br>
             <% end %>
-          </td>
+          <% end %>
+        </td>
+
           <td>
             <%= link_to 'Show', purchasing_request_path(pr), class: 'btn btn-primary btn-sm' %>
             <%= link_to 'Edit', edit_purchasing_request_path(pr), class: 'btn btn-secondary btn-sm' %>

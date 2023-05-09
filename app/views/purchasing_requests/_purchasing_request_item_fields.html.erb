@@ -1,0 +1,10 @@
+<tr class="purchasing-request-item">
+  <%= form.fields_for :purchasing_request_items, item do |f| %>
+    <td>
+      <%= f.collection_select :wine_id, @wines_by_supplier[item.wine.supplier_id], :id, :maker, include_blank: true %>
+    </td>
+    <td>
+      <%= f.number_field :quantity %>
+    </td>
+  <% end %>
+</tr>

@@ -1,50 +1,50 @@
 class PurchasingRequestItemsController < ApplicationController
-  before_action :set_purchasing_request_item, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @purchasing_request_items = PurchasingRequestItem.all
-  end
-
-  def show
-  end
+  before_action :set_purchasing_request, only: [:new, :create, :edit, :update]
+  before_action :set_purchasing_request_item, only: [:edit, :update]
 
   def new
-    @purchasing_request_item = PurchasingRequestItem.new
+    @purchasing_request_item = @purchasing_request.purchasing_request_items.build
+    @wines = @purchasing_request.supplier.wines
   end
 
   def edit
+    @wines = @purchasing_request.supplier.wines
   end
 
   def create
-    @purchasing_request_item = PurchasingRequestItem.new(purchasing_request_item_params)
+    @purchasing_request_item = @purchasing_request.purchasing_request_items.build(purchasing_request_item_params)
+    @purchasing_request_item.wine = @purchasing_request.supplier.wines.find_by(id: params[:purchasing_request_item][:wine_id])
 
     if @purchasing_request_item.save
-      redirect_to @purchasing_request_item, notice: 'Purchasing request item was successfully created.'
+      redirect_to @purchasing_request, notice: 'Purchasing request item was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      @wines = @purchasing_request.supplier.wines
+      render 'new', status: :unprocessable_entity
     end
   end
 
   def update
-    if @purchasing_request_item.update(purchasing_request_item_params)
-      redirect_to @purchasing_request_item, notice: 'Purchasing request item was successfully updated.'
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
+    @purchasing_request_item.wine = @purchasing_request.supplier.wines.find_by(id: params[:purchasing_request_item][:wine_id])
 
-  def destroy
-    @purchasing_request_item.destroy
-    redirect_to purchasing_request_items_url, notice: 'Purchasing request item was successfully destroyed.'
+    if @purchasing_request_item.update(purchasing_request_item_params)
+      redirect_to @purchasing_request, notice: 'Purchasing request item was successfully updated.'
+    else
+      @wines = @purchasing_request.supplier.wines
+      render 'edit', status: :unprocessable_entity
+    end
   end
 
   private
 
+  def set_purchasing_request
+    @purchasing_request = PurchasingRequest.find(params[:purchasing_request_id])
+  end
+
   def set_purchasing_request_item
-    @purchasing_request_item = PurchasingRequestItem.find(params[:id])
+    @purchasing_request_item = @purchasing_request.purchasing_request_items.find(params[:id])
   end
 
   def purchasing_request_item_params
-    params.require(:purchasing_request_item).permit(:quantity, :purchasing_request_id, :wine_id)
+    params.require(:purchasing_request_item).permit(:wine_id, :quantity)
   end
 end
