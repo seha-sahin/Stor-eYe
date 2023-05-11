@@ -20,6 +20,7 @@ class WinesController < ApplicationController
   def create
     @wine = Wine.new(wine_params)
     if @wine.save
+      update_tags(@wine)
       redirect_to wines_path, notice: "Wine was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -27,6 +28,17 @@ class WinesController < ApplicationController
   end
 
   private
+
+  def update_tags(wine)
+    wine.update(
+      maker_list: wine.maker,
+      country_list: wine.country,
+      vintage_list: wine.vintage,
+      region_list: wine.region,
+      appellation_list: wine.appellation,
+      cuvee_list: wine.cuvee
+    )
+  end
 
   def filter_params(params, queries = [])
     params.each_value do |param|

@@ -12,16 +12,16 @@
   <div class="form-group d-flex justify-content">
     <%= simple_form_for :search, url: wines_path, method: "GET" do |f| %>
       <div class="form-group-item">
-        <%= f.input :makers, as: :select, collection: $makers, label: "Maker" %>
+        <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker" %>
       </div>
       <div class="form-group-item">
-        <%= f.input :vintages, as: :select, collection: (2000..2023), label: "Vintage" %>
+        <%= f.input :vintages, as: :select, collection: Wine.all.map(&:vintage).uniq.sort, label: "Vintage" %>
       </div>
       <div class="form-group-item">
-        <%= f.input :countries, as: :select, collection: $countries, label: "Country" %>
+        <%= f.input :countries, as: :select, collection: Wine.all.map(&:country).uniq.sort_by(&:downcase), label: "Country" %>
       </div>
       <div class="form-group-item">
-        <%= f.input :regions, as: :select, collection: $regions, label: "Region" %>
+        <%= f.input :regions, as: :select, collection: Wine.all.map(&:region).uniq.sort_by(&:downcase), label: "Region" %>
       </div>
       <div class="form-group-item">
         <%= f.submit "Search", class: "btn btn-primary" %>
