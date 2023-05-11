@@ -61,7 +61,7 @@
           <td><%= wine.avg_price %></td>
           <td>
             <%= link_to 'Details', wine, class: 'btn btn-primary btn-block my-2' %>
-            <div class="form-group">
+            <div class="form-group" data-controller="wines-index">
               <%= form_for wine do |f| %>
                  <%= f.number_field :quantity, class: 'form-control' %>
                  <%# Implement the below action properly with JS so that
