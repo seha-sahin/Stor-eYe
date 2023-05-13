@@ -60,10 +60,10 @@
           <td><%= wine.unit_price %></td>
           <td><%= wine.avg_price %></td>
           <td>
-            <%= link_to 'Details', wine, class: 'btn btn-primary btn-block my-2' %>
+            <%= link_to 'Details', wine, class: 'btn btn-primary my-2' %>
             <div class="form-group" data-controller="wines-index">
               <%= form_for wine do |f| %>
-                 <%= f.number_field :quantity, class: 'form-control' %>
+                 <%= f.number_field :quantity, class: 'form-control', data: { wines_index_target: "amount" } %>
                  <%# Implement the below action properly with JS so that
                  the wine id & quantity key-value pair is added to the purchasing request %>
                  <%= f.submit 'Add to purchasing request', class: 'btn btn-info btn-sm' %>
