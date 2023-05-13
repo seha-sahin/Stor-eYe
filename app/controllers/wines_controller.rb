@@ -2,12 +2,7 @@ class WinesController < ApplicationController
   before_action :set_wine, only: %i[show edit update destroy]
 
   def index
-    @wines = params[:search] ? Wine.all.tagged_with(filter_params(params[:search]), any: true) : Wine.all
-
-    if params[:supplier_id].present?
-      supplier = Supplier.find(params[:supplier_id])
-      @wines = supplier.wines
-    end
+    @wines = filter_wines
   end
 
   def show
@@ -28,6 +23,15 @@ class WinesController < ApplicationController
   end
 
   private
+
+  def text_search
+    params[:query].present? ? Wine.wine_search(params[:query]) : Wine.all
+  end
+
+  def filter_wines
+    wines = text_search
+    params[:search] ? wines.tagged_with(filter_params(params[:search]), any: true) : wines
+  end
 
   def update_tags(wine)
     wine.update(
