@@ -9,6 +9,7 @@ class PurchasingRequest < ApplicationRecord
   has_many :items, through: :purchasing_request_items
   has_many :wines, through: :purchasing_request_items
   accepts_nested_attributes_for :purchasing_request_items
+  validates :supplier_id, presence: true
 
   TIME_SLOTS = [
     ['8:00 AM - 10:00 AM', '8:00-10:00'],
