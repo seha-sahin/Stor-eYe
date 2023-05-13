@@ -1,24 +1,60 @@
-<h1><%= @purchasing_request.supplier.name %> Purchase Request</h1>
-<p><strong>Delivery Date:</strong> <%= @purchasing_request.delivery_date %></p>
-<p><strong>Delivery Time Slot:</strong> <%= @purchasing_request.delivery_time_slot %></p>
-<p><strong>Created By:</strong> <%= @purchasing_request.user.first_name %></p>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title"><%= @purchasing_request.supplier.name %> Purchase Request</h1>
+      <p class="card-text">
+        <strong>Delivery Date:</strong> <%= @purchasing_request.delivery_date %>
+      </p>
+      <p class="card-text">
+        <strong>Delivery Time Slot:</strong> <%= @purchasing_request.delivery_time_slot %>
+      </p>
+      <p class="card-text">
+        <strong>Created By:</strong> <%= @purchasing_request.user.first_name %>
+      </p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Wine</th>
-      <th>Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @purchasing_request.purchasing_request_items.each do |item| %>
-      <tr>
-        <td><%= item.wine.maker %></td>
-        <td><%= item.quantity %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="table-responsive">
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>Wine</th>
+              <th>Order Quantity</th>
+              <th>Stock Quantity</th>
+              <th>Unit Price</th>
+              <th>Avg Price</th>
+              <th>Selling Price</th>
+              <th>Cost</th>
+              <th>Country</th>
+              <th>Vintage</th>
+              <th>Region</th>
+              <th>Appellation</th>
+              <th>Cuvée</th>
+              <th>Tasting Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @purchasing_request.purchasing_request_items.each do |item| %>
+              <tr>
+                <td><%= item.wine.maker %></td>
+                <td><%= item.quantity %></td>
+                <td><%= item.wine.quantity %></td>
+                <td><%= item.wine.unit_price %></td>
+                <td><%= item.wine.avg_price %></td>
+                <td><%= item.wine.selling_price %></td>
+                <td><%= item.wine.cost %></td>
+                <td><%= item.wine.country %></td>
+                <td><%= item.wine.vintage %></td>
+                <td><%= item.wine.region %></td>
+                <td><%= item.wine.appellation %></td>
+                <td><%= item.wine.cuvee %></td>
+                <td><%= item.wine.tasting_notes %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
-<%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request) %>
-<%= link_to 'Back', purchasing_requests_path %>
+      <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: "btn btn-primary" %>
+      <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>
