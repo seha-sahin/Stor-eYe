@@ -2,13 +2,26 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="wines-index"
 export default class extends Controller {
-  static targets = ["amount"]
+  static targets = ["keyword", "maker", "vintage", "country", "region", "wines"]
 
   connect() {
-    this.resetAmount(this.amountTarget)
+    console.log(document.querySelector(".filters"))
   }
 
-  resetAmount = (amount) => {
-      amount.defaultValue = 0
+  fireSubmit() {
+    const searchterms = document.querySelectorAll(".searchterm");
+    const filters = document.querySelector(".filters");
+
+    for (const searchterm of searchterms) {
+      searchterm.addEventListener( 'change', function() {
+        Rails.fire(filters, 'submit');
+      });
+    }
+  }
+
+
+  replaceWines = (results) => {
+    const wines = this.winesTarget
+    wines.innerHTML = results
   }
 }

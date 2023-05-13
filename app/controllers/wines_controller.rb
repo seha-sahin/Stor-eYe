@@ -3,6 +3,12 @@ class WinesController < ApplicationController
 
   def index
     @wines = filter_wines
+
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render json: @wines }
+    # end
+
   end
 
   def show
