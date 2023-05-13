@@ -1,4 +1,19 @@
 class Wine < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :wine_search,
+                  against: %i[maker
+                              country
+                              vintage
+                              colour
+                              region
+                              appellation
+                              volume
+                              cuvee
+                              tasting_notes
+                              grape_variety
+                              description],
+                  using: { tsearch: { prefix: true } }
+
   has_many :storage_locations, through: :restaurant
   belongs_to :supplier
   belongs_to :restaurant

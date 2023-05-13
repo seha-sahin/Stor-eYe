@@ -11,6 +11,9 @@
 
   <div class="form-group d-flex justify-content">
     <%= simple_form_for :search, url: wines_path, method: "GET" do |f| %>
+      <div class="form-group-item my-3">
+        <input type="text" class="form-control" name="query" placeholder="Type a keyword">
+      </div>
       <div class="form-group-item">
         <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker" %>
       </div>
