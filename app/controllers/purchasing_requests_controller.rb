@@ -6,7 +6,10 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_requests = PurchasingRequest.all
   end
 
-  def show; end
+  def show
+    @note = Note.new
+  end
+
 
   def new
     @purchasing_request = PurchasingRequest.new
@@ -16,6 +19,7 @@ class PurchasingRequestsController < ApplicationController
   def create
     @purchasing_request = PurchasingRequest.new(purchasing_request_params)
     @purchasing_request.user = current_user
+    @purchasing_request.approval_status = 'pending'
     if @purchasing_request.save
       redirect_to @purchasing_request, notice: 'Purchasing request was successfully created.'
     else
@@ -38,7 +42,45 @@ class PurchasingRequestsController < ApplicationController
     redirect_to purchasing_requests_path, notice: 'Purchasing request was successfully destroyed.'
   end
 
+  def approve
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @purchasing_request.update(approval_status: 'approved')
+    redirect_to @purchasing_request
+  end
+
+  def reject
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @purchasing_request.update(approval_status: 'rejected')
+    redirect_to @purchasing_request
+  end
+
+  def request_more_info
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @purchasing_request.update(approval_status: 'pending', note: params[:message])
+
+    redirect_to @purchasing_request
+  end
+
+  def create_note
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @note = @purchasing_request.notes.new(note_params)
+    @note.user = current_user
+    if @note.save
+      respond_to do |format|
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.js { render partial: 'errors' }
+      end
+    end
+  end
+
   private
+
+  def note_params
+    params.require(:note).permit(:content)
+  end
 
   def set_purchasing_request
     @purchasing_request = PurchasingRequest.find(params[:id])

@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_06_025729) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_13_105210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "purchasing_request_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["purchasing_request_id"], name: "index_notes_on_purchasing_request_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
 
   create_table "purchasing_request_items", force: :cascade do |t|
     t.bigint "purchasing_request_id", null: false
@@ -31,6 +41,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_025729) do
     t.string "delivery_time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "approval_status", default: "pending"
+    t.text "note"
     t.index ["supplier_id"], name: "index_purchasing_requests_on_supplier_id"
     t.index ["user_id"], name: "index_purchasing_requests_on_user_id"
   end
@@ -138,6 +150,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_025729) do
     t.index ["supplier_id"], name: "index_wines_on_supplier_id"
   end
 
+  add_foreign_key "notes", "purchasing_requests"
+  add_foreign_key "notes", "users"
   add_foreign_key "purchasing_request_items", "purchasing_requests"
   add_foreign_key "purchasing_request_items", "wines"
   add_foreign_key "purchasing_requests", "suppliers"
