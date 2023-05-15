@@ -59,6 +59,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_084411) do
     t.string "delivery_time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "approval_status", default: "pending"
+    t.text "note"
     t.index ["supplier_id"], name: "index_purchasing_requests_on_supplier_id"
     t.index ["user_id"], name: "index_purchasing_requests_on_user_id"
   end
