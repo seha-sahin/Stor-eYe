@@ -11,9 +11,9 @@ Rails.application.routes.draw do
     resources :purchasing_request_items, only: [:create, :update, :destroy]
 
     member do
-      put :approve
-      put :reject
-      put :request_more_info
+      post :approve
+      post :reject
+      post :request_more_info
       post :create_note
     end
   end
@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   resources :storage_locations do
     resources :items, only: [:new, :create, :edit, :update, :destroy]
   end
+
+  resources :notifications, only: [:index]
 end
