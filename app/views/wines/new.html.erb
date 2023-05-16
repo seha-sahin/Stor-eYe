@@ -1,8 +1,7 @@
-<div class="container">
+<div class="container" data-controller="wine-ratio">
   <div class="row">
     <div class="col-md-12">
       <h1 class="my-5">Create New Wine</h1>
-      <script src="./scripts.js"></script>
 
       <%= form_for @wine do |f| %>
       <div class="container">
@@ -89,23 +88,19 @@
 
       <div class="container">
         <div class="row bg-light mt-3 pt-3">
-          <div class="form-group col-md-3">
+          <div class="form-group col-4">
             <%= f.label :unit_price %>
-            <%= f.text_field :unit_price, class: 'form-control', required: true %>
+            <%= f.text_field :unit_price, class: 'form-control', id: 'unit_price', required: true %>
           </div>
 
-          <div class="form-group col-md-3">
+          <div class="form-group col-4">
             <%= f.label :selling_price %>
-            <%= f.text_field :selling_price, class: 'form-control', required: true %>
+            <%= f.text_field :selling_price, class: 'form-control', id: 'selling_price', required: true %>
           </div>
 
-          <div class="form-group col-md-3">
-            <%= link_to "Calculate Ratio", class: "btn-home" %>
-          </div>
-
-          <div class="form-group col-md-3">
-            <%= f.label :cost_ratio %>
-            <%= "%" %>
+          <div class="form-group col-4">
+            <%= f.label :expected_cost %>
+            <%= f.text_field :cost, class: 'form-control', id: 'selling_price', disabled: true %>
           </div>
         </div>
       </div>

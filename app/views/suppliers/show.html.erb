@@ -1,36 +1,67 @@
-<div class="container mt-4">
-  <h1 class="mb-4"><%= @supplier.name %></h1>
+<body class="bg-color">
+  <div class="container ">
+    <div class="row mt-4">
+      <h2 class="col-10"><%= @supplier.name %></h2>
+      <div class="col-2 align-self-center">
+        <%= link_to "", edit_supplier_path(@supplier), class: "fas fa-edit me-3" %>
+        <%= link_to "", suppliers_path, class: "fas fa-undo me-3" %>
+      </div>
 
-  <div class="row mb-3">
-    <div class="col-sm-4">Phone Number:</div>
-    <div class="col-sm-8"><%= @supplier.phone_number %></div>
+      <div class="container main-box col-6">
+        <h5 class="border-bottom">Company details</h5>
+        <div class="row mb-3">
+          <div class="col-5">Phone Number:</div>
+          <div class="col-7"><%= phone_to @supplier.phone_number %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-5">Email:</div>
+          <div class="col-7"><%= mail_to @supplier.email %></div>
+        </div>
+
+        <h5 class="border-bottom pt-3">Main contact</h5>
+        <div class="row mb-3">
+          <div class="col-5">Contact Name:</div>
+          <div class="col-7"><%= @supplier.contact_full_name %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-5">Phone Number:</div>
+          <div class="col-7"><%= phone_to @supplier.contact_phone_number %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-5">Contact Email:</div>
+          <div class="col-7"><%= mail_to @supplier.contact_email %></div>
+        </div>
+      </div>
+
+      <div class="container col-1">
+      </div>
+
+      <div class="container main-box col-5">
+        <h5 class="border-bottom">Represented Wine Makers</h5>
+        <%# <% supplier.wines.each do |wine| %>
+          <ul>
+            <li>Maker name</li>
+            <li>Maker name</li>
+            <li>Maker name</li>
+            <li>Maker name</li>
+            <li>Maker name</li>
+            <li>Maker name</li>
+            <li>Maker name</li>
+            <li>Maker name</li>
+          </ul>
+        <%# <% end %>
+      </div>
+
+      <div class="container main-box">
+        <div class="row mb-3">
+          <div class="col-sm-2">Comment:</div>
+          <div class="col-sm-10"><%= @supplier.comment %></div>
+        </div>
+      </div>
+
+
   </div>
-
-  <div class="row mb-3">
-    <div class="col-sm-4">Email:</div>
-    <div class="col-sm-8"><%= @supplier.email %></div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-sm-4">Contact Name:</div>
-    <div class="col-sm-8"><%= @supplier.contact_full_name %></div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-sm-4">Contact Phone Number:</div>
-    <div class="col-sm-8"><%= @supplier.contact_phone_number %></div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-sm-4">Contact Email:</div>
-    <div class="col-sm-8"><%= @supplier.contact_email %></div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-sm-4">Comment:</div>
-    <div class="col-sm-8"><%= @supplier.comment %></div>
-  </div>
-
-  <%= link_to "Edit", edit_supplier_path(@supplier), class: "btn btn-primary mr-2" %>
-  <%= link_to "Back to List", suppliers_path, class: "btn btn-secondary" %>
-</div>
+</body>

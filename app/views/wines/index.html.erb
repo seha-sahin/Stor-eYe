@@ -8,7 +8,6 @@
     <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-primary badge-pill"><%= Supplier.all.count %></span></li>
   </ul>
 
-
   <div class="form-group d-flex justify-content filters">
     <%= simple_form_for :search, url: wines_path, method: "GET", remote: true do |f| %>
       <div class="form-group-item my-3">
@@ -32,7 +31,6 @@
       </div>
     <% end %>
   </div>
-
 
    <table class="table">
     <thead>
