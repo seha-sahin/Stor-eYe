@@ -69,13 +69,9 @@ class PurchasingRequestsController < ApplicationController
     @note = @purchasing_request.notes.new(note_params)
     @note.user = current_user
     if @note.save
-      respond_to do |format|
-        format.js
-      end
+      render json: { note: @note.as_json(include: { user: { only: :first_name } }), status: :created, location: @purchasing_request }
     else
-      respond_to do |format|
-        format.js
-      end
+      render json: { errors: @note.errors.full_messages, status: :unprocessable_entity }
     end
   end
 

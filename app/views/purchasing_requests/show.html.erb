@@ -105,7 +105,7 @@
       <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">Notes</h5>
-          <%= form_with(url: create_note_purchasing_request_path(@purchasing_request), method: :post, remote: true, id: "new-note-form", data: { controller: "notes", "notes-target": "form" }) do |f| %>
+            <%= form_with(url: create_note_purchasing_request_path(@purchasing_request), method: :post, remote: true, id: "new-note-form", data: { controller: "notes", "notes-target": "form", action: "ajax:beforeSend->notes#preventJump" }) do |f| %>
             <div class="mb-3" id="note_errors"></div>
             <%= f.label :content, "Add Note", class: "form-label" %>
             <%= f.text_area :content, class: "form-control", name: "note[content]", id: "note_content" %>
