@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "errors"];
+  static targets = ["form", "errors", "notes"];
 
   connect() {
     console.log("Hello from StimulusJS");
@@ -10,8 +10,11 @@ export default class extends Controller {
 
   disconnect() {
     console.log("Goodbye from StimulusJS");
-    this.formTarget.removeEventListener("submit", this.handleSubmit);
+    if (this.hasFormTarget) {
+      this.formTarget.removeEventListener("submit", this.handleSubmit);
+    }
   }
+
 
   setupFormSubmitListener() {
     // Check if the formTarget is available before setting up the event listener
@@ -32,14 +35,27 @@ export default class extends Controller {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.text())
-      .then((data) => {
-        // Handle the response data
-        console.log(data);
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.error(error);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.note) {
+        const note = data.note;
+        const noteHtml = `<div class="card mt-2">
+          <div class="card-body">
+            <p class="card-text">${note.content}</p>
+            <p><strong>Added by:</strong> ${note.user.first_name}</p>
+            <p><strong>Added at:</strong> ${new Date(note.created_at).toLocaleString()}</p>
+          </div>
+        </div>`;
+        document.getElementById('notes').prepend(noteHtml);
+        document.getElementById('note_content').value = '';
+      } else if (data.errors) {
+        document.getElementById('note_errors').innerHTML = data.errors;
+      }
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.error(error);
+    });
+
   };
 }
