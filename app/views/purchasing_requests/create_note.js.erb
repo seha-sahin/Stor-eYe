@@ -1,6 +1,6 @@
 <% if @note.persisted? %>
   // If the note was successfully saved, add it to the list of notes
-  $('#notes').prepend('<%= j render @note %>');
+  $('#notes').prepend('<%= j render 'notes/note', note: @note %>');
   $('#note_content').val('');
 <% else %>
   // If there was an error, display the error messages

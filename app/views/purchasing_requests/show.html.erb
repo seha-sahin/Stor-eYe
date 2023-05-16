@@ -31,6 +31,7 @@
         </button>
       <% end %>
 
+
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -71,7 +72,7 @@
             </tr>
           </thead>
           <tbody>
-                        <% @purchasing_request.purchasing_request_items.each do |item| %>
+            <% @purchasing_request.purchasing_request_items.each do |item| %>
               <% if item.quantity && item.quantity > 0 %>
                 <tr>
                   <td><%= item.wine.maker %></td>
@@ -104,20 +105,20 @@
       <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">Notes</h5>
-          <%= form_with(url: create_note_purchasing_request_path(@purchasing_request), method: :post, local: true) do |f| %>
-          <div class="mb-3" id="note_errors"></div>
-          <%= f.label :content, "Add Note", class: "form-label" %>
-          <%= f.text_area :content, class: "form-control", name: "note[content]", id: "note_content" %>
-          <%= f.submit "Add Note", class: "btn btn-primary" %>
-        <% end %>
+          <%= form_with(url: create_note_purchasing_request_path(@purchasing_request), method: :post, remote: true, id: "new-note-form", data: { controller: "notes", "notes-target": "form" }) do |f| %>
+            <div class="mb-3" id="note_errors"></div>
+            <%= f.label :content, "Add Note", class: "form-label" %>
+            <%= f.text_area :content, class: "form-control", name: "note[content]", id: "note_content" %>
+            <%= f.submit "Add Note", class: "btn btn-primary", data: { disable_with: 'Creating Note...' }, "data-notes-target": "submitButton" %>
+          <% end %>
 
-          <div id="notes">
-            <% @purchasing_request.notes.each do |note| %>
+          <div id="notes" data-controller="notes">
+            <% @purchasing_request.notes.reverse_each do |note| %>
               <div class="card mt-2">
                 <div class="card-body">
                   <p class="card-text"><%= note.content %></p>
                   <p><strong>Added by:</strong> <%= note.user.first_name %></p>
-                  <p><strong>Added at:</strong> <%= note.created_at.strftime("%B %d, %Y at %I:%M %p")%></p>
+                  <p><strong>Added at:</strong> <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
                 </div>
               </div>
             <% end %>
@@ -126,6 +127,7 @@
       </div>
       <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: "btn btn-primary" %>
       <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary" %>
+
     </div>
   </div>
 </div>

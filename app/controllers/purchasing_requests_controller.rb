@@ -7,6 +7,7 @@ class PurchasingRequestsController < ApplicationController
   end
 
   def show
+    @purchasing_request = PurchasingRequest.includes(:notes).find(params[:id])
     @note = Note.new
   end
 
@@ -30,12 +31,14 @@ class PurchasingRequestsController < ApplicationController
   def edit; end
 
   def update
+    puts params.inspect # Output the parameters to the console for debugging
     if @purchasing_request.update(purchasing_request_params)
       redirect_to purchasing_requests_path, notice: 'Purchasing request was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
   end
+
 
   def destroy
     @purchasing_request.destroy
@@ -71,7 +74,7 @@ class PurchasingRequestsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.js { render partial: 'errors' }
+        format.js
       end
     end
   end
