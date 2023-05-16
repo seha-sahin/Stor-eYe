@@ -2,12 +2,13 @@ class WinesController < ApplicationController
   before_action :set_wine, only: %i[show edit update destroy]
 
   def index
-    @wines = params[:search] ? Wine.all.tagged_with(filter_params(params[:search]), any: true) : Wine.all
+    @wines = filter_wines
 
-    if params[:supplier_id].present?
-      supplier = Supplier.find(params[:supplier_id])
-      @wines = supplier.wines
-    end
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render json: @wines }
+    # end
+
   end
 
   def show
@@ -20,6 +21,7 @@ class WinesController < ApplicationController
   def create
     @wine = Wine.new(wine_params)
     if @wine.save
+      update_tags(@wine)
       redirect_to wines_path, notice: "Wine was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -27,6 +29,26 @@ class WinesController < ApplicationController
   end
 
   private
+
+  def text_search
+    params[:query].present? ? Wine.wine_search(params[:query]) : Wine.all
+  end
+
+  def filter_wines
+    wines = text_search
+    params[:search] ? wines.tagged_with(filter_params(params[:search]), any: true) : wines
+  end
+
+  def update_tags(wine)
+    wine.update(
+      maker_list: wine.maker,
+      country_list: wine.country,
+      vintage_list: wine.vintage,
+      region_list: wine.region,
+      appellation_list: wine.appellation,
+      cuvee_list: wine.cuvee
+    )
+  end
 
   def filter_params(params, queries = [])
     params.each_value do |param|

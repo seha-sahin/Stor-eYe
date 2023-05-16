@@ -1,47 +1,64 @@
 <div class="container">
-  <h1>Purchasing Requests</h1>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Supplier</th>
-        <th>Delivery Date</th>
-        <th>Delivery Time Slot</th>
-        <th>Wine Quantities</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @purchasing_requests.each do |pr| %>
+  <h1 class="mb-4">Purchasing Requests</h1>
+  <%= link_to new_purchasing_request_path, class: 'btn btn-primary mb-3' do %>
+    <i class="fas fa-plus"></i> New Purchasing Request
+  <% end %>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
         <tr>
-          <td><%= pr.id %></td>
-          <td><%= pr.supplier.name %></td>
-          <td><%= pr.delivery_date %></td>
-          <td><%= pr.delivery_time_slot %></td>
-         <td>
-          <% pr.purchasing_request_items.each do |item| %>
-            <% if item.quantity && item.quantity > 0 %>
-              <%= item.wine.maker %>
-              <br>
-              <%= item.wine.country %>
-              <br>
-              <%= item.wine.vintage %>
-              <br>
-              <%= item.wine.region %>
-              <br>
-              <%= item.quantity %><br>
-            <% end %>
-          <% end %>
-        </td>
-
-          <td>
-            <%= link_to 'Show', purchasing_request_path(pr), class: 'btn btn-primary btn-sm' %>
-            <%= link_to 'Edit', edit_purchasing_request_path(pr), class: 'btn btn-secondary btn-sm' %>
-            <%= link_to 'Destroy', purchasing_request_path(pr), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this course?" }, class: 'btn btn-danger btn-sm' %>
-          </td>
+          <th style="width: 5%;"><i class="fas fa-hashtag"></i></th>
+          <th style="width: 20%;"><i class="fas fa-truck"></i></th>
+          <th style="width: 10%;"><i class="fas fa-calendar-alt"></i></th>
+          <th style="width: 10%;"><i class="fas fa-clock"></i></th>
+          <th style="width: 20%;"><i class="fas fa-wine-bottle"></i></th>
+          <th style="width: 10%;"><i class="fas fa-wine-bottle"></i></th>
+          <th style="width: 15%;">Quantities</th>
+          <th style="width: 10%;"><i class="fas fa-cog"></i></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= link_to 'New Purchasing Request', new_purchasing_request_path, class: 'btn btn-primary' %>
+      </thead>
+      <tbody>
+        <% @purchasing_requests.reverse_each do |pr| %>
+          <tr>
+            <td><%= pr.id %></td>
+            <td><%= pr.supplier.name %></td>
+            <td><%= pr.delivery_date %></td>
+            <td><%= pr.delivery_time_slot %></td>
+            <td>
+              <% pr.purchasing_request_items.each do |item| %>
+                <% if item.quantity && item.quantity > 0 %>
+                  <%= item.wine.maker %>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <% pr.purchasing_request_items.each do |item| %>
+                <% if item.quantity && item.quantity > 0 %>
+                  <%= item.wine.vintage %>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <% pr.purchasing_request_items.each do |item| %>
+                <% if item.quantity && item.quantity > 0 %>
+                  <div class="d-block"><%= item.quantity %></div>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to purchasing_request_path(pr), class: '' do %>
+                <i class="fas fa-eye"></i>
+              <% end %>
+              <%= link_to edit_purchasing_request_path(pr), class: '' do %>
+                <i class="fas fa-edit"></i>
+              <% end %>
+              <%= link_to purchasing_request_path(pr), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this course?" }, class: '' do %>
+                <i class="fas fa-trash-alt"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

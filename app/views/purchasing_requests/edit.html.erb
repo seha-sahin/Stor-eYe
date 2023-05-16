@@ -1,32 +1,17 @@
 <div class="container">
-  <h1>Edit Purchase Request</h1>
-
-  <%= form_with(model: @purchasing_request, local: true) do |form| %>
+  <h1>Edit Purchasing Request</h1>
+  <%= form_with(model: @purchasing_request, local: true, class: "form") do |form| %>
     <% if @purchasing_request.errors.any? %>
-      <div class="alert alert-danger">
-        <h4><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchase request from being updated:</h4>
+      <div id="error_explanation" class="alert alert-danger">
+        <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing request from being updated:</h2>
+
         <ul>
-          <% @purchasing_request.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
+          <% @purchasing_request.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
           <% end %>
         </ul>
       </div>
     <% end %>
-
-    <div class="form-group">
-      <%= form.label :user_id %>
-      <%= form.collection_select(:user_id, User.all, :id, :email, {}, { class: 'form-control' }) %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :supplier_id %>
-      <%= form.collection_select(:supplier_id, Supplier.all, :id, :name, {}, { class: 'form-control' }) %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :pr_quantity %>
-      <%= form.number_field :pr_quantity, class: 'form-control' %>
-    </div>
 
     <div class="form-group">
       <%= form.label :delivery_date %>
@@ -35,11 +20,40 @@
 
     <div class="form-group">
       <%= form.label :delivery_time_slot %>
-      <%= form.select :delivery_time_slot, ["9-12 AM", "12-3 PM", "3-6 PM"], prompt: true, class: 'form-control' %>
+      <%= form.select :delivery_time_slot, options_for_select(PurchasingRequest::TIME_SLOTS), {prompt: "Select a time slot"}, { class: 'form-control' } %>
     </div>
 
+    <table class="table" id="wine_table">
+      <thead>
+        <tr>
+          <th>Wine</th>
+          <th>Country</th>
+          <th>Vintage</th>
+          <th>Region</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @purchasing_request.supplier.wines.each do |wine| %>
+          <tr class="wine-row">
+            <td><%= wine.maker %></td>
+            <td><%= wine.country %></td>
+            <td><%= wine.vintage %></td>
+            <td><%= wine.region %></td>
+            <td>
+              <%= form.fields_for :purchasing_request_items, @purchasing_request.purchasing_request_items.find_or_initialize_by(wine_id: wine.id) do |item| %>
+                <%= item.hidden_field :wine_id, value: wine.id %>
+                <%= item.number_field :quantity, value: item.object.quantity, min: 0, class: 'form-control' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
     <div class="form-group">
-      <%= form.submit class: 'btn btn-primary' %>
+      <%= form.submit "Update", class: "btn btn-primary" %>
       <%= link_to 'Cancel', purchasing_requests_path, class: 'btn btn-secondary' %>
     </div>
   <% end %>

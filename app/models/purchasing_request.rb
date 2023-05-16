@@ -9,6 +9,7 @@ class PurchasingRequest < ApplicationRecord
   has_many :items, through: :purchasing_request_items
   has_many :wines, through: :purchasing_request_items
   accepts_nested_attributes_for :purchasing_request_items
+  validates :supplier_id, presence: true
 
   TIME_SLOTS = [
     ['8:00 AM - 10:00 AM', '8:00-10:00'],
@@ -21,17 +22,5 @@ class PurchasingRequest < ApplicationRecord
   def total_quantity
     purchasing_request_items.sum(:quantity)
   end
-
-  pg_search_scope :search_by_pr_number,
-    against: :pr_number,
-    using: { tsearch: { prefix: true } }
-
-  pg_search_scope :search_by_pr_quantity,
-    against: { pr_quantity: 'A' },
-    using: { tsearch: { prefix: true } },
-    associated_against: {
-      supplier: { name: 'A' },
-      user: { email: 'A' }
-    }
 
 end

@@ -1,6 +1,0 @@
-<% wines.each do |wine| %>
-  <div class="form-group">
-    <%= form.label "wines[#{wine.id}]", wine.maker %>
-    <%= form.number_field "pr_quantity[wines][#{wine.id}]", min: 0, class: "form-control" %>
-  </div>
-<% end %>

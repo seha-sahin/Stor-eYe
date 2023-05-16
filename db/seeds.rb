@@ -17,7 +17,7 @@ Supplier.destroy_all
 3.times do
   restaurant = Restaurant.create!(
     name: Faker::Restaurant.name,
-    address: Faker::Address.full_address,
+    address: "#{Faker::Address.street_address}, #{['Paris', 'London'].sample}",
     phone_number: Faker::PhoneNumber.cell_phone
   )
   puts "Restaurant #{restaurant.id} has been created."
@@ -50,12 +50,19 @@ n = 0
 20.times do
   storage_location = StorageLocation.create!(
     name: "Fridge #{n}",
-    address: Faker::Address.full_address,
+    address: Faker::Address.street_address,
     capacity: 100,
     temperature: ["cold", "room"].sample,
     restaurant: Restaurant.all.sample
   )
   n += 1
+  storage_location.update(address:
+    if storage_location.restaurant.address.end_with?("Paris")
+      "#{storage_location.address}, Paris"
+    else
+      "#{storage_location.address}, London"
+    end
+  )
   puts "Storage location #{storage_location.id} has been created."
 end
 
@@ -85,7 +92,7 @@ WINE_COUNTRIES = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina
     region: ["Bordeaux", "Burgundy", "Piemonte", "Omina Romana", "Sicilia", "Bekaa Valley", "Mendoza"].sample,
     appellation: ["Margaux", "Pessac-Leognan", "Gevrey-Chambertin", "Pommard", "Saint-Joseph", "Champagne"].sample,
     volume: ["Bottle", "Magnum", "Half-Bottle"].sample,
-    cuvee: ["Love coding", "Cuvee Ruby", "Rails Romance", "Javascript", "Clos Le-Wagon", "Grand Cru Bootstrap"].sample,
+    cuvee: ['Cuvee Plaisir', 'Grand Cru', 'Premier Cru', 'Clos des Mouches', 'Saint-Amour', 'Les Amis'].sample,
     grape_variety: ["Chardonnay", "Pinot Noir", "Syrah", "Sauvignon", "Chenin Blanc", "Merlot", "Vermentino"].sample,
     supplier: Supplier.all.sample,
     unit_price: rand(10..250),
