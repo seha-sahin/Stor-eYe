@@ -1,0 +1,52 @@
+.btn-home {
+  background-color: #69272D;
+  border: 0;
+  border-radius: .3rem;
+  box-sizing: border-box;
+  color: white;
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: .50rem 0.75rem;
+  text-align: center;
+  text-decoration: none #D1D5DB solid;
+  text-decoration-thickness: auto;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 2pt;
+
+    &:hover {
+    background-color: #90343c;
+    text-decoration: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  }
+}
+
+.btn-create {
+  background-color: $green;
+  border: 0;
+  border-radius: .3rem;
+  box-sizing: border-box;
+  color: white;
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: .50rem 0.75rem;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 2pt;
+
+    &:hover {
+    text-decoration: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  }
+}

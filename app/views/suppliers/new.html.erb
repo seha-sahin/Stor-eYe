@@ -1,46 +1,64 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h1 class="my-5">New Supplier</h1>
+<body class="bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="my-3">New Supplier</h1>
+        <h5>Company informations</h5>
+        <div class="container main-box col-12">
+          <%= form_for @supplier do |f| %>
+          <div class="row col-12">
+            <div class="form-group">
+              <%= f.label :name %>
+              <%= f.text_field :name, class: 'form-control', required: true %>
+            </div>
+          </div>
 
-      <%= form_for @supplier do |f| %>
-        <div class="form-group">
-          <%= f.label :name %>
-          <%= f.text_field :name, class: 'form-control', required: true %>
+          <div class="row col-12">
+            <div class="form-group col-6">
+              <%= f.label :phone_number %>
+              <%= f.text_field :phone_number, class: 'form-control', required: true %>
+            </div>
+
+            <div class="form-group col-6">
+              <%= f.label :email %>
+              <%= f.email_field :email, class: 'form-control', required: true %>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <%= f.label :phone_number %>
-          <%= f.text_field :phone_number, class: 'form-control', required: true %>
+        <h5>Main contact informations</h5>
+        <div class="container main-box col-12">
+          <div class="row col-12">
+            <div class="form-group">
+              <%= f.label :contact_full_name %>
+              <%= f.text_field :contact_full_name, class: 'form-control', required: true %>
+            </div>
+          </div>
+
+          <div class="row col-12">
+            <div class="form-group col-6">
+              <%= f.label :contact_phone_number %>
+              <%= f.text_field :contact_phone_number, class: 'form-control', required: true %>
+            </div>
+
+            <div class="form-group col-6">
+              <%= f.label :contact_email %>
+              <%= f.email_field :contact_email, class: 'form-control', required: true %>
+            </div>
+          </div>
+
+          <div class ="row col-12">
+            <div class="form-group">
+              <%= f.label :comment %>
+              <%= f.text_area :comment, class: 'form-control' %>
+            </div>
+          </div>
+
         </div>
 
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.email_field :email, class: 'form-control', required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :contact_full_name %>
-          <%= f.text_field :contact_full_name, class: 'form-control', required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :contact_phone_number %>
-          <%= f.text_field :contact_phone_number, class: 'form-control', required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :contact_email %>
-          <%= f.email_field :contact_email, class: 'form-control', required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :comment %>
-          <%= f.text_area :comment, class: 'form-control' %>
-        </div>
-
-        <%= f.submit 'Create', class: 'btn btn-primary' %>
-      <% end %>
+          <%= f.submit 'Create', class: 'btn-home col-12 mb-3' %>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
+</body>

@@ -1,0 +1,20 @@
+.table-title {
+  background-color: grey;
+  color: white;
+  font-weight: bolder;
+}
+
+.table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.th, td {
+  text-align: left;
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #d8d8d875;
+}

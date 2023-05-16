@@ -1,4 +1,4 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon border-bottom">
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon border-bottom sticky-top">
   <div class="container-fluid">
     <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag "stor-eye_logo.png" %>
@@ -11,15 +11,54 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
+          <%# <li class="nav-item active"> %>
+            <%# <%= link_to "Home", root_path, class: "nav-link" %>
+          <%# </li> %>
           <li class="nav-item active">
-            <%= link_to "Home", root_path, class: "nav-link" %>
+            <%= link_to image_tag("icon_navbar_stocks.png", class: "icon"), wines_path %>
           </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
+          <li class="nav-item active">
+            <%= link_to image_tag("icon_navbar_new-wine.png", class: "icon"), new_wine_path %>
           </li>
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+            <%= image_tag "icon_navbar_supplier.png", class: "icon", alt: "dropdown menu" %>
+          </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "Create new supplier", new_supplier_path, class: "dropdown-item" %>
+              <%= link_to "See all suppliers", suppliers_path, class: "dropdown-item" %>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= image_tag "icon_navbar_pr.png", class: "icon", alt: "dropdown menu" %>
+          </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "Create new PR", new_purchasing_request_path, class: "dropdown-item" %>
+              <%= link_to "See pending PR", purchasing_requests_path, class: "dropdown-item" %>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= image_tag "icon_navbar_po.png", class: "icon", alt: "dropdown menu" %>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "See pending PO", root_path, class: "dropdown-item" %>
+              <%= link_to "See all PO", root_path, class: "dropdown-item" %>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= image_tag "icon_navbar_storage.png", class: "icon", alt: "dropdown menu" %>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "Create new storage location", new_storage_location_path, class: "dropdown-item" %>
+              <%= link_to "See all storage locations", storage_locations_path, class: "dropdown-item" %>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= image_tag "avatar_default.jpg", class: "avatar", alt: "dropdown menu" %>
           </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Edit account info", edit_user_registration_path, class: "dropdown-item" %>
