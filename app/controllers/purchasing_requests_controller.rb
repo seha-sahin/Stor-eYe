@@ -22,11 +22,14 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_request.user = current_user
     @purchasing_request.approval_status = 'pending'
     if @purchasing_request.save
+      # Notify the manager about the new request
+      NewPurchaseRequest.with(purchasing_request: @purchasing_request).deliver(Manager.first)
       redirect_to @purchasing_request, notice: 'Purchasing request was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
+
 
   def edit; end
 
@@ -48,21 +51,27 @@ class PurchasingRequestsController < ApplicationController
   def approve
     @purchasing_request = PurchasingRequest.find(params[:id])
     @purchasing_request.update(approval_status: 'approved')
+    # Send notification
+    PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(Manager.first)
     redirect_to @purchasing_request
   end
 
   def reject
     @purchasing_request = PurchasingRequest.find(params[:id])
     @purchasing_request.update(approval_status: 'rejected')
+    # Send notification
+    PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(Manager.first)
     redirect_to @purchasing_request
   end
 
   def request_more_info
     @purchasing_request = PurchasingRequest.find(params[:id])
     @purchasing_request.update(approval_status: 'pending', note: params[:message])
-
+    # Send notification
+    PurchaseRequestMoreInfoNeeded.with(purchasing_request: @purchasing_request).deliver(Manager.first)
     redirect_to @purchasing_request
   end
+
 
   def create_note
     @purchasing_request = PurchasingRequest.find(params[:id])
@@ -75,7 +84,26 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
+  def create_comment
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @comment = @purchasing_request.comments.new(comment_params)
+    @comment.user = current_user
+
+    if @comment.save
+      # Send notification
+      CommentNotification.with(comment: @comment).deliver(Manager.first)
+      redirect_to @purchasing_request, notice: 'Comment was successfully created.'
+    else
+      # Handle comment creation failure
+      render :show, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def comment_params
+    params.require(:comment).permit(:content)
+  end
 
   def note_params
     params.require(:note).permit(:content)

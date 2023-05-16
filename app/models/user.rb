@@ -8,4 +8,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :phone_number, numericality: true
   validates :position, inclusion: { in: POSITIONS }
+  has_many :notifications, as: :recipient, dependent: :destroy
 end

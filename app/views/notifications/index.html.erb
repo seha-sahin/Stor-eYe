@@ -1,0 +1,12 @@
+<!-- app/views/notifications/index.html.erb -->
+<div class="container mt-4">
+  <h1>Your Notifications</h1>
+
+  <div class="list-group mt-4">
+    <% @notifications.each do |notification| %>
+      <a href="<%= notification.url %>" class="list-group-item list-group-item-action">
+        <%= notification.message %>
+      </a>
+    <% end %>
+  </div>
+</div>
