@@ -1,4 +1,19 @@
 class Wine < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :wine_search,
+                  against: %i[maker
+                              country
+                              vintage
+                              colour
+                              region
+                              appellation
+                              volume
+                              cuvee
+                              tasting_notes
+                              grape_variety
+                              description],
+                  using: { tsearch: { prefix: true } }
+
   has_many :storage_locations, through: :restaurant
   belongs_to :supplier
   belongs_to :restaurant
@@ -12,7 +27,6 @@ class Wine < ApplicationRecord
   acts_as_taggable_on :cuvees
   acts_as_taggable_on :tastingnotes
   acts_as_taggable_on :grape_varieties
-
 
   VOLUMES = %w[Bottle Magnum Half-bottle]
   COLOURS = %w[Sparkling White Red Rose Sweet Oxydate Orange]
@@ -32,20 +46,4 @@ class Wine < ApplicationRecord
     end
     total_value
   end
-
-  $makers = [
-    "Familia Torres",
-    "Bodega Catena",
-    "Vega Sicilia",
-    "Henschke",
-    "Concha y Toro",
-    "Penfolds",
-    "Domaine de la Romanée Conti",
-    "CVNE",
-    "Antinori",
-    "Chateau Musar"
-  ]
-
-  $countries = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina", "Chile"]
-  $regions = ["Bordeaux", "Burgundy", "Piemonte", "Omina Romana", "Sicilia", "Bekaa Valley", "Mendoza"]
 end
