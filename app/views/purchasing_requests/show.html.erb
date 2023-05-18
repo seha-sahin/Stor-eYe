@@ -19,12 +19,15 @@
       </p>
 
       <% if current_user.position == 'owner' %>
-        <% if @purchasing_request.approval_status != 'approved' %>
-          <%= button_to 'Approve', approve_notification_purchasing_request_path(@purchasing_request), method: :post, class: "btn btn-success" %>
-        <% end %>
-        <% if @purchasing_request.approval_status != 'rejected' %>
-          <%= button_to 'Reject', reject_notification_purchasing_request_path(@purchasing_request), method: :post, class: "btn btn-danger" %>
-        <% end %>
+      <% if @purchasing_request.approval_status != 'approved' %>
+        <%= button_to 'Approve', approve_purchasing_request_path(@purchasing_request), method: :put, class: "btn btn-success" %>
+      <% end %>
+      <% if @purchasing_request.approval_status != 'rejected' %>
+        <%= button_to 'Reject', reject_purchasing_request_path(@purchasing_request), method: :put, class: "btn btn-danger" %>
+      <% end %>
+      <!-- More code... -->
+
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
           Request More Info
@@ -41,10 +44,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <%= form_with(url: request_more_info_notification_purchasing_request_path(@purchasing_request), method: :put, local: true) do |f| %>
+              <%= form_with(url: request_more_info_purchasing_request_path(@purchasing_request), method: :put, local: true) do |f| %>
                 <div class="mb-3">
                   <%= f.label :message, "Message", class: "form-label" %>
-                  <%= f.text_area :message, name: 'more_info[message]', class: "form-control" %>
+                  <%= f.text_area :message, name: 'request_more_info[message]', class: "form-control" %>
                 </div>
                 <%= f.submit "Send", class: "btn btn-primary" %>
               <% end %>
@@ -93,22 +96,21 @@
           </tbody>
         </table>
       </div>
-
     <div class="container mt-5">
       <div class="card">
         <div class="card-body">
 
           <!-- Display note if it exists -->
           <% if @purchasing_request.note.present? %>
-            <div class="card mt-4">
-              <div class="card-header">
-                <h5>More Information Requested</h5>
-              </div>
-              <div class="card-body">
-                <p class="card-text"><%= @purchasing_request.note %></p>
-              </div>
+          <div class="card mt-4">
+            <div class="card-body">
+              <h5 class="card-title">Additional Information Requested</h5>
+              <p class="card-text"><%= @purchasing_request.note %></p>
             </div>
-          <% end %>
+          </div>
+        <% else %>
+          <p>No note present for this request</p>
+        <% end %>
 
           <!-- Notes section -->
           <div class="card mt-4">
