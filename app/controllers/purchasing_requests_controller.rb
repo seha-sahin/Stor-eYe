@@ -52,7 +52,7 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_request = PurchasingRequest.find(params[:id])
     @purchasing_request.update(approval_status: 'approved')
     # Send notification
-    PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(Manager.first)
+    PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(current_user)
     redirect_to @purchasing_request
   end
 
@@ -60,16 +60,21 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_request = PurchasingRequest.find(params[:id])
     @purchasing_request.update(approval_status: 'rejected')
     # Send notification
-    PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(Manager.first)
+    PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(current_user)
     redirect_to @purchasing_request
   end
 
+
   def request_more_info
     @purchasing_request = PurchasingRequest.find(params[:id])
-    @purchasing_request.update(approval_status: 'pending', note: params[:more_info][:message])
-    # Send notification
-    PurchaseRequestMoreInfoNeeded.with(purchasing_request: @purchasing_request).deliver(Manager.first)
-    redirect_to @purchasing_request
+    if @purchasing_request.update(approval_status: 'pending', note: params[:request_more_info][:message])
+      # Send notification to the manager
+      manager = User.find_by(position: 'manager')
+      PurchaseRequestMoreInfoNeeded.with(purchasing_request: @purchasing_request).deliver_later(manager)
+      redirect_to @purchasing_request
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
 
@@ -134,6 +139,6 @@ class PurchasingRequestsController < ApplicationController
   end
 
   def purchasing_request_params
-    params.require(:purchasing_request).permit(:supplier_id, :delivery_date, :delivery_time_slot, purchasing_request_items_attributes: [:id, :wine_id, :quantity])
+    params.require(:purchasing_request).permit(:supplier_id, :delivery_date, :delivery_time_slot, :approval_status, :note, purchasing_request_items_attributes: [:id, :wine_id, :quantity])
   end
 end
