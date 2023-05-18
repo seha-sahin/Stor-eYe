@@ -1,23 +1,22 @@
 <body class="bg-light">
   <div class="container mt-3">
+    <p class="text-end"><%= link_to "", edit_wine_path(@wine), class: "fas fa-edit me-3" %><%= link_to "", wine_path(@wine), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this wine?" }, class: "fas fa-trash-alt" %></p>
     <div class="row">
         <div class="col-12  col-sm-6 col-md-3 pt-2 mb-1">
-          <div class="card">
-            <div class="card-img">
-              <p> PHOTO HERE </p>
-            </div>
+          <div class="card card-img">
+            <%= cl_image_tag @wine.photo.key, alt: "Wine Photo", crop: :fill_pad, class: "img-height" %>
           </div>
         </div>
       <div class="col-sm-6 col-md-9 pt-2 mb-1">
         <div class="card">
           <div class="card-body">
-              <h5 class="card-title"><%= @wine.maker %>, <%= @wine.appellation %></h5>
-              <p class="card-text">"<%= @wine.cuvee %>", <strong><%= @wine.vintage %></strong></p>
-            </div>
-            <div class="card-body border-top"">
-              <p class="card-text"><%= @wine.grape_variety %></p>
-              <p class="card-text"><%= @wine.colour %> (Wine Type)</p>
-            </div>
+            <h5 class="card-title"><%= @wine.maker %>, <%= @wine.appellation %></h5>
+            <p class="card-text">"<%= @wine.cuvee %>", <strong><%= @wine.vintage %></strong></p>
+          </div>
+          <div class="card-body border-top"">
+            <p class="card-text"><%= @wine.grape_variety %></p>
+            <p class="card-text"><%= @wine.colour %> (Wine Type)</p>
+          </div>
           </div>
           <div class="row">
             <div class="col-sm-6 col-md-8 pt-1 mb-1">
@@ -77,6 +76,7 @@
         <div class="col-sm-6 col-md-3 pt-2 mb-1">
           <div class="card">
             <div class="card-body txt-s">
+              <p>@<%= @wine.address %></p>
               <p>MAP HERE</p>
             </div>
           </div>

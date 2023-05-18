@@ -8,7 +8,15 @@ class WinesController < ApplicationController
     #   format.html
     #   format.json { render json: @wines }
     # end
-
+    @wines = Wine.geocoded
+    @markers = @wines.map do |wine|
+      {
+        lat: wine.latitude,
+        lng: wine.longitude,
+        info_window_html: render_to_string(partial: "info_window", locals: { wine: wine.maker }),
+        marker_html: render_to_string(partial: "marker", locals: { wine: wine.maker })
+      }
+    end
   end
 
   def show
@@ -26,6 +34,27 @@ class WinesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
+    @wine = Wine.find(params[:id])
+  end
+
+  def update
+    @wine = Wine.find(params[:id])
+
+    if @wine.update(wine_params)
+      redirect_to @wine
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    wine = Wine.find(params[:id])
+    wine.destroy
+
+    redirect_to wines_path
   end
 
   private
@@ -62,6 +91,6 @@ class WinesController < ApplicationController
   end
 
   def wine_params
-    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price, :quantity, :cost, :restaurant_id, :session_start => [], :session_end => [])
+    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price, :quantity, :cost, :restaurant_id, :photo, :session_start => [], :session_end => [])
   end
 end

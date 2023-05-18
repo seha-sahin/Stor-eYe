@@ -18,12 +18,12 @@
         <% @suppliers.each do |supplier| %>
           <tr>
             <td><%= supplier.name %></td>
-            <td><%= supplier.phone_number %></td>
-            <td><%= supplier.email %></td>
+            <td><%= phone_to supplier.phone_number %></td>
+            <td><%= mail_to supplier.email %></td>
             <td>
               <%= link_to "", supplier_path(supplier), class: "fas fa-search me-3" %>
               <%= link_to "", edit_supplier_path(supplier), class: "fas fa-edit me-3" %>
-              <%= link_to "", supplier_path(supplier), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this course?" }, class: "fas fa-trash-alt" %>
+              <%= link_to "", supplier_path(supplier), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this supplier?" }, class: "fas fa-trash-alt" %>
             </td>
           </tr>
         <% end %>

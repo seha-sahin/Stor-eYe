@@ -8,6 +8,11 @@
     <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-primary badge-pill"><%= Supplier.all.count %></span></li>
   </ul>
 
+  <div style="width: 100%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+
   <div class="form-group d-flex justify-content filters">
     <%= simple_form_for :search, url: wines_path, method: "GET", remote: true do |f| %>
       <div class="form-group-item my-3">

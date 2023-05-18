@@ -10,4 +10,9 @@ Rails.application.routes.draw do
     resources :items, only: [:new, :create, :edit, :update, :destroy]
   end
   resources :wines
+  resources :locations do
+    collection do
+      get :map
+    end
+  end
 end

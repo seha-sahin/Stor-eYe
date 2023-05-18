@@ -4,7 +4,8 @@
       <h2 class="col-10"><%= @supplier.name %></h2>
       <div class="col-2 align-self-center">
         <%= link_to "", edit_supplier_path(@supplier), class: "fas fa-edit me-3" %>
-        <%= link_to "", suppliers_path, class: "fas fa-undo me-3" %>
+        <%= link_to "", suppliers_path, class: "fas fa-arrow-left me-3" %>
+        <%= link_to "", supplier_path(@supplier), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this supplier?" }, class: "fas fa-trash-alt" %>
       </div>
 
       <div class="container main-box col-6">
@@ -41,18 +42,11 @@
 
       <div class="container main-box col-5">
         <h5 class="border-bottom">Represented Wine Makers</h5>
-        <%# <% supplier.wines.each do |wine| %>
           <ul>
-            <li>Maker name</li>
-            <li>Maker name</li>
-            <li>Maker name</li>
-            <li>Maker name</li>
-            <li>Maker name</li>
-            <li>Maker name</li>
-            <li>Maker name</li>
-            <li>Maker name</li>
+            <% @supplier.wines.uniq { |wine| wine.maker }.each do |wine| %>
+              <li><%= wine.maker %></li>
+            <% end %>
           </ul>
-        <%# <% end %>
       </div>
 
       <div class="container main-box">
