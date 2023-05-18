@@ -1,54 +1,60 @@
-<div class="container" data-controller="wines-index">
+<div class="container">
   <h2>Current Stock</h2>
   <h3>Totals</h3>
-  <ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge badge-primary badge-pill"><%= @wines.count %></span></li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge badge-primary badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge badge-primary badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-primary badge-pill"><%= Supplier.all.count %></span></li>
+  <%= turbo_frame_tag :summary, target: :_top do %>
+  <ul class="list-group list-group-horizontal">
+      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Wine Type: <span class="badge badge-dark badge-pill"><%= @wines.count %></span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Wine Stock: <span class="badge badge-dark badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Total Value: <span class="badge badge-dark badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Supplier: <span class="badge badge-dark badge-pill"><%= @wines.map(&:supplier).uniq.count %></span></li>
   </ul>
+  <% end %>
 
-  <div class="form-group d-flex justify-content filters">
-    <%= simple_form_for :search, url: wines_path, method: "GET", remote: true do |f| %>
+  <div class="form-group d-flex">
+    <%= simple_form_for :search, url: wines_path, method: "GET", data: { turbo_frame: %i[search_results summary] } do |f| %>
       <div class="form-group-item my-3">
-        <input type="text" class="form-control searchterm" name="query" placeholder="Type a keyword" data-wines-index-target="keyword">
+        <input type="text" class="form-control searchterm" name="query" placeholder="Search wines" value="<%= params[:query] %>">
       </div>
-      <div class="form-group-item">
-        <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker", data: {wines_index_target: "maker"}, class: "searchterm" %>
+        <div class="row">
+        <div class="form-group-item col-md-3">
+          <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker", class: "searchterm", prompt: "Select maker", selected: @search_params[:makers] %>
+        </div>
+        <div class="form-group-item col-md-3">
+          <%= f.input :vintages, as: :select, collection: Wine.all.map(&:vintage).uniq.sort, label: "Vintage", class: "searchterm", prompt: "Select year", selected: @search_params[:vintages] %>
+        </div>
+        <div class="form-group-item col-md-3">
+          <%= f.input :countries, as: :select, collection: Wine.all.map(&:country).uniq.sort_by(&:downcase), label: "Country", class: "searchterm", prompt: "Select country", selected: @search_params[:countries] %>
+        </div>
+        <div class="form-group-item col-md-3">
+          <%= f.input :regions, as: :select, collection: Wine.all.map(&:region).uniq.sort_by(&:downcase), label: "Region", prompt: "Select region", selected: @search_params[:regions] %>
+        </div>
       </div>
-      <div class="form-group-item">
-        <%= f.input :vintages, as: :select, collection: Wine.all.map(&:vintage).uniq.sort, label: "Vintage", data: {wines_index_target: "vintage"}, class: "searchterm" %>
-      </div>
-      <div class="form-group-item">
-        <%= f.input :countries, as: :select, collection: Wine.all.map(&:country).uniq.sort_by(&:downcase), label: "Country", data: {wines_index_target: "country"}, class: "searchterm" %>
-      </div>
-      <div class="form-group-item">
-        <%= f.input :regions, as: :select, collection: Wine.all.map(&:region).uniq.sort_by(&:downcase), label: "Region", data: {wines_index_target: "region"}, class: "searchterm" %>
-      </div>
-      <div class="form-group-item">
-        <%= f.submit "Search", class: "btn btn-primary" %>
-        <%= link_to "Reset", wines_path  %>
+      <div class="form-group-item justify-content-center mx-2">
+        <%= f.submit "Search", class: "btn btn-primary", style: "background-color: #69272D;border-color: #69272D"%>
+        <%= link_to "Reset", wines_path, class:"opacity-75 mt-4 mx-2", style: "color: #69272D;"  %>
       </div>
     <% end %>
   </div>
 
-   <table class="table">
-    <thead>
-      <tr>
-        <th>Maker</th>
-        <th>Vintage</th>
-        <th>Country</th>
-        <th>Region</th>
-        <th>Appellation</th>
-        <th>Cuvee</th>
-        <th>Grape</th>
-        <th>Stock</th>
-        <th>Unit Price</th>
-        <th>Avg Price</th>
-      </tr>
-    </thead>
-    <tbody data-wines-index-target="wines">
-      <%= render "rows", wines: @wines %>
-    </tbody>
-  </table>
+  <%= turbo_frame_tag :search_results, target: :_top do %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Maker</th>
+          <th>Vintage</th>
+          <th>Country</th>
+          <th>Region</th>
+          <th>Appellation</th>
+          <th>Cuvee</th>
+          <th>Grape</th>
+          <th>Stock</th>
+          <th>Unit Price</th>
+          <th>Avg Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render "rows", wines: @wines %>
+      </tbody>
+    </table>
+  <% end %>
 </div>
