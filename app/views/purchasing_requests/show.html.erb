@@ -20,10 +20,10 @@
 
       <% if current_user.position == 'owner' %>
         <% if @purchasing_request.approval_status != 'approved' %>
-          <%= button_to 'Approve', approve_purchasing_request_path(@purchasing_request), method: :put, class: "btn btn-success" %>
+          <%= button_to 'Approve', approve_notification_purchasing_request_path(@purchasing_request), method: :post, class: "btn btn-success" %>
         <% end %>
         <% if @purchasing_request.approval_status != 'rejected' %>
-          <%= button_to 'Reject', reject_purchasing_request_path(@purchasing_request), method: :put, class: "btn btn-danger" %>
+          <%= button_to 'Reject', reject_notification_purchasing_request_path(@purchasing_request), method: :post, class: "btn btn-danger" %>
         <% end %>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -41,10 +41,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <%= form_with(url: request_more_info_purchasing_request_path(@purchasing_request), method: :put) do |f| %>
+              <%= form_with(url: request_more_info_notification_purchasing_request_path(@purchasing_request), method: :put, local: true) do |f| %>
                 <div class="mb-3">
                   <%= f.label :message, "Message", class: "form-label" %>
-                  <%= f.text_area :message, class: "form-control" %>
+                  <%= f.text_area :message, name: 'more_info[message]', class: "form-control" %>
                 </div>
                 <%= f.submit "Send", class: "btn btn-primary" %>
               <% end %>
@@ -52,6 +52,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- Table -->
       <div class="table-responsive">
@@ -93,41 +94,43 @@
         </table>
       </div>
 
-      <% if @purchasing_request.note.present? %>
-        <div class="card mt-4">
-          <div class="card-body">
-            <h5 class="card-title">More Information Requested</h5>
-            <p class="card-text"><%= @purchasing_request.note %></p>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="card mt-4">
+    <div class="container mt-5">
+      <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Notes</h5>
-            <%= form_with(url: create_note_purchasing_request_path(@purchasing_request), method: :post, remote: true, id: "new-note-form", data: { controller: "notes", "notes-target": "form", action: "ajax:beforeSend->notes#preventJump" }) do |f| %>
-            <div class="mb-3" id="note_errors"></div>
-            <%= f.label :content, "Add Note", class: "form-label" %>
-            <%= f.text_area :content, class: "form-control", name: "note[content]", id: "note_content" %>
-            <%= f.submit "Add Note", class: "btn btn-primary", data: { disable_with: 'Creating Note...' }, "data-notes-target": "submitButton" %>
+
+          <!-- Display note if it exists -->
+          <% if @purchasing_request.note.present? %>
+            <div class="card mt-4">
+              <div class="card-header">
+                <h5>More Information Requested</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text"><%= @purchasing_request.note %></p>
+              </div>
+            </div>
           <% end %>
 
-          <div id="notes" data-controller="notes">
-            <% @purchasing_request.notes.reverse_each do |note| %>
-              <div class="card mt-2">
-                <div class="card-body">
-                  <p class="card-text"><%= note.content %></p>
-                  <p><strong>Added by:</strong> <%= note.user.first_name %></p>
-                  <p><strong>Added at:</strong> <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-                </div>
+          <!-- Notes section -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h5>Notes</h5>
+            </div>
+            <div class="card-body">
+              <%= render partial: "notes/form", locals: { note: @note, purchasing_request: @purchasing_request } %>
+              <div id="notes">
+                <% @purchasing_request.notes.reverse_each do |note| %>
+                  <%= render partial: "notes/note", locals: { note: note } %>
+                <% end %>
               </div>
-            <% end %>
+            </div>
           </div>
+
+          <!-- Edit and Back links -->
+          <div class="mt-4">
+            <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: "btn btn-primary" %>
+            <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary ml-2" %>
+          </div>
+
         </div>
       </div>
-      <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: "btn btn-primary" %>
-      <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary" %>
-
     </div>
-  </div>
-</div>

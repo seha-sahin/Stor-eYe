@@ -66,7 +66,7 @@ class PurchasingRequestsController < ApplicationController
 
   def request_more_info
     @purchasing_request = PurchasingRequest.find(params[:id])
-    @purchasing_request.update(approval_status: 'pending', note: params[:message])
+    @purchasing_request.update(approval_status: 'pending', note: params[:more_info][:message])
     # Send notification
     PurchaseRequestMoreInfoNeeded.with(purchasing_request: @purchasing_request).deliver(Manager.first)
     redirect_to @purchasing_request
@@ -77,10 +77,14 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_request = PurchasingRequest.find(params[:id])
     @note = @purchasing_request.notes.new(note_params)
     @note.user = current_user
-    if @note.save
-      render json: { note: @note.as_json(include: { user: { only: :first_name } }), status: :created, location: @purchasing_request }
-    else
-      render json: { errors: @note.errors.full_messages, status: :unprocessable_entity }
+    respond_to do |format|
+      if @note.save
+        format.html { redirect_to @purchasing_request, notice: 'Note was successfully created.' }
+        format.turbo_stream
+      else
+        format.html { render :show, status: :unprocessable_entity }
+        format.turbo_stream
+      end
     end
   end
 
@@ -100,6 +104,10 @@ class PurchasingRequestsController < ApplicationController
   end
 
   private
+
+  def more_info_params
+    params.require(:more_info).permit(:message)
+  end
 
   def comment_params
     params.require(:comment).permit(:content)
