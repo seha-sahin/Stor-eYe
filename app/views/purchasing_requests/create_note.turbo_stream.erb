@@ -1,0 +1,15 @@
+<% if @note.persisted? %>
+<%# add note to list %>
+  <%= turbo_stream.prepend "notes" do %>
+    <%= render partial: "notes/note", locals: { note: @note } %>
+  <% end %>
+  <%# replace form %>
+  <%= turbo_stream.replace "new_note" do %>
+    <%= render partial: "notes/form", locals: { note: Note.new, purchasing_request: @purchasing_request } %>
+  <% end %>
+  <% else %>
+  <%= turbo_stream.replace "new_note" do %>
+    <%= render partial: "notes/form", locals: { note: @note, purchasing_request: @purchasing_request } %>
+  <% end %>
+
+<% end %>
