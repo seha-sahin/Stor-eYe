@@ -12,6 +12,3 @@ application.register("map", MapController)
 
 import WineRatioController from "./wine_ratio_controller"
 application.register("wine-ratio", WineRatioController)
-
-import WinesIndexController from "./wines_index_controller"
-application.register("wines-index", WinesIndexController)

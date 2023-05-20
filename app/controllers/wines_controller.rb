@@ -5,7 +5,7 @@ class WinesController < ApplicationController
     @wines = filter_wines
     @search_params = params[:search] || {}
     geocoded_wines = geocoded_items(@wines)
-    add_markers(geocoded_wines)
+    @markers = add_markers(geocoded_wines)
   end
 
   def show
@@ -47,22 +47,21 @@ class WinesController < ApplicationController
   end
 
   private
-  
+
   def geocoded_items(items)
-  items.select do |item|
-    item.latitude.present? && item.longitude.present?
+    items.select do |item|
+      item.latitude.present? && item.longitude.present?
+    end
   end
-end
-  
+
   def add_markers(items)
-  items.map do |item|
-    {
-      lat: item.latitude,
-      lng: item.longitude,
-      info_window_html: render_to_string(partial: "info_window", locals: { wine: item }), # Clarify
-      marker_html: render_to_string(partial: "marker", locals: { wine: item }) # Clarify\
-      
-    }
+    items.map do |item|
+      {
+        lat: item.latitude,
+        lng: item.longitude,
+        info_window_html: render_to_string(partial: "info_window", locals: { wine: item }),
+        marker_html: render_to_string(partial: "marker", locals: { wine: item })
+      }
     end
   end
 
@@ -104,6 +103,6 @@ end
   end
 
   def wine_params
-    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price, :quantity, :cost, :restaurant_id, :photo, :session_start => [], :session_end => [])
+    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price, :quantity, :address, :cost, :restaurant_id, :photo, :session_start => [], :session_end => [])
   end
 end
