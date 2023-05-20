@@ -1,5 +1,5 @@
 .btn-home {
-  background-color: #69272D;
+  background-color: $home-orange;
   border: 0;
   border-radius: .3rem;
   box-sizing: border-box;
@@ -19,7 +19,7 @@
   margin-top: 2pt;
 
     &:hover {
-    background-color: #90343c;
+    background-color: $home-light;
     text-decoration: none;
     color: white;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;

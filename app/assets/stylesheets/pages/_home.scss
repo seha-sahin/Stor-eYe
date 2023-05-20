@@ -11,7 +11,7 @@ $xlarge: 1920px;
 .bg-img {
   background-image: url("stor-eye_bg.jpg");
   background-repeat: no-repeat;
-  max-height: fit-content;
+  background-size: cover;
   width: auto;
 }
 
