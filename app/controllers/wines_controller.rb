@@ -3,20 +3,9 @@ class WinesController < ApplicationController
 
   def index
     @wines = filter_wines
-
-    # respond_to do |format|
-    #   format.html
-    #   format.json { render json: @wines }
-    # end
-    @wines = Wine.geocoded
-    @markers = @wines.map do |wine|
-      {
-        lat: wine.latitude,
-        lng: wine.longitude,
-        info_window_html: render_to_string(partial: "info_window", locals: { wine: wine.maker }),
-        marker_html: render_to_string(partial: "marker", locals: { wine: wine.maker })
-      }
-    end
+    @search_params = params[:search] || {}
+    geocoded_wines = geocoded_items(@wines)
+    add_markers(geocoded_wines)
   end
 
   def show
@@ -58,14 +47,38 @@ class WinesController < ApplicationController
   end
 
   private
+  
+  def geocoded_items(items)
+  items.select do |item|
+    item.latitude.present? && item.longitude.present?
+  end
+end
+  
+  def add_markers(items)
+  items.map do |item|
+    {
+      lat: item.latitude,
+      lng: item.longitude,
+      info_window_html: render_to_string(partial: "info_window", locals: { wine: item }), # Clarify
+      marker_html: render_to_string(partial: "marker", locals: { wine: item }) # Clarify\
+      
+    }
+    end
+  end
 
-  def text_search
+  def filter_by_search_query
     params[:query].present? ? Wine.wine_search(params[:query]) : Wine.all
   end
 
   def filter_wines
-    wines = text_search
-    params[:search] ? wines.tagged_with(filter_params(params[:search]), any: true) : wines
+    wines = filter_by_search_query
+    search_params = params[:search] || {}
+    filters = %i[makers vintages countries regions]
+    filters.each do |filter|
+      wines = wines.tagged_with(search_params[filter], any: true) if search_params[filter].present?
+    end
+
+    return wines
   end
 
   def update_tags(wine)
