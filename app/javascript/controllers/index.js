@@ -10,8 +10,11 @@ application.register("hello", HelloController)
 import MapController from "./map_controller"
 application.register("map", MapController)
 
+import RowClickController from "./row_click_controller"
+application.register("row-click", RowClickController)
+
+import WineClickController from "./wine_click_controller"
+application.register("wine-click", WineClickController)
+
 import WineRatioController from "./wine_ratio_controller"
 application.register("wine-ratio", WineRatioController)
-
-import WinesIndexController from "./wines_index_controller"
-application.register("wines-index", WinesIndexController)

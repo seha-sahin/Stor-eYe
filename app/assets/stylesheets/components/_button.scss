@@ -50,3 +50,14 @@
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
   }
 }
+.icon-edit {
+  color: orange;
+}
+
+.icon-trash {
+  color: red;
+}
+
+tr[data-href] {
+  cursor: pointer;
+}
