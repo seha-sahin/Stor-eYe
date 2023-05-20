@@ -5,13 +5,15 @@ $large: 1366px;
 $xlarge: 1920px;
 
 .bg-color {
-  background-color: rgba(221, 221, 221, 0.2);
+  background-color: $light-gray;
+  background-size: cover;
 }
 
 .bg-img {
   background-image: url("stor-eye_bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  height: 820px;
   width: auto;
 }
 
@@ -28,21 +30,42 @@ $xlarge: 1920px;
 }
 
 .fa-search {
-  color: #69272D;
+  color: $home-orange;
 }
 
 .fa-edit {
-  color: #69272D;
+  color: $home-orange;
 }
 
 .fa-trash-alt {
-  color: #69272D;
+  color: $home-orange;
 }
 
 .fa-undo {
-  color: #69272D;
+  color: $home-orange;
 }
 
 .fa-arrow-left {
-  color: #69272D;
+  color: $home-orange;
+}
+
+.fa-shopping-cart {
+  color: $home-blue;
+}
+
+.fa-map-marker {
+  color: $home-blue;
+}
+
+.fa-archive {
+  color: $home-blue;
+}
+
+.fa-truck {
+  color: $home-blue;
+}
+
+.link_to {
+  color: black;
+  text-decoration: none;
 }

@@ -4,19 +4,18 @@
       <div class="col-6 pt-2 mb-1">
         <div class="card category-card">
           <div class="card-body">
-            <h3>VIEW STOCK</h3>
-            <%= link_to "See current stock", wines_path, class: "btn-home" %>
-            <%= link_to "Create new wine card", new_wine_path, class: "btn-home" %>
+            <h3><i class="fa fa-archive" aria-hidden="true"></i> STOCK</h3>
+            <%= link_to "🔍", wines_path, class: "btn-home" %>
+            <%= link_to "+", new_wine_path, class: "btn-create" %>
           </div>
         </div>
       </div>
       <div class="col-6 pt-2 mb-1">
         <div class="card category-card">
           <div class="card-body">
-            <h3> PURCHASE REQUEST (PR)</h3>
-            <%= link_to "New PR", new_purchasing_request_path, class: "btn-home" %>
-            <%= link_to "See pending PR", purchasing_requests_path, class: "btn-home" %>
-            <%= link_to "See PR history", purchasing_requests_path, class: "btn-home" %>
+            <h3><i class="fa fa-shopping-cart" aria-hidden="true"></i> PURCHASING REQUESTS</h3>
+            <%= link_to "🔍", purchasing_requests_path, class: "btn-home" %>
+            <%= link_to "+", new_purchasing_request_path, class: "btn-create" %>
           </div>
         </div>
       </div>
@@ -25,18 +24,18 @@
       <div class="col-6 pt-2 mb-1">
         <div class="card category-card">
           <div class="card-body">
-            <h3> SUPPLIERS</h3>
-            <%= link_to "See your suppliers", suppliers_path, class: "btn-home" %>
-            <%= link_to "Create new supplier", new_supplier_path, class: "btn-home" %>
+            <h3><i class="fa fa-truck" aria-hidden="true"></i> SUPPLIERS</h3>
+            <%= link_to "🔍", suppliers_path, class: "btn-home" %>
+            <%= link_to "+", new_supplier_path, class: "btn-create" %>
           </div>
         </div>
       </div>
       <div class="col-6 pt-2 mb-1">
         <div class="card category-card">
           <div class="card-body">
-            <h3> STORAGE LOCATIONS</h3>
-            <%= link_to "See your storages", storage_locations_path, class: "btn-home" %>
-            <%= link_to "Create new storage location", new_storage_location_path, class: "btn-home" %>
+            <h3><i class="fa fa-map-marker" aria-hidden="true"></i> STORAGES</h3>
+            <%= link_to "🔍", storage_locations_path, class: "btn-home" %>
+            <%= link_to "+", new_storage_location_path, class: "btn-create" %>
           </div>
         </div>
       </div>

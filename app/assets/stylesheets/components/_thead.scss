@@ -1,6 +1,6 @@
 .table-title {
-  background-color: grey;
-  color: white;
+  background-color: $home-blue;
+  color: #787f78;
   font-weight: bolder;
 }
 
@@ -16,5 +16,5 @@
 }
 
 tr:nth-child(even) {
-  background-color: #d8d8d875;
+  background-color: #e3e2e275;
 }
