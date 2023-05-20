@@ -6,7 +6,11 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_requests = PurchasingRequest.all
   end
 
-  def show; end
+  def show
+    @purchasing_request = PurchasingRequest.includes(:notes).find(params[:id])
+    @note = Note.new
+  end
+
 
   def new
     @purchasing_request = PurchasingRequest.new
@@ -16,16 +20,21 @@ class PurchasingRequestsController < ApplicationController
   def create
     @purchasing_request = PurchasingRequest.new(purchasing_request_params)
     @purchasing_request.user = current_user
+    @purchasing_request.approval_status = 'pending'
     if @purchasing_request.save
+      # Notify the manager about the new request
+      NewPurchaseRequest.with(purchasing_request: @purchasing_request).deliver(Manager.first)
       redirect_to @purchasing_request, notice: 'Purchasing request was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
+
   def edit; end
 
   def update
+    puts params.inspect # Output the parameters to the console for debugging
     if @purchasing_request.update(purchasing_request_params)
       redirect_to purchasing_requests_path, notice: 'Purchasing request was successfully updated.'
     else
@@ -33,12 +42,85 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
+
   def destroy
     @purchasing_request.destroy
     redirect_to purchasing_requests_path, notice: 'Purchasing request was successfully destroyed.'
   end
 
+  def approve
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @purchasing_request.update(approval_status: 'approved')
+    # Send notification
+    PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(current_user)
+    redirect_to @purchasing_request
+  end
+
+  def reject
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @purchasing_request.update(approval_status: 'rejected')
+    # Send notification
+    PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(current_user)
+    redirect_to @purchasing_request
+  end
+
+
+  def request_more_info
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    if @purchasing_request.update(approval_status: 'pending', note: params[:request_more_info][:message])
+      # Send notification to the manager
+      manager = User.find_by(position: 'manager')
+      PurchaseRequestMoreInfoNeeded.with(purchasing_request: @purchasing_request).deliver_later(manager)
+      redirect_to @purchasing_request
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+
+  def create_note
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @note = @purchasing_request.notes.new(note_params)
+    @note.user = current_user
+    respond_to do |format|
+      if @note.save
+        format.html { redirect_to @purchasing_request, notice: 'Note was successfully created.' }
+        format.turbo_stream
+      else
+        format.html { render :show, status: :unprocessable_entity }
+        format.turbo_stream
+      end
+    end
+  end
+
+  def create_comment
+    @purchasing_request = PurchasingRequest.find(params[:id])
+    @comment = @purchasing_request.comments.new(comment_params)
+    @comment.user = current_user
+
+    if @comment.save
+      # Send notification
+      CommentNotification.with(comment: @comment).deliver(Manager.first)
+      redirect_to @purchasing_request, notice: 'Comment was successfully created.'
+    else
+      # Handle comment creation failure
+      render :show, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def more_info_params
+    params.require(:more_info).permit(:message)
+  end
+
+  def comment_params
+    params.require(:comment).permit(:content)
+  end
+
+  def note_params
+    params.require(:note).permit(:content)
+  end
 
   def set_purchasing_request
     @purchasing_request = PurchasingRequest.find(params[:id])
@@ -57,6 +139,6 @@ class PurchasingRequestsController < ApplicationController
   end
 
   def purchasing_request_params
-    params.require(:purchasing_request).permit(:supplier_id, :delivery_date, :delivery_time_slot, purchasing_request_items_attributes: [:id, :wine_id, :quantity])
+    params.require(:purchasing_request).permit(:supplier_id, :delivery_date, :delivery_time_slot, :approval_status, :note, purchasing_request_items_attributes: [:id, :wine_id, :quantity])
   end
 end

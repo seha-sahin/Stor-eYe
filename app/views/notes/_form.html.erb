@@ -1,0 +1,21 @@
+<%= form_with(model: [purchasing_request, note], url: create_note_purchasing_request_path(purchasing_request), remote: true, html: {id: 'new_note'}) do |form| %>
+  <% if note.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(note.errors.count, "error") %> prohibited this note from being saved:</h2>
+      <ul>
+        <% note.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, id: :note_content, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Create Note", class: 'btn btn-primary' %>
+  </div>
+<% end %>

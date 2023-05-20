@@ -11,7 +11,53 @@
       <p class="card-text">
         <strong>Created By:</strong> <%= @purchasing_request.user.first_name %>
       </p>
+      <p class="card-text">
+        <strong>Approval Status:</strong> <%= @purchasing_request.approval_status %>
+      </p>
+      <p class="card-text">
+        <strong>User Position:</strong> <%= current_user.position %>
+      </p>
 
+      <% if current_user.position == 'owner' %>
+      <% if @purchasing_request.approval_status != 'approved' %>
+        <%= button_to 'Approve', approve_purchasing_request_path(@purchasing_request), method: :put, class: "btn btn-success" %>
+      <% end %>
+      <% if @purchasing_request.approval_status != 'rejected' %>
+        <%= button_to 'Reject', reject_purchasing_request_path(@purchasing_request), method: :put, class: "btn btn-danger" %>
+      <% end %>
+      <!-- More code... -->
+
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Request More Info
+        </button>
+      <% end %>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Request More Info</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <%= form_with(url: request_more_info_purchasing_request_path(@purchasing_request), method: :put, local: true) do |f| %>
+                <div class="mb-3">
+                  <%= f.label :message, "Message", class: "form-label" %>
+                  <%= f.text_area :message, name: 'request_more_info[message]', class: "form-control" %>
+                </div>
+                <%= f.submit "Send", class: "btn btn-primary" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Table -->
       <div class="table-responsive">
         <table class="table table-striped mt-3">
           <thead>
@@ -23,38 +69,70 @@
               <th>Avg Price</th>
               <th>Selling Price</th>
               <th>Cost</th>
-              <th>Country</th>
               <th>Vintage</th>
               <th>Region</th>
               <th>Appellation</th>
               <th>Cuvée</th>
-              <th>Tasting Notes</th>
             </tr>
           </thead>
           <tbody>
             <% @purchasing_request.purchasing_request_items.each do |item| %>
-              <tr>
-                <td><%= item.wine.maker %></td>
-                <td><%= item.quantity %></td>
-                <td><%= item.wine.quantity %></td>
-                <td><%= item.wine.unit_price %></td>
-                <td><%= item.wine.avg_price %></td>
-                <td><%= item.wine.selling_price %></td>
-                <td><%= item.wine.cost %></td>
-                <td><%= item.wine.country %></td>
-                <td><%= item.wine.vintage %></td>
-                <td><%= item.wine.region %></td>
-                <td><%= item.wine.appellation %></td>
-                <td><%= item.wine.cuvee %></td>
-                <td><%= item.wine.tasting_notes %></td>
-              </tr>
+              <% if item.quantity && item.quantity > 0 %>
+                <tr>
+                  <td><%= item.wine.maker %></td>
+                  <td><%= item.quantity %></td>
+                  <td><%= item.wine.quantity %></td>
+                  <td><%= item.wine.unit_price %></td>
+                  <td><%= item.wine.avg_price %></td>
+                  <td><%= item.wine.selling_price %></td>
+                  <td><%= item.wine.cost %></td>
+                  <td><%= item.wine.vintage %></td>
+                  <td><%= item.wine.region %></td>
+                  <td><%= item.wine.appellation %></td>
+                  <td><%= item.wine.cuvee %></td>
+                </tr>
+              <% end %>
             <% end %>
           </tbody>
         </table>
       </div>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-body">
 
-      <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: "btn btn-primary" %>
-      <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary" %>
+          <!-- Display note if it exists -->
+          <% if @purchasing_request.note.present? %>
+          <div class="card mt-4">
+            <div class="card-body">
+              <h5 class="card-title">Additional Information Requested</h5>
+              <p class="card-text"><%= @purchasing_request.note %></p>
+            </div>
+          </div>
+        <% else %>
+          <p>No note present for this request</p>
+        <% end %>
+
+          <!-- Notes section -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h5>Notes</h5>
+            </div>
+            <div class="card-body">
+              <%= render partial: "notes/form", locals: { note: @note, purchasing_request: @purchasing_request } %>
+              <div id="notes">
+                <% @purchasing_request.notes.reverse_each do |note| %>
+                  <%= render partial: "notes/note", locals: { note: note } %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit and Back links -->
+          <div class="mt-4">
+            <%= link_to 'Edit', edit_purchasing_request_path(@purchasing_request), class: "btn btn-primary" %>
+            <%= link_to 'Back', purchasing_requests_path, class: "btn btn-secondary ml-2" %>
+          </div>
+
+        </div>
+      </div>
     </div>
-  </div>
-</div>

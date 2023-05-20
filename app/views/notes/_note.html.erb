@@ -1,0 +1,7 @@
+<div class="card mt-2">
+  <div class="card-body">
+    <p class="card-text"><%= note.content %></p>
+    <p><strong>Added by:</strong> <%= note.user.first_name %></p>
+    <p><strong>Added at:</strong> <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+  </div>
+</div>

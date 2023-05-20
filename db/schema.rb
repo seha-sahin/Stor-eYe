@@ -42,6 +42,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_084411) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.string "type", null: false
+    t.jsonb "params"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
+  end
+
   create_table "purchasing_request_items", force: :cascade do |t|
     t.bigint "purchasing_request_id", null: false
     t.bigint "wine_id", null: false
@@ -59,6 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_084411) do
     t.string "delivery_time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "approval_status", default: "pending"
+    t.text "note"
     t.index ["supplier_id"], name: "index_purchasing_requests_on_supplier_id"
     t.index ["user_id"], name: "index_purchasing_requests_on_user_id"
   end
