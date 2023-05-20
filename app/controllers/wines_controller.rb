@@ -9,6 +9,7 @@ class WinesController < ApplicationController
   end
 
   def show
+    @markers_show = add_markers([@wine]) if @wine.geocoded?
   end
 
   def new
