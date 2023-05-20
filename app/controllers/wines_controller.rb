@@ -4,6 +4,8 @@ class WinesController < ApplicationController
   def index
     @wines = filter_wines
     @search_params = params[:search] || {}
+    geocoded_wines = geocoded_items(@wines)
+    add_markers(geocoded_wines)
   end
 
   def show
@@ -23,7 +25,46 @@ class WinesController < ApplicationController
     end
   end
 
+  def edit
+    @wine = Wine.find(params[:id])
+  end
+
+  def update
+    @wine = Wine.find(params[:id])
+
+    if @wine.update(wine_params)
+      redirect_to @wine
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    wine = Wine.find(params[:id])
+    wine.destroy
+
+    redirect_to wines_path
+  end
+
   private
+  
+  def geocoded_items(items)
+  items.select do |item|
+    item.latitude.present? && item.longitude.present?
+  end
+end
+  
+  def add_markers(items)
+  items.map do |item|
+    {
+      lat: item.latitude,
+      lng: item.longitude,
+      info_window_html: render_to_string(partial: "info_window", locals: { wine: item }), # Clarify
+      marker_html: render_to_string(partial: "marker", locals: { wine: item }) # Clarify\
+      
+    }
+    end
+  end
 
   def filter_by_search_query
     params[:query].present? ? Wine.wine_search(params[:query]) : Wine.all
@@ -63,6 +104,6 @@ class WinesController < ApplicationController
   end
 
   def wine_params
-    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price, :quantity, :cost, :restaurant_id, :session_start => [], :session_end => [])
+    params.require(:wine).permit(:maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, :tasting_notes, :grape_variety, :description, :supplier_id, :unit_price, :avg_price, :selling_price, :quantity, :cost, :restaurant_id, :photo, :session_start => [], :session_end => [])
   end
 end

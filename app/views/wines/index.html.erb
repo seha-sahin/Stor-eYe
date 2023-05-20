@@ -10,6 +10,11 @@
   </ul>
   <% end %>
 
+
+  <div style="width: 100%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
   <div class="form-group d-flex">
     <%= simple_form_for :search, url: wines_path, method: "GET", data: { turbo_frame: %i[search_results summary] } do |f| %>
       <div class="form-group-item my-3">

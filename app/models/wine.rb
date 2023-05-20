@@ -18,6 +18,9 @@ class Wine < ApplicationRecord
   belongs_to :supplier
   belongs_to :restaurant
   validates :maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, presence: true
+  has_one_attached :photo
+  geocoded_by :address
+  after_validation :geocode, if: :will_save_change_to_address?
 
   acts_as_taggable_on :makers
   acts_as_taggable_on :countries
