@@ -42,6 +42,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_084411) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "purchasing_request_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["purchasing_request_id"], name: "index_notes_on_purchasing_request_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.string "recipient_type", null: false
     t.bigint "recipient_id", null: false
@@ -187,6 +197,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_084411) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "notes", "purchasing_requests"
+  add_foreign_key "notes", "users"
   add_foreign_key "purchasing_request_items", "purchasing_requests"
   add_foreign_key "purchasing_request_items", "wines"
   add_foreign_key "purchasing_requests", "suppliers"
