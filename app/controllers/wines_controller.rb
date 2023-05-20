@@ -3,12 +3,7 @@ class WinesController < ApplicationController
 
   def index
     @wines = filter_wines
-
-    # respond_to do |format|
-    #   format.html
-    #   format.json { render json: @wines }
-    # end
-
+    @search_params = params[:search] || {}
   end
 
   def show
@@ -30,13 +25,19 @@ class WinesController < ApplicationController
 
   private
 
-  def text_search
+  def filter_by_search_query
     params[:query].present? ? Wine.wine_search(params[:query]) : Wine.all
   end
 
   def filter_wines
-    wines = text_search
-    params[:search] ? wines.tagged_with(filter_params(params[:search]), any: true) : wines
+    wines = filter_by_search_query
+    search_params = params[:search] || {}
+    filters = %i[makers vintages countries regions]
+    filters.each do |filter|
+      wines = wines.tagged_with(search_params[filter], any: true) if search_params[filter].present?
+    end
+
+    return wines
   end
 
   def update_tags(wine)

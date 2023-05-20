@@ -11,15 +11,7 @@
           <td><%= wine.unit_price %></td>
           <td><%= wine.avg_price %></td>
           <td>
-            <%= link_to 'Details', wine, class: 'btn btn-primary my-2' %>
-            <div class="form-group">
-              <%= form_for wine do |f| %>
-                 <%= f.number_field :quantity, class: 'form-control' %>
-                 <%# Implement the below action properly with JS so that
-                 the wine id & quantity key-value pair is added to the purchasing request %>
-                 <%= f.submit 'Add to purchasing request', class: 'btn btn-info btn-sm' %>
-              <% end %>
-            </div>
+            <%= link_to 'Details', wine, class: 'btn btn-primary my-2', style: "background-color: #69272D;border-color: #69272D" %>
           </td>
         </tr>
       <% end %>
