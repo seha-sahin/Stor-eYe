@@ -33,7 +33,7 @@
                 <div class="card-body">
                   <p class="card-text border-bottom txt-s"><strong>Selling Price</strong></p>
                   <p class="card-text txt-s">By the bottle: <strong>$<%= @wine.selling_price %></strong></p>
-                  <p class="card-text txt-s">By the glass: <strong>$<%= @wine.selling_price %></strong></p>
+                  <p class="card-text txt-s">Cost: <strong><%= (@wine.unit_price / @wine.selling_price * 100).round(2) %>%</strong></p>
                 </div>
               </div>
             </div>
@@ -58,9 +58,10 @@
         <div class="col-12 col-sm-6 col-md-4 pt-2 mb-1">
           <div class="card">
             <div class="card-body txt-s">
-              <p class="card-text">📍 <u>Storage:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
+              <p class="card-text"><u>Restaurant:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
+              <p class="card-text"><u>Storage:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
               <p class="card-text"><u>Current stock:</u> <strong><%= @wine.quantity %></strong> (<%= @wine.volume %>) </p>
-              <p class="card-text border-top pt-3"><u>Upcoming order:</u> <strong>Upcoming PO quantity here</strong> </p>
+              <p class="card-text border-top pt-3"><u>Upcoming order:</u> <strong><%= @wine.purchasing_request_items.sum(:quantity) %></strong> </p>
               <p class="card-text"><u>Market price:</u>  <strong>API from wine searcher here</strong> </p>
             </div>
           </div>
@@ -85,11 +86,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="text-center mt-3 mb-3">
-        <%= link_to "See current stock situation details", wines_path, class: "btn-home" %>
-        <%= link_to "Create new wine card", new_wine_path, class: "btn-home" %>
-        <%= link_to "New PR", new_purchasing_request_path, class: "btn-home" %>
       </div>
     </div>
   </div>

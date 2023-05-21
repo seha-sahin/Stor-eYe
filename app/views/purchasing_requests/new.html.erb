@@ -1,103 +1,114 @@
-<div class="container">
-  <h1>New Purchasing Request</h1>
-  <%= form_with(model: @purchasing_request, local: true, class: "form") do |form| %>
-    <% if @purchasing_request.errors.any? %>
-      <div id="error_explanation" class="alert alert-danger">
-        <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing request from being saved:</h2>
+<body class="bg-color">
+  <div class="container">
+      <div class="row">
+      <div class="row mt-4">
+      <h2 class="col-11">New purchasing request</h2>
+      <div class="col-1 align-self-center">
+        <%= link_to "", purchasing_requests_path, class: "fas fa-arrow-left me-3" %>
+      </div>
+      <div class="container main-box col-12">
+    <%= form_with(model: @purchasing_request, local: true, class: "form") do |form| %>
+      <% if @purchasing_request.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing request from being saved:</h2>
 
-        <ul>
-          <% @purchasing_request.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
+          <ul>
+            <% @purchasing_request.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row col-12">
+        <div class="form-group col-12">
+          <%= form.label :supplier_id %>
+          <%= form.collection_select :supplier_id, @suppliers, :id, :name, {prompt: "Select a supplier"}, { class: 'form-control', id: 'supplier_select' } %>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="form-group col-6">
+          <%= form.label :delivery_date %>
+          <%= form.date_field :delivery_date, class: 'form-control' %>
+        </div>
+
+        <div class="form-group col-6">
+          <%= form.label :delivery_time_slot %>
+          <%= form.select :delivery_time_slot, options_for_select(PurchasingRequest::TIME_SLOTS), {prompt: "Select a time slot"}, { class: 'form-control' } %>
+        </div>
+      </div>
+
+      <table class="table container txt-s" id="wine_table">
+        <thead  class="table-title py-3">
+          <tr>
+            <th>Maker</th>
+            <th>Appellation</th>
+            <th>Cuvee</th>
+            <th>Vintage</th>
+            <th style="width:60px">Qty</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @suppliers.each do |supplier| %>
+            <tr class="supplier-row" data-supplier-id="<%= supplier.id %>">
+              <td colspan="6"><%= supplier.name %></td>
+            </tr>
+            <% supplier.wines.each do |wine| %>
+              <tr class="wine-row supplier-<%= supplier.id %>">
+                <td><%= wine.maker %></td>
+                <td><%= wine.appellation %></td>
+                <td><%= wine.cuvee %></td>
+                <td><%= wine.vintage %></td>
+                <td>
+                  <%= form.fields_for :purchasing_request_items, @purchasing_request.purchasing_request_items.find_or_initialize_by(wine_id: wine.id) do |item| %>
+                    <%= item.hidden_field :wine_id, value: wine.id %>
+                    <%= item.number_field :quantity, value: item.object.quantity, min: 0, max: 100, class: 'form-control' %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
-        </ul>
+        </tbody>
+      </table>
+
+      <div class="form-group">
+        <%= form.submit 'Create', class: 'btn-home col-12 mb-3' %>
       </div>
     <% end %>
+  </div>
 
-    <div class="form-group">
-      <%= form.label :supplier_id %>
-      <%= form.collection_select :supplier_id, @suppliers, :id, :name, {prompt: "Select a supplier"}, { class: 'form-control', id: 'supplier_select' } %>
-    </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get the supplier select element
+    let supplierSelect = document.querySelector('#supplier_select');
 
-    <div class="form-group">
-      <%= form.label :delivery_date %>
-      <%= form.date_field :delivery_date, class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :delivery_time_slot %>
-      <%= form.select :delivery_time_slot, options_for_select(PurchasingRequest::TIME_SLOTS), {prompt: "Select a time slot"}, { class: 'form-control' } %>
-    </div>
-
-    <table class="table" id="wine_table">
-      <thead>
-        <tr>
-          <th>Wine</th>
-          <th>Country</th>
-          <th>Vintage</th>
-          <th>Region</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @suppliers.each do |supplier| %>
-          <tr class="supplier-row" data-supplier-id="<%= supplier.id %>">
-            <td colspan="6"><%= supplier.name %></td>
-          </tr>
-          <% supplier.wines.each do |wine| %>
-            <tr class="wine-row supplier-<%= supplier.id %>">
-              <td><%= wine.maker %></td>
-              <td><%= wine.country %></td>
-              <td><%= wine.vintage %></td>
-              <td><%= wine.region %></td>
-              <td>
-                <%= form.fields_for :purchasing_request_items, @purchasing_request.purchasing_request_items.find_or_initialize_by(wine_id: wine.id) do |item| %>
-                  <%= item.hidden_field :wine_id, value: wine.id %>
-                  <%= item.number_field :quantity, value: item.object.quantity, min: 0, class: 'form-control' %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-
-    <div class="form-group">
-      <%= form.submit "Save", class: "btn btn-primary" %>
-    </div>
-  <% end %>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-  // Get the supplier select element
-  let supplierSelect = document.querySelector('#supplier_select');
-
-  // If the supplier select element exists
-  if (supplierSelect) {
-    // Hide all wine rows initially
-    let wineRows = document.querySelectorAll('.wine-row');
-    wineRows.forEach(function(row) {
-        row.style.display = 'none';
-    });
-
-    // Add an event listener for the change event
-    supplierSelect.addEventListener('change', function() {
-      // Get the value of the selected supplier
-      let selectedSupplierId = this.value;
-
+    // If the supplier select element exists
+    if (supplierSelect) {
       // Hide all wine rows initially
+      let wineRows = document.querySelectorAll('.wine-row');
       wineRows.forEach(function(row) {
-        row.style.display = 'none';
+          row.style.display = 'none';
       });
 
-      // Show wine rows for the selected supplier
-      let selectedSupplierRows = document.querySelectorAll('.wine-row.supplier-' + selectedSupplierId);
-      selectedSupplierRows.forEach(function(row) {
-        row.style.display = 'table-row';
-      });
-    });
-  }
-});
+      // Add an event listener for the change event
+      supplierSelect.addEventListener('change', function() {
+        // Get the value of the selected supplier
+        let selectedSupplierId = this.value;
 
-</script>
+        // Hide all wine rows initially
+        wineRows.forEach(function(row) {
+          row.style.display = 'none';
+        });
+
+        // Show wine rows for the selected supplier
+        let selectedSupplierRows = document.querySelectorAll('.wine-row.supplier-' + selectedSupplierId);
+        selectedSupplierRows.forEach(function(row) {
+          row.style.display = 'table-row';
+        });
+      });
+    }
+  });
+  </script>
+</body>

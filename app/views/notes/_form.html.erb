@@ -11,11 +11,11 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :content %>
+    <%= form.label :new_note_content %>
     <%= form.text_area :content, id: :note_content, class: 'form-control' %>
   </div>
 
-  <div class="actions">
-    <%= form.submit "Create Note", class: 'btn btn-primary' %>
+  <div class="actions mb-5">
+    <%= form.submit "Create Note", class: 'btn-home' %>
   </div>
 <% end %>

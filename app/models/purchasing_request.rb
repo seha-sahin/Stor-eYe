@@ -1,7 +1,7 @@
 class PurchasingRequest < ApplicationRecord
   include PgSearch::Model
 
-  APPROVAL_STATUSES = %w[pending approved rejected needs_more_info].freeze
+  APPROVAL_STATUSES = %w[pending approved rejected infos_requested].freeze
   before_save :default_values
   validates :approval_status, inclusion: { in: APPROVAL_STATUSES }
   belongs_to :user
@@ -14,6 +14,7 @@ class PurchasingRequest < ApplicationRecord
   accepts_nested_attributes_for :purchasing_request_items
   validates :supplier_id, presence: true
   has_many :notes, dependent: :destroy
+  belongs_to :wine
 
   TIME_SLOTS = [
     ['8:00 AM - 10:00 AM', '8:00-10:00'],

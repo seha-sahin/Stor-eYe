@@ -8,6 +8,7 @@ class PurchasingRequestsController < ApplicationController
 
   def show
     @purchasing_request = PurchasingRequest.includes(:notes).find(params[:id])
+    @all_purchasing_request_items = PurchasingRequestItem.all
     @note = Note.new
   end
 
@@ -31,9 +32,8 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
-
-
-  def edit; end
+  def edit
+  end
 
   def update
     puts params.inspect # Output the parameters to the console for debugging
@@ -44,6 +44,10 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
+  def destroy
+    @purchasing_request.destroy
+    redirect_to purchasing_requests_path, notice: 'PR was successfully destroyed.'
+  end
 
   def approve
     @purchasing_request = PurchasingRequest.find_by(id: params[:id])
@@ -71,8 +75,6 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
-
-
   def request_more_info
     @purchasing_request = PurchasingRequest.find(params[:id])
     if @purchasing_request.update(approval_status: 'pending', note: params[:request_more_info][:message])
@@ -84,7 +86,6 @@ class PurchasingRequestsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
-
 
   def create_note
     @purchasing_request = PurchasingRequest.find(params[:id])

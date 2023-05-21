@@ -18,3 +18,22 @@
 tr:nth-child(even) {
   background-color: #e3e2e275;
 }
+
+.supplier-row {
+  color: black;
+  font-weight: bold;
+}
+
+.total {
+  position: relative;
+  text-align: center;
+  background-color: white;
+  color: #787f78;
+  border: solid 1px #787f78;
+  border-radius: 4pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-top: 5px;
+  padding-bottom: -5px;
+  height: 40px;
+}
