@@ -1,20 +1,19 @@
 <div class="container">
   <h2>Current Stock</h2>
   <h3>Totals</h3>
-  <%= turbo_frame_tag :summary, target: :_top do %>
-  <ul class="list-group list-group-horizontal">
-      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Wine Type: <span class="badge badge-dark badge-pill"><%= @wines.count %></span></li>
-      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Wine Stock: <span class="badge badge-dark badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
-      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Total Value: <span class="badge badge-dark badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
-      <li class="list-group-item d-flex justify-content-between align-items-center col-md-3">Supplier: <span class="badge badge-dark badge-pill"><%= @wines.map(&:supplier).uniq.count %></span></li>
+  <%= turbo_frame_tag :summary, target: :_top, class: "row" do %>
+  <ul class="list-group col-md-3">
+      <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge badge-dark badge-pill"><%= @wines.count %></span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge badge-dark badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge badge-dark badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-dark badge-pill"><%= @wines.map(&:supplier).uniq.count %></span></li>
   </ul>
-  <% end %>
-
-
-  <div style="width: 100%; height: 600px;"
+    <div class="col-md-9" style="width: 70%; height: 200px;"
   data-controller="map"
   data-map-markers-value="<%= @markers.to_json %>"
   data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+  <% end %>
+
   <div class="form-group d-flex">
     <%= simple_form_for :search, url: wines_path, method: "GET", data: { turbo_frame: %i[search_results summary] } do |f| %>
       <div class="form-group-item my-3">
@@ -63,3 +62,9 @@
     </table>
   <% end %>
 </div>
+
+<style>
+  .mapboxgl-ctrl-geocoder {
+    display: none;
+  }
+</style>

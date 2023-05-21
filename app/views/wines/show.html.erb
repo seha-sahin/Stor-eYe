@@ -77,8 +77,12 @@
         <div class="col-sm-6 col-md-3 pt-2 mb-1">
           <div class="card">
             <div class="card-body txt-s">
-              <p>@<%= @wine.address %></p>
-              <p>MAP HERE</p>
+              <p><%= @wine.address if @wine.address %></p>
+              <div style="width: 100%; height: 155px;"
+                data-controller="wineshowmap"
+                data-wineshowmap-markers-value="<%= @markers_show.to_json %>"
+                data-wineshowmap-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+              </div>
             </div>
           </div>
         </div>
@@ -86,3 +90,9 @@
     </div>
   </div>
 </body>
+
+<style>
+  .mapboxgl-ctrl-geocoder {
+    display: none;
+  }
+</style>
