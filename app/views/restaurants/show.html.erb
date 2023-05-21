@@ -1,11 +1,64 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h1><%= @restaurant.name %></h1>
-      <p>Address: <%= @restaurant.address %></p>
-      <p>Phone: <%= @restaurant.phone_number %></p>
-      <%= link_to 'Edit', edit_restaurant_path(@restaurant), class: 'btn btn-primary' %>
-      <%= link_to 'Back', restaurants_path, class: 'btn btn-secondary' %>
+<body class="bg-img">
+  <div class="container ">
+    <div class="row mt-4">
+      <h2 class="col-10"><%= @restaurant.name %></h2>
+      <div class="col-2 align-self-center">
+        <%= link_to "", restaurants_path, class: "fas fa-arrow-left me-3" %>
+        <%= link_to "", edit_restaurant_path(@restaurant), class: "fas fa-edit me-3" %>
+        <%= link_to "", restaurant_path(@restaurant), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this restaurant?" }, class: "fas fa-trash-alt" %>
+      </div>
+
+      <div class="container main-box col-12">
+        <div class="row mb-3">
+          <div class="col-2">Phone Number:</div>
+          <div class="col-8"><%= phone_to @restaurant.phone_number, class: "link_to" %></div>
+          <div class="col-2"><%= link_to "New storage", new_storage_location_path, class: "btn-create col-2 mb-3 mt-3" %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-2">Address:</div>
+          <div class="col-10"><%= @restaurant.address %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-2">Total Capacity:</div>
+          <div class="col-10"><%= @restaurant.storage_locations.inject(0) { |sum, storage| sum + storage.capacity } %></div>
+        </div>
+
+      <div class="container col-1">
+      </div>
+
+      <div class="container main-box col-12">
+      <h5>Storage list</h5>
+        <div class="row justify-content-center">
+          <div class="col-12">
+          <table class="table container txt-s">
+            <thead class="table-title py-3">
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Cap.</th>
+                <th>T°</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tr>
+            <% @restaurant.storage_locations.each do |storage| %>
+            <tr>
+              <td><%= storage.name %></td>
+              <td><%= storage.address %></td>
+              <td><%= storage.capacity %></td>
+              <td><%= storage.temperature %></td>
+              <td>
+              <%= link_to "", storage_location_path(storage), class: "fas fa-search me-3" %>
+              <%= link_to "", edit_storage_location_path(storage), class: "fas fa-edit me-3" %>
+              <%= link_to "", storage_location_path(storage), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this storage?" }, class: "fas fa-trash-alt" %>
+              </td>
+            <% end %>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</body>

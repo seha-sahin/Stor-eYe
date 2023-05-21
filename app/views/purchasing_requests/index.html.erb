@@ -1,37 +1,34 @@
-<div class="container">
-  <h1 class="mb-4">Purchasing Requests</h1>
-  <%= link_to new_purchasing_request_path, class: 'btn btn-primary mb-3' do %>
-    <i class="fas fa-plus"></i> New Purchasing Request
-  <% end %>
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Supplier</th>
-          <th>Delivery Date</th>
-          <th>Delivery Time</th>
-          <th>Wine Maker</th>
-          <th>Vintage</th>
-          <th>Quantities</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @purchasing_requests.reverse_each do |pr| %>
-            <tr data-controller="row-click" data-row-click-url="<%= purchasing_request_path(pr) %>" data-action="click->row-click#goToUrl">
-            <td><%= pr.id %></td>
-            <td><%= pr.supplier.name %></td>
-            <td><%= pr.delivery_date %></td>
-            <td><%= pr.delivery_time_slot %></td>
-            <td><%= pr.purchasing_request_items.map { |item| item.wine.maker if item.quantity && item.quantity > 0 }.compact.join(", ") %></td>
-            <td><%= pr.purchasing_request_items.map { |item| item.wine.vintage if item.quantity && item.quantity > 0 }.compact.join(", ") %></td>
-            <td><%= pr.purchasing_request_items.map { |item| item.quantity if item.quantity && item.quantity > 0 }.compact.join(", ") %></td>
-            <td class="<%= pr.approval_status %>"><%= pr.approval_status.capitalize %></td>
-            </td>
+<body class="bg-color">
+  <div class="container main-box mt-4">
+    <div class="row col-12 mb-2">
+      <h1 class="col-10">Purchasing Requests</h1>
+      <div class="col-2 align-self-center"><%= link_to "Create PR", new_purchasing_request_path, class: "btn-create col-2 mb-3 mt-3" %></div>
+    </div>
+    <table class="table txt-s">
+        <thead>
+          <tr class="table-title">
+            <th>#</th>
+            <th>Supplier</th>
+            <th>Delivery Date</th>
+            <th>Delivery Time</th>
+            <th>Quantities</th>
+            <th>Status</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @purchasing_requests.reverse_each do |pr| %>
+              <tr data-controller="row-click" data-row-click-url="<%= purchasing_request_path(pr) %>" data-action="click->row-click#goToUrl">
+              <td><%= pr.id %></td>
+              <td><%= pr.supplier.name %></td>
+              <td><%= pr.delivery_date %></td>
+              <td><%= pr.delivery_time_slot %></td>
+              <td><%= pr.purchasing_request_items.map { |item| item.quantity if item.quantity && item.quantity > 0 }.compact.join(", ") %></td>
+              <td class="<%= pr.approval_status %>"><%= pr.approval_status.capitalize %></td>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+</body>

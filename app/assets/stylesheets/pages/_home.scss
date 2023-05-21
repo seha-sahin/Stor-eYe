@@ -29,43 +29,38 @@ $xlarge: 1920px;
   padding: 20px;
 }
 
-.fa-search {
+
+.fa-search, .fa-edit, .fa-trash-alt, .fa-undo, .fa-arrow-left,　{
   color: $home-orange;
+
+    &:hover {
+      color: $home-light;
+    }
 }
 
-.fa-edit {
-  color: $home-orange;
-}
-
-.fa-trash-alt {
-  color: $home-orange;
-}
-
-.fa-undo {
-  color: $home-orange;
-}
-
-.fa-arrow-left {
-  color: $home-orange;
-}
-
-.fa-shopping-cart {
-  color: $home-blue;
-}
-
-.fa-map-marker {
-  color: $home-blue;
-}
-
-.fa-archive {
-  color: $home-blue;
-}
-
-.fa-truck {
+.fa-shopping-cart, .fa-map-marker, .fa-archive, .fa-truck {
   color: $home-blue;
 }
 
 .link_to {
   color: black;
   text-decoration: none;
+}
+
+.card-home {
+  background-color: white;
+  border-top: solid 1px lightgray;
+  border-left: solid 1px lightgray;
+  border-right: solid 1px lightgray;
+  border-radius: 4pt;
+  width: 448px;
+  height: 100px;
+  padding: 3%;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  margin-top: 30px;
+}
+
+.h3 {
+  color: grey;
 }

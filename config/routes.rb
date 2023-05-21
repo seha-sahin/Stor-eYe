@@ -32,4 +32,6 @@ Rails.application.routes.draw do
   end
 
   resources :notifications, only: [:index]
+
+  resources :notes
 end

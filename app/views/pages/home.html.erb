@@ -1,41 +1,41 @@
 <body class="bg-img">
-  <div class="container mt-3 main">
+  <div class="container mt-4">
     <div class="row">
       <div class="col-6 pt-2 mb-1">
-        <div class="card category-card">
-          <div class="card-body">
+        <div class="card-home">
             <h3><i class="fa fa-archive" aria-hidden="true"></i> STOCK</h3>
-            <%= link_to "🔍", wines_path, class: "btn-home" %>
-            <%= link_to "+", new_wine_path, class: "btn-create" %>
+          <div class="row col-12">
+            <div class="col-6"><%= link_to "CURRENT STOCK", wines_path, class: "btn-main-left" %></div>
+            <div class="col-6"><%= link_to "+ NEW WINE", new_wine_path, class: "btn-main-right" %></div>
           </div>
         </div>
       </div>
       <div class="col-6 pt-2 mb-1">
-        <div class="card category-card">
-          <div class="card-body">
+        <div class="card-home">
             <h3><i class="fa fa-shopping-cart" aria-hidden="true"></i> PURCHASING REQUESTS</h3>
-            <%= link_to "🔍", purchasing_requests_path, class: "btn-home" %>
-            <%= link_to "+", new_purchasing_request_path, class: "btn-create" %>
+          <div class="row col-12">
+            <div class="col-6"><%= link_to "CURRENT PR", purchasing_requests_path, class: "btn-main-left" %></div>
+            <div class="col-6"><%= link_to "+ NEW PR", new_purchasing_request_path, class: "btn-main-right" %></div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-6 pt-2 mb-1">
-        <div class="card category-card">
-          <div class="card-body">
+        <div class="card-home">
             <h3><i class="fa fa-truck" aria-hidden="true"></i> SUPPLIERS</h3>
-            <%= link_to "🔍", suppliers_path, class: "btn-home" %>
-            <%= link_to "+", new_supplier_path, class: "btn-create" %>
+          <div class="row col-12">
+            <div class="col-6"><%= link_to "ALL SUPPLIERS", suppliers_path, class: "btn-main-left" %></div>
+            <div class="col-6"><%= link_to "+ NEW SUPPLIER", new_supplier_path, class: "btn-main-right" %></div>
           </div>
         </div>
       </div>
       <div class="col-6 pt-2 mb-1">
-        <div class="card category-card">
-          <div class="card-body">
-            <h3><i class="fa fa-map-marker" aria-hidden="true"></i> STORAGES</h3>
-            <%= link_to "🔍", storage_locations_path, class: "btn-home" %>
-            <%= link_to "+", new_storage_location_path, class: "btn-create" %>
+        <div class="card-home">
+            <h3><i class="fa fa-map-marker" aria-hidden="true"></i> RESTAURANTS</h3>
+          <div class="row col-12">
+            <div class="col-6"><%= link_to "ALL RESTAURANTS", restaurants_path, class: "btn-main-left" %></div>
+            <div class="col-6"><%= link_to "+ NEW RESTAURANT", new_restaurant_path, class: "btn-main-right" %></div>
           </div>
         </div>
       </div>

@@ -1,7 +1,10 @@
+<h5 class="col-11">Note <%= note.id %></h5>
 <div class="card mt-2">
   <div class="card-body">
     <p class="card-text"><%= note.content %></p>
-    <p><strong>Added by:</strong> <%= note.user.first_name %></p>
-    <p><strong>Added at:</strong> <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    <div class="row col-12 txt-s border-top">
+      <p class="col-6 pt-2">Added by: <strong><%= note.user.first_name %></strong></p>
+      <p class="col-6 pt-2">Added at: <strong><%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></strong></p>
+    </div>
   </div>
 </div>
