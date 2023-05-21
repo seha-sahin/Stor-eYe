@@ -23,12 +23,14 @@ class PurchasingRequestsController < ApplicationController
     @purchasing_request.approval_status = 'pending'
     if @purchasing_request.save
       # Notify the manager about the new request
-      NewPurchaseRequest.with(purchasing_request: @purchasing_request).deliver(Manager.first)
+      manager = User.find_by(position: 'manager')
+      NewPurchaseRequest.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
       redirect_to @purchasing_request, notice: 'Purchasing request was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
+
 
 
   def edit; end
@@ -43,26 +45,32 @@ class PurchasingRequestsController < ApplicationController
   end
 
 
-  def destroy
-    @purchasing_request.destroy
-    redirect_to purchasing_requests_path, notice: 'Purchasing request was successfully destroyed.'
-  end
-
   def approve
-    @purchasing_request = PurchasingRequest.find(params[:id])
-    @purchasing_request.update(approval_status: 'approved')
-    # Send notification
-    PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(current_user)
-    redirect_to @purchasing_request
+    @purchasing_request = PurchasingRequest.find_by(id: params[:id])
+    if @purchasing_request.present?
+      @purchasing_request.update(approval_status: 'approved')
+      # Send notification
+      manager = User.find_by(position: 'manager')
+      PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
+      redirect_to @purchasing_request
+    else
+      redirect_to purchasing_requests_path, alert: 'Purchasing request not found'
+    end
   end
 
   def reject
-    @purchasing_request = PurchasingRequest.find(params[:id])
-    @purchasing_request.update(approval_status: 'rejected')
-    # Send notification
-    PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(current_user)
-    redirect_to @purchasing_request
+    @purchasing_request = PurchasingRequest.find_by(id: params[:id])
+    if @purchasing_request.present?
+      @purchasing_request.update(approval_status: 'rejected')
+      # Send notification
+      manager = User.find_by(position: 'manager')
+      PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
+      redirect_to @purchasing_request
+    else
+      redirect_to purchasing_requests_path, alert: 'Purchasing request not found'
+    end
   end
+
 
 
   def request_more_info

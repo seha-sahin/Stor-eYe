@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+thead th {
+  text-align: left;
+}
+
+td.approved {
+  color: green;
+}
+
+td.rejected {
+  color: red;
+}
+
+td.pending {
+  color: orange;
+}

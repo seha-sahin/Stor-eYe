@@ -18,8 +18,8 @@
         <% @suppliers.each do |supplier| %>
           <tr>
             <td><%= supplier.name %></td>
-            <td><%= phone_to supplier.phone_number %></td>
-            <td><%= mail_to supplier.email %></td>
+            <td><%= phone_to supplier.phone_number, class: "link_to" %></td>
+            <td><%= mail_to supplier.email, class: "link_to" %></td>
             <td>
               <%= link_to "", supplier_path(supplier), class: "fas fa-search me-3" %>
               <%= link_to "", edit_supplier_path(supplier), class: "fas fa-edit me-3" %>

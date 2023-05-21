@@ -1,5 +1,5 @@
 .btn-home {
-  background-color: #69272D;
+  background-color: $home-orange;
   border: 0;
   border-radius: .3rem;
   box-sizing: border-box;
@@ -19,7 +19,7 @@
   margin-top: 2pt;
 
     &:hover {
-    background-color: #90343c;
+    background-color: $home-light;
     text-decoration: none;
     color: white;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
@@ -27,26 +27,32 @@
 }
 
 .btn-create {
-  background-color: $green;
-  border: 0;
+  background-color: white;
+  border: solid 1px $home-orange;
   border-radius: .3rem;
   box-sizing: border-box;
-  color: white;
+  color: $home-orange;
   font-size: .875rem;
   font-weight: 600;
   line-height: 1.25rem;
   padding: .50rem 0.75rem;
   text-align: center;
   text-decoration: none;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
   margin-top: 2pt;
 
     &:hover {
     text-decoration: none;
-    color: white;
-    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    color: $home-orange;
   }
+}
+.icon-edit {
+  color: orange;
+}
+
+.icon-trash {
+  color: red;
+}
+
+tr[data-href] {
+  cursor: pointer;
 }
