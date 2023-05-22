@@ -2,7 +2,7 @@
   <div class="container main-box">
     <h2 class="col-12 mb-3"><i class="fa fa-edit" aria-hidden="true"></i> Purchasing Request <%= @purchasing_request.id %></h2>
     <h4 class="col-12 mb-3 border-bottom pb-3"><%= @purchasing_request.supplier.name %></h4>
-    <%= form_with(model: @purchasing_request, local: true, class: "form") do |form| %>
+<%= form_with(model: @purchasing_request, url: purchasing_request_path(@purchasing_request), method: :put, local: true, class: "form") do |form| %>
       <% if @purchasing_request.errors.any? %>
       <div id="error_explanation" class="alert alert-danger">
         <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing request from being updated:</h2>
@@ -49,7 +49,7 @@
             <td>
               <%= form.fields_for :purchasing_request_items, @purchasing_request.purchasing_request_items.find_or_initialize_by(wine_id: wine.id) do |item| %>
                 <%= item.hidden_field :wine_id, value: wine.id %>
-                <%= item.number_field :quantity, value: item.object.quantity, min: 0, class: 'form-control' %>
+                <%= item.number_field :quantity, value: item.object.quantity, min: 0, class: 'form-control', style: 'width: 100px;'%>
               <% end %>
             </td>
           </tr>

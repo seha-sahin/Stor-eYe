@@ -66,7 +66,6 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
-
   def reject
     @purchasing_request = PurchasingRequest.find_by(id: params[:id])
     if @purchasing_request.present?
@@ -122,14 +121,14 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
-  def filter_wines
-    supplier_id = params[:supplier_id]
-    @wines = Wine.where(supplier_id: supplier_id)
-    respond_to do |format|
-      format.html { redirect_to new_purchasing_request_path }
-      format.turbo_stream
-    end
-  end
+  # def filter_wines
+  #   supplier_id = params[:supplier_id]
+  #   @wines = Wine.where(supplier_id: supplier_id)
+  #   respond_to do |format|
+  #     format.html { redirect_to new_purchasing_request_path }
+  #     format.turbo_stream
+  #   end
+  # end
 
   private
 

@@ -64,7 +64,7 @@
                 <td>
                   <%= form.fields_for :purchasing_request_items, @purchasing_request.purchasing_request_items.find_or_initialize_by(wine_id: wine.id) do |item| %>
                     <%= item.hidden_field :wine_id, value: wine.id %>
-                    <%= item.number_field :quantity, value: item.object.quantity, min: 0, max: 100, class: 'form-control' %>
+                    <%= item.number_field :quantity, value: item.object.quantity, min: 0, max: 100, class: 'form-control', style: 'width: 100px;' %>
                   <% end %>
                 </td>
               </tr>
