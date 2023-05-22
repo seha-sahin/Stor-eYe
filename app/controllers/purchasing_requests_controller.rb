@@ -52,15 +52,20 @@ class PurchasingRequestsController < ApplicationController
   def approve
     @purchasing_request = PurchasingRequest.find_by(id: params[:id])
     if @purchasing_request.present?
-      @purchasing_request.update(approval_status: 'approved')
-      # Send notification
-      manager = User.find_by(position: 'manager')
-      PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
-      redirect_to @purchasing_request
+      if @purchasing_request.update(approval_status: 'approved')
+        # Send notification
+        manager = User.find_by(position: 'manager')
+        PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
+        redirect_to @purchasing_request, notice: 'Purchasing request was successfully approved.'
+      else
+        flash[:alert] = @purchasing_request.errors.full_messages.join(", ")
+        render :edit, status: :unprocessable_entity
+      end
     else
       redirect_to purchasing_requests_path, alert: 'Purchasing request not found'
     end
   end
+
 
   def reject
     @purchasing_request = PurchasingRequest.find_by(id: params[:id])
@@ -114,6 +119,15 @@ class PurchasingRequestsController < ApplicationController
     else
       # Handle comment creation failure
       render :show, status: :unprocessable_entity
+    end
+  end
+
+  def filter_wines
+    supplier_id = params[:supplier_id]
+    @wines = Wine.where(supplier_id: supplier_id)
+    respond_to do |format|
+      format.html { redirect_to new_purchasing_request_path }
+      format.turbo_stream
     end
   end
 

@@ -14,7 +14,7 @@ class PurchasingRequest < ApplicationRecord
   accepts_nested_attributes_for :purchasing_request_items
   validates :supplier_id, presence: true
   has_many :notes, dependent: :destroy
-  belongs_to :wine
+  # belongs_to :wine
 
   TIME_SLOTS = [
     ['8:00 AM - 10:00 AM', '8:00-10:00'],
