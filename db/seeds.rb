@@ -82,6 +82,14 @@ WINE_BRANDS = [
 
 WINE_COUNTRIES = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina", "Chile"]
 
+WINE_DESCRIPTION = [
+  "Vines grown in mountains, very dry, good with sea food.",
+  "Fruity wine that pair very well with appetizer.",
+  "Full bodied, aged in oak barrel for 24 months.",
+  "Light red, no maceration. Beautiful with truffle.",
+  "Very thin bubbles and yeasty taste."
+]
+
 # Work in progress
 200.times do
   wine = Wine.create!(
@@ -92,12 +100,13 @@ WINE_COUNTRIES = ["France", "Lebanon", "Spain", "Australia", "Italy", "Argentina
     region: ["Bordeaux", "Burgundy", "Piemonte", "Omina Romana", "Sicilia", "Bekaa Valley", "Mendoza"].sample,
     appellation: ["Margaux", "Pessac-Leognan", "Gevrey-Chambertin", "Pommard", "Saint-Joseph", "Champagne"].sample,
     volume: ["Bottle", "Magnum", "Half-Bottle"].sample,
+    description: WINE_DESCRIPTION.sample,
     cuvee: ['Cuvee Plaisir', 'Grand Cru', 'Premier Cru', 'Clos des Mouches', 'Saint-Amour', 'Les Amis'].sample,
     grape_variety: ["Chardonnay", "Pinot Noir", "Syrah", "Sauvignon", "Chenin Blanc", "Merlot", "Vermentino"].sample,
     supplier: Supplier.all.sample,
-    unit_price: rand(10..250),
-    avg_price: rand(10..350),
-    quantity: rand(1..6),
+    unit_price: rand(10..50),
+    selling_price: rand(100..300),
+    quantity: rand(0..6),
     restaurant: Restaurant.all.sample
   )
   wine.update(

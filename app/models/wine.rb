@@ -11,6 +11,7 @@ class Wine < ApplicationRecord
                               cuvee
                               tasting_notes
                               grape_variety
+                              supplier
                               description],
                   using: { tsearch: { prefix: true } }
 
