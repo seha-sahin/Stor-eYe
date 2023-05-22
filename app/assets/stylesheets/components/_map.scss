@@ -6,3 +6,19 @@
   text-align: center;
   font-family: "Open Sans", sans-serif;
 }
+
+.map-container {
+  align-content: center;
+  max-width: 300px;
+  max-height: auto;
+}
+
+.map-badge {
+  background-color: $home-orange;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  text-align: center;
+  font-size: x-small;
+  text-decoration: none;
+}

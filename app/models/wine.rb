@@ -15,7 +15,7 @@ class Wine < ApplicationRecord
                   using: { tsearch: { prefix: true } }
 
   has_many :storage_locations, through: :restaurant
-  has_many :purchasing_request_items
+  has_many :purchasing_request_items, dependent: :destroy
   belongs_to :supplier
   belongs_to :restaurant
   validates :maker, :country, :vintage, :colour, :region, :appellation, :volume, :cuvee, presence: true

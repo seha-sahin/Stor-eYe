@@ -100,7 +100,7 @@
 
           <div class="form-group col-4">
             <%= f.label :expected_cost %>
-            <%= f.text_field :cost, class: 'form-control', id: 'selling_price', disabled: true %>
+            <%= f.text_field :cost, class: 'form-control', id: 'expected_cost', disabled: true %>
           </div>
         </div>
       </div>
@@ -133,3 +133,26 @@
       <% end %>
     </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const unitPriceField = document.getElementById('unit_price');
+    const sellingPriceField = document.getElementById('selling_price');
+    const expectedCostField = document.getElementById('expected_cost');
+
+    function updateExpectedCost() {
+      const unitPrice = parseFloat(unitPriceField.value);
+      const sellingPrice = parseFloat(sellingPriceField.value);
+
+      if (isNaN(unitPrice) || isNaN(sellingPrice) || sellingPrice === 0) {
+        expectedCostField.value = '';
+      } else {
+        const expectedCost = (unitPrice / sellingPrice) * 100;
+        expectedCostField.value = expectedCost.toFixed(2) + ' %'; // Display with 2 decimal places
+      }
+    }
+
+    unitPriceField.addEventListener('input', updateExpectedCost);
+    sellingPriceField.addEventListener('input', updateExpectedCost);
+  });
+</script>

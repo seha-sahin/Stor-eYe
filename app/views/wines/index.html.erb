@@ -1,18 +1,24 @@
-<div class="container">
-  <h2>Current Stock</h2>
-  <h3>Totals</h3>
-  <%= turbo_frame_tag :summary, target: :_top, class: "row" do %>
-  <ul class="list-group col-md-3">
-      <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge badge-dark badge-pill"><%= @wines.count %></span></li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge badge-dark badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge badge-dark badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-dark badge-pill"><%= @wines.map(&:supplier).uniq.count %></span></li>
-  </ul>
-    <div class="col-md-9" style="width: 70%; height: 200px;"
-  data-controller="map"
-  data-map-markers-value="<%= @markers.to_json %>"
-  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
-  <% end %>
+<body class="bg-color">
+  <div class="container">
+    <h2 class="col-6 mt-4">Current Stock</h2>
+    <div class="main-box col-12">
+      <h3 class="col-6">Stats</h3>
+        <%= turbo_frame_tag :summary, target: :_top, class: "row" do %>
+      <div class="row col-12 ml-3">
+        <ul class="list-group col-3">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge badge-dark badge-pill"><%= @wines.count %></span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge badge-dark badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge badge-dark badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-dark badge-pill"><%= @wines.map(&:supplier).uniq.count %></span></li>
+        </ul>
+        <div class="col-md-8 ml-5" style="width: 70%; height: 200px;"
+        data-controller="map"
+        data-map-markers-value="<%= @markers.to_json %>"
+        data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
   <div class="form-group d-flex">
     <%= simple_form_for :search, url: wines_path, method: "GET", data: { turbo_frame: %i[search_results summary] } do |f| %>
@@ -40,31 +46,62 @@
     <% end %>
   </div>
 
-  <%= turbo_frame_tag :search_results, target: :_top do %>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Maker</th>
-          <th>Vintage</th>
-          <th>Country</th>
-          <th>Region</th>
-          <th>Appellation</th>
-          <th>Cuvee</th>
-          <th>Grape</th>
-          <th>Stock</th>
-          <th>Unit Price</th>
-          <th>Avg Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= render "rows", wines: @wines %>
-      </tbody>
-    </table>
-  <% end %>
-</div>
+  <div class="container main-box txt-xs">
+    <%= turbo_frame_tag :search_results, target: :_top do %>
+      <table class="table" id="wines-table">
+        <thead class="table-title">
+          <tr>
+            <th data-sortable>Vintage</th>
+            <th data-sortable>Color</th>
+            <th data-sortable>Maker</th>
+            <th data-sortable>Appellation</th>
+            <th data-sortable>Cuvee</th>
+            <th data-sortable>Stock</th>
+            <th data-sortable>Unit Price</th>
+            <th data-sortable>Selling Price</th>
+            <th>↑↓</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render "rows", wines: @wines %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</body>
 
 <style>
   .mapboxgl-ctrl-geocoder {
     display: none;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const table = document.getElementById('wines-table');
+    const headers = table.querySelectorAll('th[data-sortable]');
+
+    function sortTable(columnIndex, asc = true) {
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      rows.sort((a, b) => {
+        const aValue = a.cells[columnIndex].innerText;
+        const bValue = b.cells[columnIndex].innerText;
+
+        return (asc ? 1 : -1) * aValue.localeCompare(bValue, undefined, { numeric: true });
+      });
+
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    headers.forEach((header, index) => {
+      let sortOrder = true;
+
+      header.addEventListener('click', () => {
+        sortTable(index, sortOrder);
+        sortOrder = !sortOrder;
+      });
+    });
+  });
+</script>
