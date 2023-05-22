@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       put :request_more_info
       post :request_more_info_notification
       post :create_note
+      put :delivered
     end
   end
 
@@ -37,8 +38,4 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
 
   resources :notes
-
-  get '/purchasing_requests/filter', to: 'purchasing_requests#filter', as: 'filter_purchasing_requests'
-  get '/purchasing_requests/clear_filter', to: 'purchasing_requests#clear_filter', as: 'clear_filter_purchasing_requests'
-
 end

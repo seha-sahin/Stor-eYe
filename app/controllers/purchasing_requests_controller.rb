@@ -1,5 +1,5 @@
 class PurchasingRequestsController < ApplicationController
-  before_action :set_purchasing_request, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchasing_request, only: [:show, :edit, :update, :destroy, :delivered]
   before_action :set_suppliers, only: [:new, :create]
 
   def index
@@ -66,7 +66,6 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
-
   def reject
     @purchasing_request = PurchasingRequest.find_by(id: params[:id])
     if @purchasing_request.present?
@@ -122,12 +121,29 @@ class PurchasingRequestsController < ApplicationController
     end
   end
 
-  def filter_wines
-    supplier_id = params[:supplier_id]
-    @wines = Wine.where(supplier_id: supplier_id)
+  # def filter_wines
+  #   supplier_id = params[:supplier_id]
+  #   @wines = Wine.where(supplier_id: supplier_id)
+  #   respond_to do |format|
+  #     format.html { redirect_to new_purchasing_request_path }
+  #     format.turbo_stream
+  #   end
+  # end
+
+  def delivered
+    @purchasing_request.approval_status = 'delivered'
+    @purchasing_request.save
+    @purchasing_request.purchasing_request_items.each do |item|
+      wine = item.wine
+      wine.quantity ||= 0
+      item.quantity ||= 0
+      wine.quantity += item.quantity
+      wine.save
+    end
+
     respond_to do |format|
-      format.html { redirect_to new_purchasing_request_path }
       format.turbo_stream
+      format.html { redirect_to @purchasing_request }
     end
   end
 
