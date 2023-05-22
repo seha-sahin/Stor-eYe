@@ -75,33 +75,3 @@
     display: none;
   }
 </style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const table = document.getElementById('wines-table');
-    const headers = table.querySelectorAll('th[data-sortable]');
-
-    function sortTable(columnIndex, asc = true) {
-      const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-
-      rows.sort((a, b) => {
-        const aValue = a.cells[columnIndex].innerText;
-        const bValue = b.cells[columnIndex].innerText;
-
-        return (asc ? 1 : -1) * aValue.localeCompare(bValue, undefined, { numeric: true });
-      });
-
-      rows.forEach(row => tbody.appendChild(row));
-    }
-
-    headers.forEach((header, index) => {
-      let sortOrder = true;
-
-      header.addEventListener('click', () => {
-        sortTable(index, sortOrder);
-        sortOrder = !sortOrder;
-      });
-    });
-  });
-</script>
