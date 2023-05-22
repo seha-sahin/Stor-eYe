@@ -21,6 +21,10 @@ $xlarge: 1920px;
   font-size: small;
 }
 
+.txt-xs {
+  font-size: 9pt;
+}
+
 .main-box {
   background-color: white;
   margin: 10px;
@@ -35,6 +39,7 @@ $xlarge: 1920px;
 
     &:hover {
       color: $home-light;
+      text-decoration: none;
     }
 }
 

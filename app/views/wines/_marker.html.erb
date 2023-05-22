@@ -1,4 +1,4 @@
-<%= image_tag "stor-eye_logo.png", height: 30, width: 30, alt: "Logo" %>
-<div class="badge rounded-pill bg-primary fs-6">
-  <%= wine.maker %>
+<div class="map-container fs-6">
+  <%= link_to wine.maker, wine_path(wine), class: "map-badge" %>
+  <%= image_tag "icon_map_pin.png", height: 50, width: 50, alt: "Pin" %>
 </div>
