@@ -1,7 +1,7 @@
 class PurchasingRequest < ApplicationRecord
   include PgSearch::Model
 
-  APPROVAL_STATUSES = %w[pending approved rejected infos_requested].freeze
+  APPROVAL_STATUSES = %w[pending approved rejected infos_requested delivered].freeze
   before_save :default_values
   validates :approval_status, inclusion: { in: APPROVAL_STATUSES }
   belongs_to :user

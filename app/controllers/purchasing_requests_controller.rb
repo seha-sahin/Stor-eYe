@@ -1,5 +1,5 @@
 class PurchasingRequestsController < ApplicationController
-  before_action :set_purchasing_request, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchasing_request, only: [:show, :edit, :update, :destroy, :delivered]
   before_action :set_suppliers, only: [:new, :create]
 
   def index
@@ -129,6 +129,23 @@ class PurchasingRequestsController < ApplicationController
   #     format.turbo_stream
   #   end
   # end
+
+  def delivered
+    @purchasing_request.approval_status = 'delivered'
+    @purchasing_request.save
+    @purchasing_request.purchasing_request_items.each do |item|
+      wine = item.wine
+      wine.quantity ||= 0
+      item.quantity ||= 0
+      wine.quantity += item.quantity
+      wine.save
+    end
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @purchasing_request }
+    end
+  end
 
   private
 

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       put :request_more_info
       post :request_more_info_notification
       post :create_note
+      put :delivered
     end
   end
 

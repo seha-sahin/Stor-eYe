@@ -70,7 +70,13 @@
 
   <div class="container main-box">
     <div class="row col-12 pt-3 justify-content-center">
-      <% if current_user.position == 'owner' %>
+      <% if current_user.position == 'manager' %>
+        <% if @purchasing_request.approval_status == 'approved' %>
+          <div class="mb-2 col-4">
+            <%= button_to 'Delivered', delivered_purchasing_request_path(@purchasing_request), method: :put, class: "btn-approve btn-block", data: { turbo_action: 'replace', turbo_frame: 'approval_status' } %>
+          </div>
+        <% end %>
+      <% elsif current_user.position == 'owner' %>
       <% if @purchasing_request.approval_status != 'approved' %>
       <div class="mb-2 col-4">
         <%= button_to 'Approve', approve_purchasing_request_path(@purchasing_request), method: :put, class: "btn-approve btn-block" %>
