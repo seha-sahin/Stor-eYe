@@ -20,16 +20,21 @@
         <input type="text" class="form-control searchterm" name="query" placeholder="Search wines" value="<%= params[:query] %>">
       </div>
         <div class="row">
-        <div class="form-group-item col-md-3">
+
+         <div class="form-group-item col-md-2">
+          <%= f.input :supplier, as: :select, collection: Supplier.all.uniq, label: "Supplier", class: "searchterm", prompt: "Select supplier", selected: @search_params[:supplier] %>
+         </div>
+
+        <div class="form-group-item col-md-2">
           <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker", class: "searchterm", prompt: "Select maker", selected: @search_params[:makers] %>
         </div>
-        <div class="form-group-item col-md-3">
+        <div class="form-group-item col-md-2">
           <%= f.input :vintages, as: :select, collection: Wine.all.map(&:vintage).uniq.sort, label: "Vintage", class: "searchterm", prompt: "Select year", selected: @search_params[:vintages] %>
         </div>
-        <div class="form-group-item col-md-3">
+        <div class="form-group-item col-md-2">
           <%= f.input :countries, as: :select, collection: Wine.all.map(&:country).uniq.sort_by(&:downcase), label: "Country", class: "searchterm", prompt: "Select country", selected: @search_params[:countries] %>
         </div>
-        <div class="form-group-item col-md-3">
+        <div class="form-group-item col-md-2">
           <%= f.input :regions, as: :select, collection: Wine.all.map(&:region).uniq.sort_by(&:downcase), label: "Region", prompt: "Select region", selected: @search_params[:regions] %>
         </div>
       </div>

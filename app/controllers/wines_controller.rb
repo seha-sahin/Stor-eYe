@@ -77,8 +77,11 @@ class WinesController < ApplicationController
     filters.each do |filter|
       wines = wines.tagged_with(search_params[filter], any: true) if search_params[filter].present?
     end
+    return supplier_filter(wines, search_params[:supplier])
+  end
 
-    return wines
+  def supplier_filter(wines, supplier)
+    supplier.present? ? wines.select { |wine| wine.supplier.id == supplier.to_i } : wines
   end
 
   def update_tags(wine)
