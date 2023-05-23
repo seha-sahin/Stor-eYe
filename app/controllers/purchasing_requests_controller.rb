@@ -52,12 +52,12 @@ class PurchasingRequestsController < ApplicationController
       notification_type&.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
 
       respond_to do |format|
-        format.turbo_stream
         format.html { redirect_to @purchasing_request, notice: 'Purchasing request was successfully updated.' }
+        format.turbo_stream
       end
     else
-      flash[:alert] = @purchasing_request.errors.full_messages.join(", ")
-      render :edit, status: :unprocessable_entity
+      format.html { render :show, status: :unprocessable_entity }
+      format.turbo_stream
     end
   end
 

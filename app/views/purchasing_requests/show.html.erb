@@ -74,11 +74,10 @@
     <!-- Status-->
     <div class="container">
       <div class="row col-12 justify-content-center">
-        <%= turbo_frame_tag dom_id(@purchasing_request) do %>
           <%= render partial: "purchasing_requests/form", locals: { purchasing_request: @purchasing_request } %>
-        <% end %>
       </div>
     </div>
+    <!-- Status-->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
