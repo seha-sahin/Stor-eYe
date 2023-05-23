@@ -23,11 +23,11 @@
       <p class="card-text col-6">Delivery Time Slot: <strong><%= @purchasing_request.delivery_time_slot %></strong></p>
     </div>
     <!-- approval -->
-    <div class="row col-12">
-      <turbo-frame id="approval_status_frame">
-        <p class="card-text col-6">Approval Status: <strong><%= @purchasing_request.approval_status %></strong></p>
-      </turbo-frame>
-    </div>
+    <turbo-frame class="row col-12" id="approval_status_frame">
+      <p class="card-text col-6">Created By: <strong><%= @purchasing_request.user.first_name %></strong>  (<%= current_user.position %>)</p>
+      <p class="card-text col-6">Approval Status: <strong><%= @purchasing_request.approval_status %></strong></p>
+    </turbo-frame>
+
     <div class="row col-12 mt-1 txt-s">
       <p class="card-text col-6">Created on: <strong><%= @purchasing_request.created_at.strftime("%A, %d %b %Y %l:%M %p") %></strong></p>
       <p class="card-text col-6">Updated on: <strong><%= @purchasing_request.updated_at.strftime("%A, %d %b %Y %l:%M %p") %></strong></p>
