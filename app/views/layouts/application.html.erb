@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Stor-eYe :: Keep an eye on your storages</title>
+    <title>Stor-eYe :: Keep an eye on your stock</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= favicon_link_tag %>
     <%= csrf_meta_tags %>
@@ -9,15 +9,6 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
-    <title><%= meta_title %></title>
-      <meta name="description" content="<%= meta_description %>">
-      <meta property="og:title" content="<%= meta_title %>" />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="<%= request.original_url %>" />
-      <meta property="og:image" content="<%= meta_image %>" />
-      <meta property="og:description" content="<%= meta_description %>" />
-      <meta property="og:site_name" content="<%= meta_title %>" />
 
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
