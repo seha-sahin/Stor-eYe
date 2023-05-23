@@ -8,23 +8,25 @@
         <thead>
           <tr class="table-title">
             <th>#</th>
+            <th>Creation Date</th>
             <th>Supplier</th>
-            <th>Delivery Date</th>
-            <th>Delivery Time</th>
-            <th>Quantities</th>
-            <th>Status</th>
+            <th class="text-right">Delivery Date</th>
+            <th class="text-right">Delivery Time</th>
+            <th class="text-right">Quantities</th>
+            <th class="text-center">Status</th>
           </tr>
         </thead>
         <tbody>
           <% @purchasing_requests.reverse_each do |pr| %>
               <tr data-controller="row-click" data-row-click-url="<%= purchasing_request_path(pr) %>" data-action="click->row-click#goToUrl">
-              <td><%= pr.id %></td>
-              <td><%= pr.supplier.name %></td>
-              <td><%= pr.delivery_date %></td>
-              <td><%= pr.delivery_time_slot %></td>
-              <td><%= pr.purchasing_request_items.map { |item| item.quantity if item.quantity && item.quantity > 0 }.compact.join(", ") %></td>
-              <td class="<%= pr.approval_status %>"><%= pr.approval_status.capitalize %></td>
-              </td>
+                <td><%= pr.id %></td>
+                <td><%= pr.created_at %></td>
+                <td><%= pr.supplier.name %></td>
+                <td class="text-right"><%= pr.delivery_date %></td>
+                <td class="text-right"><%= pr.delivery_time_slot %></td>
+                <td class="text-right"><%= pr.purchasing_request_items.map { |item| item.quantity if item.quantity && item.quantity > 0 }.compact.sum %></td>
+                <td class="<%= pr.approval_status %> text-center"><%= pr.approval_status.capitalize %></td>
+                </td>
             </tr>
           <% end %>
         </tbody>
