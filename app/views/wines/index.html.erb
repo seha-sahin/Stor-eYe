@@ -1,54 +1,61 @@
 <body class="bg-color">
-  <div class="container">
-    <h2 class="col-6 mt-4">Current Stock</h2>
-    <div class="main-box col-12">
-      <h3 class="col-6">Stats</h3>
-        <%= turbo_frame_tag :summary, target: :_top, class: "row" do %>
-      <div class="row col-12 ml-3">
-        <ul class="list-group col-3">
-          <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge badge-dark badge-pill"><%= @wines.count %></span></li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge badge-dark badge-pill"><%= Wine.total_quantity(@wines) %></span></li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge badge-dark badge-pill">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge badge-dark badge-pill"><%= @wines.map(&:supplier).uniq.count %></span></li>
-        </ul>
-        <div class="col-md-8 ml-5" style="width: 70%; height: 200px;"
-        data-controller="map"
-        data-map-markers-value="<%= @markers.to_json %>"
-        data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
-        <% end %>
-      </div>
+  <h2 class="col-6 mt-4 ml-5">Current Stock</h2>
+  <div class="container main-box">
+    <h3 class="col-6">Stats</h3>
+      <%= turbo_frame_tag :summary, target: :_top, class: "row" do %>
+    <div class="row col-12 ml-3">
+      <ul class="list-group col-3">
+        <li class="list-group-item d-flex justify-content-between align-items-center">Wine Type: <span class="badge-blue"><%= @wines.count %></span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">Wine Stock: <span class="badge-blue"><%= Wine.total_quantity(@wines) %></span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">Total Value: <span class="badge-blue">$<%= number_with_precision(Wine.total_value(@wines), :precision => 0, :delimiter => ',') %></span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">Supplier: <span class="badge-blue"><%= @wines.map(&:supplier).uniq.count %></span></li>
+      </ul>
+      <div class="col-md-8 ml-5" style="width: 70%; height: 200px;"
+      data-controller="map"
+      data-map-markers-value="<%= @markers.to_json %>"
+      data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+      <% end %>
     </div>
   </div>
 
-  <div class="form-group d-flex">
-    <%= simple_form_for :search, url: wines_path, method: "GET", data: { turbo_frame: %i[search_results summary] } do |f| %>
-      <div class="form-group-item my-3">
-        <input type="text" class="form-control searchterm" name="query" placeholder="Search wines" value="<%= params[:query] %>">
-      </div>
-        <div class="row">
+  <div class="container main-box">
+    <div class="form-group">
+        <h5 class="border-bottom pb-2 ml-3 mr-3">Search by keyword</h5>
+        <%= simple_form_for :search, url: wines_path, method: "GET", data: { turbo_frame: %i[search_results summary] } do |f| %>
+        <div class="row col-12 justify-content-center">
+          <div class="form-group-item my-3 col-10">
+            <input type="text" class="form-control searchterm" name="query" placeholder="Search wines" value="<%= params[:query] %>">
+          </div>
+          <div class="form-group-item my-3 col-2">
+            <%= f.submit "Search", class: "btn-home mr-3" %>
+            <%= link_to "", wines_path, class:"fas fa-undo" %>
+          </div>
+        </div>
+        <h5 class="border-bottom pb-2 ml-3 mr-3 mt-4 mb-4">Search by filter</h5>
+        <div class="row col-12 justify-content-center">
+          <div class="form-group-item col-6">
+            <%= f.input :supplier, as: :select, collection: Supplier.all.uniq, label: "Supplier", class: "searchterm", prompt: "Select supplier", selected: @search_params[:supplier] %>
+          </div>
 
-         <div class="form-group-item col-md-2">
-          <%= f.input :supplier, as: :select, collection: Supplier.all.uniq, label: "Supplier", class: "searchterm", prompt: "Select supplier", selected: @search_params[:supplier] %>
-         </div>
+          <div class="form-group-item col-6">
+            <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker", class: "searchterm", prompt: "Select maker", selected: @search_params[:makers] %>
+          </div>
+        </div>
+        <div class="row col-12 justify-content-center">
+          <div class="form-group-item col-4">
+            <%= f.input :vintages, as: :select, collection: Wine.all.map(&:vintage).uniq.sort, label: "Vintage", class: "searchterm", prompt: "Select year", selected: @search_params[:vintages] %>
+          </div>
 
-        <div class="form-group-item col-md-2">
-          <%= f.input :makers, as: :select, collection: Wine.all.map(&:maker).uniq.sort_by(&:downcase), label: "Maker", class: "searchterm", prompt: "Select maker", selected: @search_params[:makers] %>
+          <div class="form-group-item col-4">
+            <%= f.input :countries, as: :select, collection: Wine.all.map(&:country).uniq.sort_by(&:downcase), label: "Country", class: "searchterm", prompt: "Select country", selected: @search_params[:countries] %>
+          </div>
+
+          <div class="form-group-item col-4">
+            <%= f.input :regions, as: :select, collection: Wine.all.map(&:region).uniq.sort_by(&:downcase), label: "Region", prompt: "Select region", selected: @search_params[:regions] %>
+          </div>
         </div>
-        <div class="form-group-item col-md-2">
-          <%= f.input :vintages, as: :select, collection: Wine.all.map(&:vintage).uniq.sort, label: "Vintage", class: "searchterm", prompt: "Select year", selected: @search_params[:vintages] %>
-        </div>
-        <div class="form-group-item col-md-2">
-          <%= f.input :countries, as: :select, collection: Wine.all.map(&:country).uniq.sort_by(&:downcase), label: "Country", class: "searchterm", prompt: "Select country", selected: @search_params[:countries] %>
-        </div>
-        <div class="form-group-item col-md-2">
-          <%= f.input :regions, as: :select, collection: Wine.all.map(&:region).uniq.sort_by(&:downcase), label: "Region", prompt: "Select region", selected: @search_params[:regions] %>
-        </div>
-      </div>
-      <div class="form-group-item justify-content-center mx-2">
-        <%= f.submit "Search", class: "btn btn-primary", style: "background-color: #69272D;border-color: #69272D"%>
-        <%= link_to "Reset", wines_path, class:"opacity-75 mt-4 mx-2", style: "color: #69272D;"  %>
-      </div>
-    <% end %>
+        <% end %>
+    </div>
   </div>
 
   <div class="container main-box txt-xs">
@@ -80,3 +87,33 @@
     display: none;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const table = document.getElementById('wines-table');
+    const headers = table.querySelectorAll('th[data-sortable]');
+
+    function sortTable(columnIndex, asc = true) {
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      rows.sort((a, b) => {
+        const aValue = a.cells[columnIndex].innerText;
+        const bValue = b.cells[columnIndex].innerText;
+
+        return (asc ? 1 : -1) * aValue.localeCompare(bValue, undefined, { numeric: true });
+      });
+
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    headers.forEach((header, index) => {
+      let sortOrder = true;
+
+      header.addEventListener('click', () => {
+        sortTable(index, sortOrder);
+        sortOrder = !sortOrder;
+      });
+    });
+  });
+</script>

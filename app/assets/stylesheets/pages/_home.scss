@@ -69,3 +69,17 @@ $xlarge: 1920px;
 .h3 {
   color: grey;
 }
+
+.badge-blue {
+  background-color: $home-blue;
+  color: #787f78;
+  padding-right: 3%;
+  padding-left: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  border-radius: 6pt;
+  width: 80px;
+  font-size: small;
+  font-weight: bold;
+  text-align: end;
+}
