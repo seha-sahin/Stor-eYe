@@ -1,0 +1,16 @@
+<% if @purchasing_request.errors.present? %>
+  <%= turbo_stream.replace "purchasing_request_errors" do %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing_request from being saved:</h2>
+      <ul>
+        <% @purchasing_request.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace "purchasing_request_form" do %>
+    <%= render partial: "purchasing_requests/form", locals: { purchasing_request: @purchasing_request } %>
+  <% end %>
+<% end %>

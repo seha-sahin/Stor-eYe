@@ -36,10 +36,27 @@ class PurchasingRequestsController < ApplicationController
   end
 
   def update
-    puts params.inspect # Output the parameters to the console for debugging
     if @purchasing_request.update(purchasing_request_params)
-      redirect_to purchasing_requests_path, notice: 'Purchasing request was successfully updated.'
+      # Send notification
+      manager = User.find_by(position: 'manager')
+      notification_type = case @purchasing_request.approval_status
+                          when 'approved'
+                            PurchaseRequestApproved
+                          when 'rejected'
+                            PurchaseRequestRejected
+                          when 'delivered'
+                            PurchaseRequestDelivered
+                          else
+                            nil
+                          end
+      notification_type&.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @purchasing_request, notice: 'Purchasing request was successfully updated.' }
+      end
     else
+      flash[:alert] = @purchasing_request.errors.full_messages.join(", ")
       render :edit, status: :unprocessable_entity
     end
   end
@@ -47,36 +64,6 @@ class PurchasingRequestsController < ApplicationController
   def destroy
     @purchasing_request.destroy
     redirect_to purchasing_requests_path, notice: 'PR was successfully destroyed.'
-  end
-
-  def approve
-    @purchasing_request = PurchasingRequest.find_by(id: params[:id])
-    if @purchasing_request.present?
-      if @purchasing_request.update(approval_status: 'approved')
-        # Send notification
-        manager = User.find_by(position: 'manager')
-        PurchaseRequestApproved.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
-        redirect_to @purchasing_request, notice: 'Purchasing request was successfully approved.'
-      else
-        flash[:alert] = @purchasing_request.errors.full_messages.join(", ")
-        render :edit, status: :unprocessable_entity
-      end
-    else
-      redirect_to purchasing_requests_path, alert: 'Purchasing request not found'
-    end
-  end
-
-  def reject
-    @purchasing_request = PurchasingRequest.find_by(id: params[:id])
-    if @purchasing_request.present?
-      @purchasing_request.update(approval_status: 'rejected')
-      # Send notification
-      manager = User.find_by(position: 'manager')
-      PurchaseRequestRejected.with(purchasing_request: @purchasing_request).deliver(manager) if manager.present?
-      redirect_to @purchasing_request
-    else
-      redirect_to purchasing_requests_path, alert: 'Purchasing request not found'
-    end
   end
 
   def request_more_info
@@ -129,23 +116,6 @@ class PurchasingRequestsController < ApplicationController
   #     format.turbo_stream
   #   end
   # end
-
-  def delivered
-    @purchasing_request.approval_status = 'delivered'
-    @purchasing_request.save
-    @purchasing_request.purchasing_request_items.each do |item|
-      wine = item.wine
-      wine.quantity ||= 0
-      item.quantity ||= 0
-      wine.quantity += item.quantity
-      wine.save
-    end
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to @purchasing_request }
-    end
-  end
 
   private
 

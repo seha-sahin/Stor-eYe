@@ -7,18 +7,18 @@
         <%= link_to "", purchasing_requests_path, class: "fas fa-arrow-left me-3" %>
       </div>
       <div class="container main-box col-12">
-    <%= form_with(model: @purchasing_request, local: true, class: "form") do |form| %>
-      <% if @purchasing_request.errors.any? %>
-        <div id="error_explanation" class="alert alert-danger">
-          <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing request from being saved:</h2>
+      <%= form_with(model: @purchasing_request, local: true, class: "form") do |form| %>
+        <% if @purchasing_request.errors.any? %>
+          <div id="error_explanation" class="alert alert-danger">
+            <h2><%= pluralize(@purchasing_request.errors.count, "error") %> prohibited this purchasing request from being saved:</h2>
 
-          <ul>
-            <% @purchasing_request.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+            <ul>
+              <% @purchasing_request.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
       <div class="row col-12">
         <div class="form-group col-12">
