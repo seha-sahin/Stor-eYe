@@ -91,7 +91,6 @@ WINE_DESCRIPTION = [
 ]
 
 # Create wines
-wine_count = 1
 200.times do
   filepath = "app/assets/images/Stor-eye_wine_pic#{rand(1..10)}.png"
   wine = Wine.create!(
@@ -122,6 +121,5 @@ wine_count = 1
   file = File.open(filepath)
   wine.photo.attach(io: file, filename: "image${wine_count}.png", content_type: "image/png")
   wine.save
-  puts "Wine #{wine.id} has been created with image ${wine_count}"
-  wine_count += 1
+  puts "Wine #{wine.id} has been created with image ${wine.id}"
 end
