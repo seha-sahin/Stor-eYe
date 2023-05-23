@@ -1,3 +1,36 @@
+  <script>
+ document.addEventListener('turbo:load', function() {
+    // Get the supplier select element
+    let supplierSelect = document.querySelector('#supplier_select');
+
+    // If the supplier select element exists
+    if (supplierSelect) {
+        // Hide all wine rows initially
+        let wineRows = document.querySelectorAll('.wine-row');
+        wineRows.forEach(function(row) {
+            row.style.display = 'none';
+        });
+
+        // Add an event listener for the change event
+        supplierSelect.addEventListener('change', function() {
+            // Get the value of the selected supplier
+            let selectedSupplierId = this.value;
+
+            // Hide all wine rows initially
+            wineRows.forEach(function(row) {
+                row.style.display = 'none';
+            });
+
+            // Show wine rows for the selected supplier
+            let selectedSupplierRows = document.querySelectorAll('.wine-row.supplier-' + selectedSupplierId);
+            selectedSupplierRows.forEach(function(row) {
+                row.style.display = 'table-row';
+            });
+        });
+    }
+});
+  </script>
+
 <body class="bg-color">
   <div class="container">
       <div class="row">
@@ -78,37 +111,4 @@
       </div>
     <% end %>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Get the supplier select element
-    let supplierSelect = document.querySelector('#supplier_select');
-
-    // If the supplier select element exists
-    if (supplierSelect) {
-      // Hide all wine rows initially
-      let wineRows = document.querySelectorAll('.wine-row');
-      wineRows.forEach(function(row) {
-          row.style.display = 'none';
-      });
-
-      // Add an event listener for the change event
-      supplierSelect.addEventListener('change', function() {
-        // Get the value of the selected supplier
-        let selectedSupplierId = this.value;
-
-        // Hide all wine rows initially
-        wineRows.forEach(function(row) {
-          row.style.display = 'none';
-        });
-
-        // Show wine rows for the selected supplier
-        let selectedSupplierRows = document.querySelectorAll('.wine-row.supplier-' + selectedSupplierId);
-        selectedSupplierRows.forEach(function(row) {
-          row.style.display = 'table-row';
-        });
-      });
-    }
-  });
-  </script>
 </body>
