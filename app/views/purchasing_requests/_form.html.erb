@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row col-12 justify-content-center" id="approval_status">
+    <% if current_user.position == 'manager' && @purchasing_request.approval_status == 'approved' %>
+      <div class="row mb-2">
+        <div class="col-12">
+          <%= button_to 'Delivered', purchasing_request_path(@purchasing_request, purchasing_request: { approval_status: 'delivered' }), method: :put, class: "btn-approve btn-block", data: { turbo_action: 'replace', turbo_frame: 'approval_status' } %>
+        </div>
+      </div>
+    <% elsif current_user.position == 'owner' %>
+      <div class="row mb-2">
+        <% if @purchasing_request.approval_status == 'rejected' || @purchasing_request.approval_status == 'pending' %>
+          <div class="col-4">
+            <%= button_to 'Approve', purchasing_request_path(@purchasing_request, purchasing_request: { approval_status: 'approved' }), method: :put, class: "btn-approve btn-block" %>
+          </div>
+        <% end %>
+        <% if @purchasing_request.approval_status == 'approved' || @purchasing_request.approval_status == 'pending' %>
+          <div class="col-4">
+            <%= button_to 'Reject', purchasing_request_path(@purchasing_request, purchasing_request: { approval_status: 'rejected' }), method: :put, class: "btn-reject btn-block" %>
+          </div>
+        <% end %>
+        <div class="col-4">
+        <button type="button" class="btn-request btn-block" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Request More Info
+        </button>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>

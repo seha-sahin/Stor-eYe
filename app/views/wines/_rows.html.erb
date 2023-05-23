@@ -1,5 +1,7 @@
 <% wines.each do |wine| %>
-  <tr>
+<tr data-controller="clickable"
+      data-clickable-url-value="<%= wine_path(wine) %>"
+      data-action="click->clickable#goToUrl">
     <td><%= wine.vintage %></td>
     <td><%= wine.colour %></td>
     <td><%= wine.maker %></td>

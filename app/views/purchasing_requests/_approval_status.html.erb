@@ -1,0 +1,42 @@
+<div class="row col-12 justify-content-center">
+  <%= turbo_frame_tag dom_id(@purchasing_request) do %>
+    <% if current_user.position == 'manager' %>
+      <% if @purchasing_request.approval_status == 'approved' %>
+        <div class="row mb-2">
+          <div class="col-12">
+            <%= button_to 'Delivered', delivered_purchasing_request_path(@purchasing_request), method: :put, class: "btn-approve btn-block", data: { turbo_action: 'replace', turbo_frame: 'approval_status' } %>
+          </div>
+        </div>
+      <% end %>
+    <% elsif current_user.position == 'owner' %>
+      <div class="row mb-2">
+        <% if @purchasing_request.approval_status == 'rejected' || @purchasing_request.approval_status == 'pending' %>
+          <div class="col-4">
+            <%= button_to 'Approve', purchasing_request_path(@purchasing_request, approval_status: 'approved'), method: :put, class: "btn-approve btn-block", data: { turbo_action: 'replace', turbo_frame: 'approval_status' } %>
+          </div>
+        <% end %>
+        <% if @purchasing_request.approval_status == 'approved' || @purchasing_request.approval_status == 'pending' %>
+          <div class="col-4">
+            <%= button_to 'Reject', purchasing_request_path(@purchasing_request, approval_status: 'rejected'), method: :put, class: "btn-reject btn-block", data: { turbo_action: 'replace', turbo_frame: 'approval_status' } %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+   <div class="col-4">
+      <button type="button" class="btn-request btn-block" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Request More Info
+      </button>
+    </div>
+  </div>
+<% end %>
+
+<!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal content goes here -->
+      </div>
+    </div>
+  </div>
+</div>
