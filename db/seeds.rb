@@ -90,8 +90,10 @@ WINE_DESCRIPTION = [
   "Very thin bubbles and yeasty taste."
 ]
 
-# Work in progress
+# Create wines
+wine_count = 1
 200.times do
+  filepath = "app/assets/images/Stor-eye_wine_pic#{rand(1..10)}.png"
   wine = Wine.create!(
     maker: WINE_BRANDS.sample,
     country: WINE_COUNTRIES.sample,
@@ -117,5 +119,9 @@ WINE_DESCRIPTION = [
     appellation_list: wine.appellation,
     cuvee_list: wine.cuvee
   )
-  puts "Wine #{wine.id} has been created"
+  file = File.open(filepath)
+  wine.photo.attach(io: file, filename: "image${wine_count}.png", content_type: "image/png")
+  wine.save
+  puts "Wine #{wine.id} has been created with image ${wine_count}"
+  wine_count += 1
 end
