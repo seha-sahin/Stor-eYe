@@ -1,0 +1,33 @@
+<div id="approval_buttons">
+  <% if current_user.position == 'manager' && purchasing_request.approval_status == 'approved' %>
+    <div class="row mb-2">
+      <div class="col-12">
+        <turbo-frame id="approval_buttons">
+          <%= button_to 'Delivered', purchasing_request_path(purchasing_request, purchasing_request: { approval_status: 'delivered' }), method: :put, class: "btn-approve", data: { turbo_action: 'replace', turbo_frame: "approval_buttons" } %>
+        </turbo-frame>
+      </div>
+    </div>
+  <% elsif current_user.position == 'owner' %>
+    <div class="row mb-2">
+      <% if purchasing_request.approval_status == 'rejected' || purchasing_request.approval_status == 'pending' %>
+        <div class="col-4">
+          <turbo-frame id="approval_buttons">
+            <%= button_to 'Approve', purchasing_request_path(purchasing_request, purchasing_request: { approval_status: 'approved' }), method: :put, class: "btn-approve", data: { turbo_action: 'replace', turbo_frame: "approval_buttons" } %>
+          </turbo-frame>
+        </div>
+      <% end %>
+      <% if purchasing_request.approval_status == 'approved' || purchasing_request.approval_status == 'pending' %>
+        <div class="col-4">
+          <turbo-frame id="approval_buttons">
+            <%= button_to 'Reject', purchasing_request_path(purchasing_request, purchasing_request: { approval_status: 'rejected' }), method: :put, class: "btn-reject", data: { turbo_action: 'replace', turbo_frame: "approval_buttons" } %>
+          </turbo-frame>
+        </div>
+      <% end %>
+      <div class="col-4">
+        <button type="button" class="btn-request" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Request More Info
+        </button>
+      </div>
+    </div>
+  <% end %>
+</div>
