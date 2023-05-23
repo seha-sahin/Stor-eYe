@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ClickableController from "./clickable_controller"
+application.register("clickable", ClickableController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
@@ -24,4 +27,3 @@ application.register("wine-ratio", WineRatioController)
 
 import WineshowmapController from "./wineshowmap_controller"
 application.register("wineshowmap", WineshowmapController)
-
