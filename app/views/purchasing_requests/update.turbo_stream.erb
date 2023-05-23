@@ -10,7 +10,11 @@
     </div>
   <% end %>
 <% else %>
-  <%= turbo_stream.replace "purchasing_request_form" do %>
-    <%= render partial: "purchasing_requests/form", locals: { purchasing_request: @purchasing_request } %>
+  <%= turbo_stream.replace "approval_status_frame" do %>
+    <p class="card-text col-6">Approval Status: <strong><%= @purchasing_request.approval_status %></strong></p>
+  <% end %>
+
+  <%= turbo_stream.replace "buttons_frame" do %>
+    <%= render partial: "purchasing_requests/buttons", locals: { purchasing_request: @purchasing_request } %>
   <% end %>
 <% end %>

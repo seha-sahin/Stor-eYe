@@ -22,13 +22,15 @@
       <p class="card-text col-6">Delivery Date: <strong><%= @purchasing_request.delivery_date %></strong></p>
       <p class="card-text col-6">Delivery Time Slot: <strong><%= @purchasing_request.delivery_time_slot %></strong></p>
     </div>
+    <!-- approval -->
     <div class="row col-12">
-      <p class="card-text col-6">Created By: <strong><%= @purchasing_request.user.first_name %></strong>  (<%= current_user.position %>)</p>
-      <p class="card-text col-6">Approval Status: <strong><%= @purchasing_request.approval_status %></strong></p>
+      <turbo-frame id="approval_status_frame">
+        <p class="card-text col-6">Approval Status: <strong><%= @purchasing_request.approval_status %></strong></p>
+      </turbo-frame>
     </div>
     <div class="row col-12 mt-1 txt-s">
-      <p class="card-text col-6">Created on: <strong><%= @purchasing_request.created_at %></strong></p>
-      <p class="card-text col-6">Updated on: <strong><%= @purchasing_request.updated_at %></strong></p>
+      <p class="card-text col-6">Created on: <strong><%= @purchasing_request.created_at.strftime("%A, %d %b %Y %l:%M %p") %></strong></p>
+      <p class="card-text col-6">Updated on: <strong><%= @purchasing_request.updated_at.strftime("%A, %d %b %Y %l:%M %p") %></strong></p>
     </div>
   </div>
    <!-- Table -->
@@ -71,13 +73,14 @@
       <div class="col-4 total"><p>Total value: <strong>$<%= @purchasing_request.purchasing_request_items.inject(0) { |sum, item| sum + (item.quantity || 0) * item.wine.unit_price } %></strong></p></div>
     </div>
   </div>
-    <!-- Status-->
+    <!-- approval buttons-->
     <div class="container">
       <div class="row col-12 justify-content-center">
-          <%= render partial: "purchasing_requests/form", locals: { purchasing_request: @purchasing_request } %>
+        <turbo-frame id="buttons_frame">
+          <%= render partial: "purchasing_requests/buttons", locals: { purchasing_request: @purchasing_request } %>
+        </turbo-frame>
       </div>
-    </div>
-    <!-- Status-->
+    <!-- model-->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
