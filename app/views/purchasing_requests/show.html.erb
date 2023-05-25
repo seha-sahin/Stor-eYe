@@ -18,21 +18,37 @@
         <h5 class="border-bottom mb-3 pb-4"> <%= @purchasing_request.supplier.name %></h5>
       </div>
     </div>
-    <div class="row col-12 mt-1">
-      <p class="card-text col-6">Delivery Date: <strong><%= @purchasing_request.delivery_date %></strong></p>
-      <p class="card-text col-6">Delivery Time Slot: <strong><%= @purchasing_request.delivery_time_slot %></strong></p>
-    </div>
     <!-- approval -->
-    <turbo-frame class="row col-12" id="approval_status_frame">
-      <p class="card-text col-6">Created By: <strong><%= @purchasing_request.user.first_name %></strong>  (<%= current_user.position %>)</p>
-      <p class="card-text col-6">Approval Status: <strong><%= @purchasing_request.approval_status %></strong></p>
-    </turbo-frame>
+    <div class="row col-12">
+      <div class="card-text col-6">
+        <strong>Created By:</strong> <%= @purchasing_request.user.first_name %>  (<%= current_user.position %>)
+      </div>
+
+      <turbo-frame id="approval_status_frame" class="card-text col-6">
+        <strong>Approval Status:</strong> <%= @purchasing_request.approval_status %>
+      </turbo-frame>
+    </div>
+
+    <div class="row col-12 mt-1">
+      <div class="card-text col-6">
+        <strong>Delivery Date:</strong> <%= @purchasing_request.delivery_date %>
+      </div>
+      <div class="card-text col-6">
+        <strong>Delivery Time Slot:</strong> <%= @purchasing_request.delivery_time_slot %>
+      </div>
+    </div>
 
     <div class="row col-12 mt-1 txt-s">
-      <p class="card-text col-6">Created on: <strong><%= @purchasing_request.created_at.strftime("%A, %d %b %Y %l:%M %p") %></strong></p>
-      <p class="card-text col-6">Updated on: <strong><%= @purchasing_request.updated_at.strftime("%A, %d %b %Y %l:%M %p") %></strong></p>
+      <div class="card-text col-6">
+        <strong>Created on:</strong> <%= @purchasing_request.created_at.strftime("%A, %d %b %Y %l:%M %p") %>
+      </div>
+      <div class="card-text col-6">
+        <strong>Updated on:</strong> <%= @purchasing_request.updated_at.strftime("%A, %d %b %Y %l:%M %p") %>
+      </div>
     </div>
-  </div>
+
+
+
    <!-- Table -->
   <div class="container main-box mt-3">
     <h5>Order Details</h5>
