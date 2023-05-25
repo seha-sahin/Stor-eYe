@@ -8,9 +8,9 @@
 }
 
 .img-height {
-  max-height: 100%;
+  height: 285px;
   width: auto;
-  object-fit: contain;
+  object-fit: fill;
   padding-top: 10px;
   padding-bottom: 10px;
 }

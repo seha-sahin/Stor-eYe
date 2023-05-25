@@ -11,7 +11,9 @@
     <td><%= wine.unit_price %></td>
     <td><%= wine.selling_price %></td>
     <td>
-      <%= link_to "", wine, class: "fas fa-search me-3" %>
+      <% if wine.purchasing_request_items.sum(:quantity) > 0 %>
+      <%= content_tag :i, "", class: "fa fa-flag" %>
+      <% end %>
     </td>
   </tr>
 <% end %>
