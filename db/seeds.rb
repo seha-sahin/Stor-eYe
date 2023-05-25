@@ -4,9 +4,6 @@ require "faker"
 puts "Deleting all Purchase Requests"
 PurchaseRequest.destroy_all
 
-puts "Deleting all Purchase items"
-PurchaseRequestItem.destroy_all
-
 puts "Deleting all wines"
 Wine.destroy_all
 
