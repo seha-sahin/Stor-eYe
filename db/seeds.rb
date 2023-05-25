@@ -1,17 +1,17 @@
 require "faker"
 
-# CLEAN UP DATABASE
-puts "Deleting all wines"
-Wine.destroy_all
+# # CLEAN UP DATABASE
+# puts "Deleting all wines"
+# Wine.destroy_all
 
-puts "Deleting all storages"
-StorageLocation.destroy_all
+# puts "Deleting all storages"
+# StorageLocation.destroy_all
 
-puts "Deleting all restaurants"
-Restaurant.destroy_all
+# puts "Deleting all restaurants"
+# Restaurant.destroy_all
 
-puts "Deleting all suppliers"
-Supplier.destroy_all
+# puts "Deleting all suppliers"
+# Supplier.destroy_all
 
 # SEED RESTAURANTS
 3.times do
