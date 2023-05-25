@@ -47,6 +47,10 @@ $xlarge: 1920px;
   color: $home-blue;
 }
 
+.fa-flag {
+  color: $home-light;
+}
+
 .link_to {
   color: black;
   text-decoration: none;
@@ -73,6 +77,34 @@ $xlarge: 1920px;
 .badge-blue {
   background-color: $home-blue;
   color: #787f78;
+  padding-right: 3%;
+  padding-left: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  border-radius: 6pt;
+  width: 80px;
+  font-size: small;
+  font-weight: bold;
+  text-align: end;
+}
+
+.badge-yellow {
+  background-color: $yellow;
+  color: #5b4f24;
+  padding-right: 3%;
+  padding-left: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  border-radius: 6pt;
+  width: 80px;
+  font-size: small;
+  font-weight: bold;
+  text-align: end;
+}
+
+.badge-beige {
+  background-color: $home-beige;
+  color: #626057;
   padding-right: 3%;
   padding-left: 3%;
   padding-top: 1%;

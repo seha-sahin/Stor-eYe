@@ -1,98 +1,73 @@
-<body class="bg-light">
+<body class="bg-color">
   <div class="container mt-3">
-    <p class="text-end"><%= link_to "", edit_wine_path(@wine), class: "fas fa-edit me-3" %><%= link_to "", wine_path(@wine), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this wine?" }, class: "fas fa-trash-alt" %></p>
-    <div class="row">
-        <div class="col-12  col-sm-6 col-md-3 pt-2 mb-1">
-          <div class="card card-img">
-            <%= cl_image_tag @wine.photo.key, alt: "Wine Photo", crop: :fill_pad, class: "img-height", cloud_name: "dede71frc" %>
-          </div>
+    <div class="text-right">
+      <%= link_to "", wines_path, class: "fas fa-arrow-left me-3" %>
+      <%= link_to "", edit_wine_path(@wine), class: "fas fa-edit me-3" %>
+      <%= link_to "", wine_path(@wine), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this wine?" }, class: "fas fa-trash-alt" %>
+    </div>
+    <div class="row d-flex mt-2">
+      <div class="col-md-3">
+        <div class="card-img">
+          <%= cl_image_tag @wine.photo.key, alt: "Wine Photo", crop: :fill_pad, class: "img-height", cloud_name: "dd6i04udo" %>
         </div>
-      <div class="col-sm-6 col-md-9 pt-2 mb-1">
-        <div class="card">
+      </div>
+      <div class="col-md-9 d-flex flex-column">
+        <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title"><%= @wine.maker %>, <%= @wine.appellation %></h5>
             <p class="card-text">"<%= @wine.cuvee %>", <strong><%= @wine.vintage %></strong></p>
-          </div>
-          <div class="card-body border-top"">
-            <p class="card-text"><%= @wine.grape_variety %></p>
-            <p class="card-text"><%= @wine.colour %></p>
-          </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6 col-md-8 pt-1 mb-1">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text txt-s"> Supplier: <strong><%= @wine.supplier.name %></strong></p>
-                  <p class="card-text txt-s"> Volume: <strong><%= @wine.volume %></strong></p>
-                  <p class="card-text txt-s"> Unit Price: <strong>$<%= @wine.unit_price %></strong></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 pt-1 mb-1">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text border-bottom txt-s"><strong>Selling Price</strong></p>
-                  <p class="card-text txt-s">By the bottle: <strong>$<%= @wine.selling_price %></strong></p>
-                  <p class="card-text txt-s">Cost: <strong><%= (@wine.unit_price / @wine.selling_price * 100).round(2) %>%</strong></p>
-                </div>
-              </div>
-            </div>
+            <p class="card-text border-top pt-3">Colour: <strong><%= @wine.colour %></strong></p>
+            <p class="card-text">Grape varieties: <%= @wine.grape_variety %></p>
+            <p class="card-text border-top pt-3 txt-s">Supplier: <strong><%= @wine.supplier.name %></strong></p>
+            <p class="card-text txt-s">Volume: <strong><%= @wine.volume %></strong></p>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-11 pt-2 mb-1">
-          <div class="card">
-            <div class="card-body txt-s">
-              <p>TAGS:  </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-1 pt-2 mb-1">
-          <div class="btn-home text-center">
-            <p>ADD TAG</p>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <h5>STOCK</h5>
+        <div class="card h-100">
+          <div class="card-body">
+            <p class="card-text d-flex justify-content-between align-items-center">Current stock: <span class="badge-blue"><strong><%= @wine.quantity %></strong></span></p>
+            <p class="card-text d-flex justify-content-between align-items-center">Upcoming order: <span class="badge-yellow"><strong><%= @wine.purchasing_request_items.sum(:quantity) %></strong></span></p>
+            <p class="card-text border-top pt-3 txt-s">Restaurant:  <strong><%= @wine.restaurant.name %></strong> </p>
+            <p class="card-text txt-s">Storage: <strong><%= @wine.restaurant.name %></strong> </p>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 pt-2 mb-1">
-          <div class="card">
-            <div class="card-body txt-s">
-              <p class="card-text"><u>Restaurant:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
-              <p class="card-text"><u>Storage:</u>  <strong><%= @wine.restaurant.name %></strong> </p>
-              <p class="card-text"><u>Current stock:</u> <strong><%= @wine.quantity %></strong> (<%= @wine.volume %>) </p>
-              <p class="card-text border-top pt-3"><u>Upcoming order:</u> <strong><%= @wine.purchasing_request_items.sum(:quantity) %></strong> </p>
-              <p class="card-text"><u>Market price:</u>  <strong>API from wine searcher here</strong> </p>
-            </div>
+      <div class="col-md-4">
+        <h5>SALES</h5>
+        <div class="card h-100">
+          <div class="card-body">
+            <p class="card-text d-flex justify-content-between align-items-center">By the bottle: <span class="badge-beige"><strong>$<%= @wine.selling_price %></span></strong></p>
+            <p class="card-text d-flex justify-content-between align-items-center">Cost: <span class="badge-beige"><strong><%= (@wine.unit_price / @wine.selling_price * 100).round(2) %>%</span></strong></p>
+            <p class="card-text border-top pt-3 txt-s">By the glass:  <strong>N/A%</strong> </p>
+            <p class="card-text txt-s">Cost: <strong>N/A%</strong> </p>
           </div>
         </div>
-        <div class="col-sm-6 col-md-5 pt-2 mb-1">
-          <div class="card">
-            <div class="card-body txt-s">
-              <p><u>Technical infos:  </u></p>
-              <p><></p>
-            </div>
+      </div>
+      <div class="col-md-4">
+        <h5>DESCRIPTION</h5>
+        <div class="card h-100">
+          <div class="card-body">
+            <p class="card-text"><%= @wine.description %></p>
           </div>
         </div>
-        <div class="col-sm-6 col-md-3 pt-2 mb-1">
-          <div class="card">
-            <div class="card-body txt-s">
-              <p><%= @wine.address if @wine.address %></p>
-              <div style="width: 100%; height: 155px;"
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+              <div style="width: 100%; height: 300px;"
                 data-controller="wineshowmap"
                 data-wineshowmap-markers-value="<%= @markers_show.to_json %>"
                 data-wineshowmap-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
               </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </body>
-
-<style>
-  .mapboxgl-ctrl-geocoder {
-    display: none;
-  }
-</style>
