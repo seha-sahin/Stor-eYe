@@ -89,7 +89,5 @@ gem 'acts-as-taggable-on', '~> 9.0', '>= 9.0.1'
 
 gem "cloudinary"
 
-gem "dotenv-rails", groups: [:development, :test]
-
 gem "geocoder"
 gem 'noticed'
