@@ -2,7 +2,7 @@ require "faker"
 
 # CLEAN UP DATABASE
 puts "Deleting all Purchase Requests"
-PurchaseRequest.destroy_all
+PurchasingRequest.destroy_all
 
 puts "Deleting all wines"
 Wine.destroy_all
